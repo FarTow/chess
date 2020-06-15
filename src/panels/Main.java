@@ -1,5 +1,7 @@
 package panels;
 
+// Ignore this
+
 import javax.swing.JFrame;
 
 import java.awt.CardLayout;
