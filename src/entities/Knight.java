@@ -9,7 +9,6 @@ public class Knight extends Piece {
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
-        if (board == null) return false;
 
         Square[][] grid = board.getGrid();
 
