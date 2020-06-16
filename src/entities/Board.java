@@ -285,6 +285,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
                         movePiece(selectedPiece, square, true);
+                        if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
                         turnCount++;
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there

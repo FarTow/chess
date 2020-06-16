@@ -3,15 +3,11 @@ package entities;
 import java.awt.Point;
 
 public class Pawn extends Piece {
-    private boolean firstMove, movedTwo, enPassantCapturable;
+    private boolean movedTwo, enPassantCapturable;
 
     public Pawn(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
         setImage("Pawn");
-
-        firstMove = true;
-        movedTwo = false;
-        enPassantCapturable = false;
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
@@ -49,13 +45,9 @@ public class Pawn extends Piece {
             }
         }
 
-        if (mouseReleased) {
-            if (canMove && firstMove && (row + movementModifier * 2 == newRow)) movedTwo = true;
-            if (canMove && firstMove && movedTwo) {
-                enPassantCapturable = true;
-            }
-
-            if (canMove && firstMove) firstMove = false;
+        if (mouseReleased && canMove && firstMove) {
+            if (row + movementModifier * 2 == newRow) movedTwo = true;
+            if (movedTwo) enPassantCapturable = true;
         }
 
         return canMove;

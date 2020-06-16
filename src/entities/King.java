@@ -3,13 +3,11 @@ package entities;
 import java.awt.Point;
 
 public class King extends Piece {
-    private boolean firstMove, check;
+    private boolean check;
 
     public King(boolean isWhite, int row, int column, Point pos) {
         super(isWhite, row, column, pos);
         setImage("King");
-
-        firstMove = true;
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
@@ -26,7 +24,7 @@ public class King extends Piece {
                 Piece rook = column-newColumn < 0 ? grid[row][7].getPiece() : grid[row][0].getPiece(); // rook on the side player moved
 
                 if (rook instanceof Rook) { // piece is a rook
-                    if (((Rook) rook).isFirstMove() && rook.isWhite() == isWhite) { // rook's first move
+                    if (rook.isFirstMove() && rook.isWhite() == isWhite) { // rook's first move
                         canMove = true;
                         if (mouseReleased) board.movePiece(rook, grid[row][column-newColumn < 0 ? 5 : 3], true);
                     }
@@ -36,10 +34,6 @@ public class King extends Piece {
             canMove = (rowDiff + columnDiff <= 2 && rowDiff != 2);
         }
 
-        if (canMove && firstMove && mouseReleased) {
-            System.out.println("first move is now false");
-            firstMove = false;
-        }
         return canMove;
     }
 

@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 
 public abstract class Piece {
-    protected boolean isWhite;
+    protected boolean isWhite, firstMove;
     protected int row, column;
     protected Point topLeft;
     protected BufferedImage image;
@@ -17,6 +17,7 @@ public abstract class Piece {
         this.row = row;
         this.column = column;
         this.topLeft = topLeft;
+        firstMove = true;
     }
 
     public abstract boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased);
@@ -93,6 +94,7 @@ public abstract class Piece {
     public void setPos(Point pos) { this.topLeft = new Point(pos.x-image.getWidth()/2, pos.y-image.getHeight()/2); }
     public void setRow(int row) {this.row = row; }
     public void setColumn(int column) {this.column = column; }
+    public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
 
     public BufferedImage getImage() { return image; }
     public Point getTopLeft() { return topLeft; }
@@ -100,5 +102,6 @@ public abstract class Piece {
     public int getRow() { return row; }
     public int getColumn() { return column; }
     public boolean isWhite() { return isWhite; }
+    public boolean isFirstMove() { return firstMove; }
 
 }
