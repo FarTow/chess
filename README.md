@@ -8,7 +8,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 1. Clone the repository or download the repository as a .zip file.
    * Extract the files to desired location if downloaded as a .zip file.
 2. Run panels.Main in your IDE or some other method I'm not aware of.
-3. *Check* out the program and enjoy!
+3. Enjoy!
 
 ### Project Timeline
 Project is currently a work in progress.
