@@ -51,13 +51,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false)) {
-                    if (mayMove(selectedPiece, square)) {
-                        g.setColor(new Color(130, 151, 105));
-                        g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
-                                square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
-                                square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
-                    }
+                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
+                    g.setColor(new Color(130, 151, 105));
+                    g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
+                            square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
+                            square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
                 }
             }
         }
@@ -173,18 +171,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
-    public boolean mayMove(Piece piece, Square square) {
+    public boolean mayMove(Piece piece, Square toSquare) {
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
         boolean mayMove;
-        Piece takenPiece = square.getPiece();
+        Piece takenPiece = toSquare.getPiece();
 
-        movePiece(piece, square, false); // move piece to desired square
+        movePiece(piece, toSquare, false); // move piece to desired square
         mayMove = !isKingInCheck(getKing(turnCount%2 == 0));
 
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
-        square.setPiece(takenPiece); // set the new square's piece back
+        toSquare.setPiece(takenPiece); // set the new square's piece back
 
         return mayMove;
     }
