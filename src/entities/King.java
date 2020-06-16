@@ -24,7 +24,7 @@ public class King extends Piece {
                 Piece rook = column-newColumn < 0 ? grid[row][7].getPiece() : grid[row][0].getPiece(); // rook on the side player moved
 
                 if (rook instanceof Rook) { // piece is a rook
-                    if (rook.isFirstMove() && rook.isWhite() == isWhite) { // rook's first move
+                    if (rook.isFirstMove() && rook.isWhite() == isWhite && castleable((Rook) rook, board)) { // rook's first move
                         canMove = true;
                         if (mouseReleased) board.movePiece(rook, grid[row][column-newColumn < 0 ? 5 : 3], true);
                     }
@@ -35,6 +35,27 @@ public class King extends Piece {
         }
 
         return canMove;
+    }
+
+    public boolean castleable(Rook rook, Board board) {
+        Square[][] grid = board.getGrid();
+        int dangerSquares = 0;
+
+        if (rook.getColumn() > column) {
+            for (int currentColumn=column+1; currentColumn<rook.getColumn(); currentColumn++) { // squares between rook and king
+                if (!board.mayMove(this, grid[row][currentColumn])) {
+                    dangerSquares++;
+                }
+            }
+        } else {
+            for (int currentColumn=column-1; currentColumn>rook.getColumn(); currentColumn--) { // squares between rook and king
+                if (!board.mayMove(this, grid[row][currentColumn])) {
+                    dangerSquares++;
+                }
+            }
+        }
+
+        return dangerSquares == 0;
     }
 
     public void setCheck(boolean check) { this.check = check; }
