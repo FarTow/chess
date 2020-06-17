@@ -25,6 +25,7 @@ Project is currently a work in progress.
 - [ ] Timer
 - [ ] Make application executable
 - [ ] Network Capabilities
+- [ ] Custom pieces
 
 ### Resources
 * Images for the pieces were found on https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
