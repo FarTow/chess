@@ -31,5 +31,4 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Custom pieces
 
 ### Resources
-* Images for the pieces were found on https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
-* Shoutout to https://medium.com/@meakaakka/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3 for helping me create this README
+* [Piece Images](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)
