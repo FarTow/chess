@@ -24,7 +24,7 @@ Project is currently a work in progress.
 - [ ] Options
 - [ ] Timer
 - [ ] Make application executable
-- [ ] Network Capabilities
+- [ ] Network capabilities
 - [ ] Custom pieces
 
 ### Resources
