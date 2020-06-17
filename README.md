@@ -14,7 +14,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Piece movement functionality
   - [x] Check
   - [ ] Pawn promotion
-- [ ] Start Menu
+- [ ] Start menu
 - [ ] Options
   - [ ] Timer settings
   - [ ] Movement displays (i.e. show where pieces can and can't move)
@@ -22,7 +22,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] Movement history
   - [ ] Taken pieces
   - [ ] Timer
-- [ ] Win Conditions
+- [ ] Win conditions
   - [x] Checkmate
   - [ ] Stalemate
 - [ ] Make application executable
