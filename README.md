@@ -16,13 +16,20 @@ Project is currently a work in progress.
 * 6/15/2020: First commit to GitHub. Program is an (overall) "working" version of chess.
 
 ###### To-Do List
-- [x] Piece movement functionality
-- [x] Check and checkmate functionality
-- [ ] Start menu
-- [ ] General game display
-- [ ] Game over
+- [] Piece movement functionality
+  - [x] Check
+  - [ ] Pawn promotion
+- [ ] Start Menu
 - [ ] Options
-- [ ] Timer
+  - [ ] Timer settings
+  - [ ] Movement displays (i.e. show where pieces can and can't move)
+- [ ] General game display
+  - [ ] Movement history
+  - [ ] Taken pieces
+  - [ ] Timer
+- [ ] Win Conditions
+  - [x] Checkmate
+  - [ ] Stalemate
 - [ ] Make application executable
 - [ ] Network capabilities
 - [ ] Custom pieces
