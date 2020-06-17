@@ -25,6 +25,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Win conditions
   - [x] Checkmate
   - [ ] Stalemate
+  - [ ] 3-Fold repetition
 - [ ] Make application executable
 - [ ] Network capabilities
 - [ ] Custom pieces
