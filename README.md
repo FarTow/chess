@@ -16,7 +16,7 @@ Project is currently a work in progress.
 * 6/15/2020: First commit to GitHub. Program is an (overall) "working" version of chess.
 
 ###### To-Do List
-- [] Piece movement functionality
+- [ ] Piece movement functionality
   - [x] Check
   - [ ] Pawn promotion
 - [ ] Start Menu
