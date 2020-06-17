@@ -167,9 +167,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() instanceof Pawn) {
-                    if(whiteTurn == square.getPiece().isWhite) {
-                        ((Pawn) square.getPiece()).update();
-                    }
+                    ((Pawn) square.getPiece()).update(whiteTurn);
                 }
             }
         }
@@ -245,7 +243,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         return availableMoves;
     }
-
 
     public void actionPerformed(ActionEvent ae) {
         updatePawns();

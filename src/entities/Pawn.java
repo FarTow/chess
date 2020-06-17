@@ -3,7 +3,7 @@ package entities;
 import java.awt.Point;
 
 public class Pawn extends Piece {
-    private boolean movedTwo, enPassantCapturable;
+    private boolean movedTwo, enPassantCapturable, promotable;
 
     public Pawn(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
@@ -45,17 +45,22 @@ public class Pawn extends Piece {
             }
         }
 
-        if (mouseReleased && canMove && firstMove) {
+        if (mouseReleased && canMove && firstMove && board.mayMove(this, grid[newRow][newColumn])) {
             if (row + movementModifier * 2 == newRow) movedTwo = true;
             if (movedTwo) enPassantCapturable = true;
         }
 
         return canMove;
     }
-    public void update() {
-        if (movedTwo) movedTwo = false;
-        if (enPassantCapturable) enPassantCapturable = false;
+    public void update(boolean whiteTurn) {
+        if (isWhite ? row==0 : row==7) promotable = true;
+
+        if(whiteTurn == isWhite) {
+            if (movedTwo) movedTwo = false;
+            if (enPassantCapturable) enPassantCapturable = false;
+        }
     }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
+    public boolean isPromotable() { return promotable; }
 }
