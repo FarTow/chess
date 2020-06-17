@@ -5,7 +5,7 @@ import java.awt.Point;
 public class Knight extends Piece {
     public Knight(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
-        setImage("Knight");
+        setImage("knight");
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {

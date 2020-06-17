@@ -6,7 +6,7 @@ public class Rook extends Piece {
 
     public Rook(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
-        setImage("Rook");
+        setImage("rook");
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {

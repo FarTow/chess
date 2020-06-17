@@ -7,7 +7,7 @@ public class King extends Piece {
 
     public King(boolean isWhite, int row, int column, Point pos) {
         super(isWhite, row, column, pos);
-        setImage("King");
+        setImage("king");
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
@@ -48,7 +48,6 @@ public class King extends Piece {
 
             if (!board.mayMove(this, grid[row][currentColumn])) dangerSquares++;
         }
-
 
         return dangerSquares == 0;
     }

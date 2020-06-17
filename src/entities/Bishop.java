@@ -5,7 +5,7 @@ import java.awt.Point;
 public class Bishop extends Piece {
     public Bishop(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
-        setImage("Bishop");
+        setImage("bishop");
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {

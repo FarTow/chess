@@ -7,7 +7,7 @@ public class Pawn extends Piece {
 
     public Pawn(boolean isWhite, int row, int column, Point topLeft) {
         super(isWhite, row, column, topLeft);
-        setImage("Pawn");
+        setImage("pawn");
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
