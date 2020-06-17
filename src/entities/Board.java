@@ -1,5 +1,3 @@
-// Hey does this work
-
 package entities;
 
 import panels.Game;
@@ -17,6 +15,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     private Piece selectedPiece;
     private int turnCount;
+    private boolean whiteTurn;
 
     public Board(Point gridTopLeft, Dimension squareSize) {
         this.gridTopLeft = gridTopLeft;
@@ -25,6 +24,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         grid = new Square[8][8];
         turnCount = 0;
+        whiteTurn = true;
         resetBoard();
     }
 
@@ -148,7 +148,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() instanceof Pawn) {
-                    if((turnCount%2 == 0 && square.getPiece().isWhite) || (turnCount%2 != 0 && !square.getPiece().isWhite)) {
+                    if(whiteTurn == square.getPiece().isWhite) {
                         ((Pawn) square.getPiece()).update();
                     }
                 }
@@ -179,7 +179,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         Piece takenPiece = toSquare.getPiece();
 
         movePiece(piece, toSquare, false); // move piece to desired square
-        mayMove = !isKingInCheck(getKing(turnCount%2 == 0));
+        mayMove = !isKingInCheck(getKing(whiteTurn));
 
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
@@ -232,8 +232,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updatePawns();
         updateKings();
 
-        boolean whiteTurn = turnCount%2==0;
-
         if (availableMoves(whiteTurn)==0) {
             if (getKing(whiteTurn).getCheck()) {
                 System.out.println((whiteTurn ? "white" : "black") + " is in checkmate");
@@ -274,7 +272,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square[] squareRow : grid) {
                 for (Square square : squareRow) {
                     if (square.getPiece() != null) {
-                        boolean whiteTurn = (turnCount%2 == 0);
 
                         if (mouseContained(me, square.getTopLeft(), square.getBottomRight()) && (square.getPiece().isWhite == whiteTurn)) { // if the mouse is in a square and it's white's turn
                             selectedPiece = square.getPiece(); // set the selected piece to the piece in the square
@@ -294,6 +291,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
                         turnCount++;
+                        whiteTurn = (turnCount%2==0);
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
