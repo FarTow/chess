@@ -10,12 +10,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 2. Run panels.Main in your IDE or some other method I'm not aware of.
 3. Enjoy!
 
-### Project Timeline
-Project is currently a work in progress.
-
-* 6/15/2020: First commit to GitHub. Program is an (overall) "working" version of chess.
-
-###### To-Do List
+### To-Do List
 - [ ] Piece movement functionality
   - [x] Check
   - [ ] Pawn promotion
