@@ -28,7 +28,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] 3-Fold repetition
 - [ ] Make application executable
 - [ ] Network capabilities
-- [ ] Custom pieces
+- [x] Custom made pieces
 
 ### Resources
-* [Piece Images](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces)
+* Piece design by Yi Jun Yang
