@@ -32,10 +32,29 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void drawBoard(Graphics g) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                g.setColor(square.getRow()%2 ==  square.getColumn()%2 ? new Color(240, 199, 134) : new Color(181, 136, 99));
+                g.setColor(square.getRow()%2 == square.getColumn()%2 ?
+                        new Color(240, 199, 134) : new Color(181, 136, 99));
                 g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
             }
         }
+
+        Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
+
+        g.setColor(Color.black);
+        for (int row=0; row<grid.length; row++) {
+            String rank = Integer.toString(row+1);
+            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
+                    g.getFontMetrics(indicatorsFont).getHeight());
+            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridTopLeft.y+squareSize.height/2+stringSize.height/4)+(squareSize.height * row));
+        }
+
+        for (int column=0; column<grid[0].length; column++) {
+            String file = String.valueOf((char) ((char) 97+column));
+            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
+                    g.getFontMetrics(indicatorsFont).getHeight());
+            g.drawString(file, (gridTopLeft.x+squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
+        }
+
     }
     public void drawPieces(Graphics g) {
         for (Square[] squareRow : grid) {
