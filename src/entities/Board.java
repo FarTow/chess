@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void drawBoard(Graphics g) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                g.setColor(square.getRow()%2 ==  square.getColumn()%2 ? new Color(240, 217, 181) : new Color(181, 136, 99));
+                g.setColor(square.getRow()%2 ==  square.getColumn()%2 ? new Color(240, 199, 134) : new Color(181, 136, 99));
                 g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
             }
         }
