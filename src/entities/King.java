@@ -40,20 +40,15 @@ public class King extends Piece {
     public boolean castleable(Rook rook, Board board) {
         Square[][] grid = board.getGrid();
         int dangerSquares = 0;
+        boolean castleLeftRook = rook.getColumn() > column;
 
-        if (rook.getColumn() > column) {
-            for (int currentColumn=column+1; currentColumn<rook.getColumn(); currentColumn++) { // squares between rook and king
-                if (!board.mayMove(this, grid[row][currentColumn])) {
-                    dangerSquares++;
-                }
-            }
-        } else {
-            for (int currentColumn=column-1; currentColumn>rook.getColumn(); currentColumn--) { // squares between rook and king
-                if (!board.mayMove(this, grid[row][currentColumn])) {
-                    dangerSquares++;
-                }
-            }
+        for (int currentColumn=column+(castleLeftRook ? 1 : -1);
+             (castleLeftRook ? currentColumn<rook.getColumn() : currentColumn>rook.getColumn());
+             currentColumn += (castleLeftRook ? 1 : -1)) {
+
+            if (!board.mayMove(this, grid[row][currentColumn])) dangerSquares++;
         }
+
 
         return dangerSquares == 0;
     }
