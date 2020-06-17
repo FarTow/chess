@@ -205,7 +205,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         return checkCount > 0;
     }
-    public boolean checkMate(boolean isWhite) {
+    public int availableMoves(boolean isWhite) {
         int availableMoves = 0;
 
         for (Square[] squareRow : grid) {
@@ -224,15 +224,22 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
 
-        return availableMoves == 0;
+        return availableMoves;
     }
+
 
     public void actionPerformed(ActionEvent ae) {
         updatePawns();
         updateKings();
 
-        if (checkMate(turnCount%2==0)) {
-            System.out.println("checkmate " + (turnCount%2==0 ? "white " : "black "));
+        boolean whiteTurn = turnCount%2==0;
+
+        if (availableMoves(whiteTurn)==0) {
+            if (getKing(whiteTurn).getCheck()) {
+                System.out.println((whiteTurn ? "white" : "black") + " is in checkmate");
+            } else {
+                System.out.println((whiteTurn ? "white" : "black") + " is in stalemate");
+            }
         }
 
         repaint();
