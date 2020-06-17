@@ -24,7 +24,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] Timer
 - [ ] Win conditions
   - [x] Checkmate
-  - [ ] Stalemate
+  - [x] Stalemate
   - [ ] 3-Fold repetition
 - [ ] Make application executable
 - [ ] Network capabilities
