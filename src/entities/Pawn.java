@@ -40,7 +40,7 @@ public class Pawn extends Piece {
         } else { // moving to a spot with a piece
             if (column != newColumn) { // moving to a spot on a different column
                 if (isWhite != grid[newRow][newColumn].getPiece().isWhite()) { // the piece is a different color
-                    canMove = row - newRow == movementModifier*-1;
+                    canMove = row - newRow == movementModifier * -1;
                 }
             }
         }

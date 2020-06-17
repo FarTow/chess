@@ -2,7 +2,7 @@ package panels;
 
 import entities.Board;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,16 +12,14 @@ public class Game extends JPanel implements ActionListener {
 
     private Board board;
 
-    public Game() { }
-
-    public void actionPerformed(ActionEvent ae) {
-        repaint();
-    }
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // clear screen
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    public Game() {
         setBackground(new Color(194, 194, 194));
     }
+
+    public void actionPerformed(ActionEvent ae) {
+        board.actionPerformed(ae);
+    }
+
     public void start() {
         Dimension screenSize = new Dimension(getWidth(), getHeight());
         Dimension squareSize = new Dimension(60, 60);
@@ -30,11 +28,15 @@ public class Game extends JPanel implements ActionListener {
         setLayout(new BorderLayout());
 
         board = new Board(gridTopLeft, squareSize);
+        MoveHistory moveHistory = new MoveHistory(board);
+
         add(board, BorderLayout.CENTER);
+        add(moveHistory, BorderLayout.EAST);
         addMouseListener(board);
         addMouseMotionListener(board);
 
-        board.start();
+        Timer timer = new Timer(1000/Game.FRAME_RATE, this);
+        timer.start();
     }
 
 }

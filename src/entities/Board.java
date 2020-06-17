@@ -1,9 +1,6 @@
 package entities;
 
-import panels.Game;
-
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -39,13 +36,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
-
         g.setColor(Color.black);
-        for (int row=0; row<grid.length; row++) {
-            String rank = Integer.toString(row+1);
+
+        for (int row=1; row<=grid.length; row++) {
+            String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridTopLeft.y+squareSize.height/2+stringSize.height/4)+(squareSize.height * row));
+            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) {
@@ -244,6 +241,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return availableMoves;
     }
 
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); // clear screen
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        drawBoard(g);
+        drawSelectedSquare(g);
+        drawPieces(g);
+        drawAvailableSquares(g);
+
+        if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+    }
     public void actionPerformed(ActionEvent ae) {
         updatePawns();
         updateKings();
@@ -257,20 +265,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         repaint();
-    }
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // clear screen
-
-        drawBoard(g);
-        drawSelectedSquare(g);
-        drawPieces(g);
-        drawAvailableSquares(g);
-
-        if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
-    }
-    public void start() {
-        Timer t = new Timer(1000/Game.FRAME_RATE, this);
-        t.start();
     }
 
     // Mouse Interaction Methods
