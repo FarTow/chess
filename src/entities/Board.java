@@ -1,6 +1,9 @@
 package entities;
 
+import panels.Game;
+
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,6 +18,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean whiteTurn;
 
     public Board(Point gridTopLeft, Dimension squareSize) {
+        //setBackground(new Color(194, 194, 194));
+
         this.gridTopLeft = gridTopLeft;
         gridBottomRight = new Point(gridTopLeft.x + squareSize.width * 8, gridTopLeft.y + squareSize.height * 8);
         this.squareSize = squareSize;
@@ -34,7 +39,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
             }
         }
-
+    }
+    public void drawIndicators(Graphics g) {
         Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
         g.setColor(Color.black);
 
@@ -51,7 +57,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     g.getFontMetrics(indicatorsFont).getHeight());
             g.drawString(file, (gridTopLeft.x+squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
         }
-
     }
     public void drawPieces(Graphics g) {
         for (Square[] squareRow : grid) {
@@ -243,9 +248,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         drawBoard(g);
+        drawIndicators(g);
         drawSelectedSquare(g);
         drawPieces(g);
         drawAvailableSquares(g);
@@ -265,6 +270,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         repaint();
+    }
+    public void start() {
+        Timer t = new Timer(1000/Game.FRAME_RATE, this);
+        t.start();
     }
 
     // Mouse Interaction Methods

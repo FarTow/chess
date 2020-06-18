@@ -20,8 +20,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         g.setColor(Color.blue);
-        g.fillRect(100, 100, 100, 100);
-        //System.out.println("drew string");
+        g.fillRect(0, 0, getWidth(), getHeight());
     }
     public void actionPerformed(ActionEvent ae) {
         repaint();
