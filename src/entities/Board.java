@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean whiteTurn;
 
     public Board(int xMargin) {
-        setBackground(new Color(194, 194, 194));
+        //setBackground(new Color(194, 194, 194));
 
         this.xMargin = xMargin;
         gridBottomRight = new Point(squareSize.width * 8 + xMargin, squareSize.height * 8);

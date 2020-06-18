@@ -2,7 +2,7 @@ package panels;
 
 import javax.swing.JFrame;
 
-import java.awt.CardLayout;
+import java.awt.*;
 
 public class Main extends JFrame {
     static final String START_MENU_LABEL = "START MENU";
@@ -25,6 +25,7 @@ public class Main extends JFrame {
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
+        setMinimumSize(new Dimension(600, 600));
         setLocationRelativeTo(null); // center
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
