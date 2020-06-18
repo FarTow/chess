@@ -28,9 +28,9 @@ public class Game extends JPanel implements ActionListener {
 
     public void start() {
         Dimension squareSize = new Dimension(60, 60);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(getWidth()/200, 0));
 
-        board = new Board();
+        board = new Board(getWidth()/100);
         moveHistory = new MoveHistory(board);
 
         moveHistory.setPreferredSize(new Dimension(getWidth()/3, 480));

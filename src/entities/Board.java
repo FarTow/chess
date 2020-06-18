@@ -10,6 +10,7 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
+    private final int xMargin;
     private final Point gridBottomRight;
     private final Dimension squareSize = new Dimension(60, 60);
 
@@ -17,10 +18,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
-    public Board() {
+    public Board(int xMargin) {
         setBackground(new Color(194, 194, 194));
 
-        gridBottomRight = new Point(squareSize.width * 8, squareSize.height * 8);
+        this.xMargin = xMargin;
+        gridBottomRight = new Point(squareSize.width * 8 + xMargin, squareSize.height * 8);
 
         grid = new Square[8][8];
         turnCount = 0;
@@ -49,14 +51,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
+            g.drawString(rank, xMargin-stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) {
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, (squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
+            g.drawString(file, xMargin/2+(squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
         }
     }
     public void drawPieces(Graphics g) {
@@ -104,7 +106,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(column * squareSize.width, row * squareSize.height);
+                Point pos = new Point(column * squareSize.width + xMargin, row * squareSize.height);
 
                 switch (row) {
                     case 0:
@@ -271,10 +273,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         repaint();
-    }
-    public void start() {
-        Timer t = new Timer(1000/Game.FRAME_RATE, this);
-        t.start();
     }
 
     // Mouse Interaction Methods
