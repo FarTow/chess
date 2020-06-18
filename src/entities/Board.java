@@ -10,24 +10,25 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
-    private final Point gridTopLeft, gridBottomRight;
-    private final Dimension squareSize;
+    private final Point gridBottomRight;
+    private final Dimension squareSize = new Dimension(60, 60);
 
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
 
-    public Board(Point gridTopLeft, Dimension squareSize) {
-        //setBackground(new Color(194, 194, 194));
+    public Board() {
+        setBackground(new Color(194, 194, 194));
 
-        this.gridTopLeft = gridTopLeft;
-        gridBottomRight = new Point(gridTopLeft.x + squareSize.width * 8, gridTopLeft.y + squareSize.height * 8);
-        this.squareSize = squareSize;
+        gridBottomRight = new Point(squareSize.width * 8, squareSize.height * 8);
 
         grid = new Square[8][8];
         turnCount = 0;
         whiteTurn = true;
         resetBoard();
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     // Graphics
@@ -48,14 +49,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
+            g.drawString(rank, stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) {
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, (gridTopLeft.x+squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
+            g.drawString(file, (squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
         }
     }
     public void drawPieces(Graphics g) {
@@ -103,7 +104,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(gridTopLeft.x + (column * squareSize.width), gridTopLeft.y + (row * squareSize.height));
+                Point pos = new Point(column * squareSize.width, row * squareSize.height);
 
                 switch (row) {
                     case 0:
@@ -291,7 +292,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square[] squareRow : grid) {
                 for (Square square : squareRow) {
                     if (square.getPiece() != null) {
-
                         if (mouseContained(me, square.getTopLeft(), square.getBottomRight()) && (square.getPiece().isWhite == whiteTurn)) { // if the mouse is in a square and it's white's turn
                             selectedPiece = square.getPiece(); // set the selected piece to the piece in the square
                         }
@@ -327,7 +327,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseDragged(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected return
 
-        if (mouseContained(me, gridTopLeft, gridBottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
+        if (mouseContained(me, new Point (0,0), gridBottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
 
