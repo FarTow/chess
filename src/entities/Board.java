@@ -7,9 +7,10 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
-    private final int xMargin;
+    private final int xMargin = 10;
+
+    private Dimension squareSize;
     private final Point gridBottomRight;
-    private final Dimension squareSize = new Dimension(60, 60);
 
     private Piece selectedPiece;
     private int turnCount;
@@ -17,7 +18,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     public Board() {
         setBackground(new Color(194, 194, 194));
-        xMargin = 10;
+        squareSize = new Dimension(60, 60);
         gridBottomRight = new Point(squareSize.width * 8 + xMargin, squareSize.height * 8);
 
         grid = new Square[8][8];
@@ -164,6 +165,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     // "Update" Methods
+    public void updateBoard() {
+
+        squareSize.width = squareSize.height = Math.min((getWidth() / 8 - 1), 60);
+
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[row].length; column++) {
+                Point pos = new Point(column * squareSize.width + xMargin, row * squareSize.height);
+
+                grid[row][column].setRect(new Rectangle(pos.x, pos.y, squareSize.width, squareSize.height));
+            }
+        }
+    }
     public void updatePawns() {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {

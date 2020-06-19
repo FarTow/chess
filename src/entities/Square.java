@@ -3,7 +3,7 @@ package entities;
 import java.awt.*;
 
 public class Square {
-    private int row, column;
+    private final int row, column;
     private Rectangle rectangle;
     private Piece piece;
 
@@ -15,6 +15,7 @@ public class Square {
     }
 
     public void setPiece(Piece piece) { this.piece = piece; }
+    public void setRect(Rectangle rectangle) { this.rectangle = rectangle; }
 
     public int getRow() { return row; }
     public int getColumn() { return column; }

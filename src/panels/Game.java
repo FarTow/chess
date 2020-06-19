@@ -23,6 +23,7 @@ public class Game extends JPanel implements ActionListener {
 
                 Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
                 Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
+                board.updateBoard();
                 updateUI();
             }
         });
