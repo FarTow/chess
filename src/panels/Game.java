@@ -18,6 +18,13 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void resize() {
+        moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        moveHistory.setMinimumSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        moveHistory.setMaximumSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        board.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        board.setMinimumSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        board.setMaximumSize(new Dimension(getWidth()/3, getHeight()*4/5));
+
         getComponent(0).setSize(new Dimension(getWidth(), getHeight()/10));
         getComponent(1).setSize(new Dimension(getWidth(), getHeight()/10));
         getComponent(2).setSize(new Dimension(getWidth()/3, getHeight()));
@@ -33,9 +40,9 @@ public class Game extends JPanel implements ActionListener {
     }
 
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
         resize();
+
+        super.paintComponent(g);
     }
 
     public void start() {
