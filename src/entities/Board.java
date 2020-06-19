@@ -9,7 +9,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private final Square[][] grid;
     private final int xMargin = 10;
 
-    private Dimension squareSize;
+    private  int squareLength;
     private final Point gridBottomRight;
 
     private Piece selectedPiece;
@@ -18,8 +18,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     public Board() {
         setBackground(new Color(194, 194, 194));
-        squareSize = new Dimension(60, 60);
-        gridBottomRight = new Point(squareSize.width * 8 + xMargin, squareSize.height * 8);
+        squareLength = 60;
+        gridBottomRight = new Point(squareLength * 8 + xMargin, squareLength * 8);
 
         grid = new Square[8][8];
         turnCount = 0;
@@ -48,14 +48,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, xMargin-stringSize.width, (gridBottomRight.y-squareSize.height/2+stringSize.height/4)-(squareSize.height * (row-1)));
+            g.drawString(rank, xMargin-stringSize.width, (gridBottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) {
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, xMargin/2+(squareSize.width/2+stringSize.width/4)+(squareSize.width * column), gridBottomRight.y+stringSize.height/2);
+            g.drawString(file, xMargin/2+(squareLength/2+stringSize.width/4)+(squareLength * column), gridBottomRight.y+stringSize.height/2);
         }
     }
     public void drawPieces(Graphics g) {
@@ -103,61 +103,61 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(column * squareSize.width + xMargin, row * squareSize.height);
+                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
 
                 switch (row) {
                     case 0:
                         switch (column) {
                             case 0:
                             case 7: // rooks
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Rook(false, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Rook(false, row, column, pos));
                                 break;
                             case 1:
                             case 6: // knights
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Knight(false, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Knight(false, row, column, pos));
                                 break;
                             case 2:
                             case 5: // bishop
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Bishop(false, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Bishop(false, row, column, pos));
                                 break;
                             case 3: // queen
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Queen(false, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Queen(false, row, column, pos));
                                 break;
                             case 4: // queen
-                                grid[row][column] = new Square(row, column, pos, squareSize, new King(false, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new King(false, row, column, pos));
                                 break;
                         }
                         break;
                     case 1:
-                        grid[row][column] = new Square(row, column, pos, squareSize, new Pawn(false, row, column, pos));
+                        grid[row][column] = new Square(row, column, pos, squareLength, new Pawn(false, row, column, pos));
                         break;
                     case 6:
-                        grid[row][column] = new Square(row, column, pos, squareSize, new Pawn(true, row, column, pos));
+                        grid[row][column] = new Square(row, column, pos, squareLength, new Pawn(true, row, column, pos));
                         break;
                     case 7:
                         switch (column) {
                             case 0:
                             case 7: // rooks
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Rook(true, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Rook(true, row, column, pos));
                                 break;
                             case 1:
                             case 6: // knights
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Knight(true, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Knight(true, row, column, pos));
                                 break;
                             case 2:
                             case 5: // bishop
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Bishop(true, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Bishop(true, row, column, pos));
                                 break;
                             case 3: // queen
-                                grid[row][column] = new Square(row, column, pos, squareSize, new Queen(true, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new Queen(true, row, column, pos));
                                 break;
                             case 4: // king
-                                grid[row][column] = new Square(row, column, pos, squareSize, new King(true, row, column, pos));
+                                grid[row][column] = new Square(row, column, pos, squareLength, new King(true, row, column, pos));
                                 break;
                         }
                         break;
                     default:
-                        grid[row][column] = new Square(row, column, pos, squareSize, null);
+                        grid[row][column] = new Square(row, column, pos, squareLength, null);
                 }
 
             }
@@ -165,17 +165,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     // "Update" Methods
-    public void updateBoard() {
-
-        squareSize.width = squareSize.height = Math.min((getWidth() / 8 - 1), 60);
+    public void updateBoard(int squareLength) {
+        this.squareLength = squareLength;
 
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(column * squareSize.width + xMargin, row * squareSize.height);
+                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
 
-                grid[row][column].setRect(new Rectangle(pos.x, pos.y, squareSize.width, squareSize.height));
+                grid[row][column].setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
             }
         }
+
+
     }
     public void updatePawns() {
         for (Square[] squareRow : grid) {
