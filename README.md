@@ -29,6 +29,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Make application executable
 - [ ] Network capabilities
 - [x] Custom made pieces
+- [X] Resizing
 
 ### Resources
 * Piece design by Yi Jun Yang
