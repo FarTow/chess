@@ -13,7 +13,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 ### To-Do List
 - [ ] Piece movement functionality
   - [x] Check
-  - [ ] Pawn promotion
+  - [x] Pawn promotion
 - [ ] Start menu
 - [ ] Options
   - [ ] Timer settings
@@ -29,6 +29,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Make application executable
 - [ ] Network capabilities
 - [x] Custom made pieces
+- [x] Resizing
 
 ### Resources
 * Piece design by Yi Jun Yang
