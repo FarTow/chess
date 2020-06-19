@@ -9,7 +9,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private final Square[][] grid;
     private final int xMargin = 10;
 
-    private  int squareLength;
+    private int squareLength;
     private final Point gridBottomRight;
 
     private Piece selectedPiece;
@@ -167,6 +167,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     // "Update" Methods
     public void updateBoard(int squareLength) {
         this.squareLength = squareLength;
+        gridBottomRight.x = squareLength*8 + xMargin;
+        gridBottomRight.y = squareLength*8;
 
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
@@ -175,8 +177,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 grid[row][column].setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
             }
         }
-
-
     }
     public void updatePawns() {
         for (Square[] squareRow : grid) {
