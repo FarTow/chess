@@ -63,8 +63,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
-                    g.drawImage(square.getPiece().getImage().getScaledInstance(squareLength, squareLength, 0), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
-                    //g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null); // draw the square's piece if it exists
+                    g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
                 }
             }
         }
@@ -264,6 +263,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     Piece piece = square.getPiece();
 
                     piece.setTopLeft(square.getTopLeft());
+                    piece.scaleImage(squareLength);
                 }
             }
         }
@@ -278,7 +278,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         drawPieces(g);
         drawAvailableSquares(g);
 
-        if (selectedPiece != null) g.drawImage(selectedPiece.getImage().getScaledInstance(squareLength, squareLength, 0), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+        if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
         updatePawns();

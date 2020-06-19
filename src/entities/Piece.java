@@ -1,6 +1,6 @@
 package entities;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -10,7 +10,7 @@ public abstract class Piece {
     protected boolean isWhite, firstMove;
     protected int row, column;
     protected Point topLeft;
-    protected BufferedImage image;
+    protected Image image, defaultImage;
 
     public Piece(boolean isWhite, int row, int column, Point topLeft) {
         this.isWhite = isWhite;
@@ -82,27 +82,25 @@ public abstract class Piece {
         return false;
     }
 
-    public void scaleImage(int length) {
-        image = (BufferedImage) image.getScaledInstance(length, length, -1);
-    }
+    public void scaleImage(int length) { image = defaultImage.getScaledInstance(length, length, 0); }
 
     protected void setImage(String name) {
         // getClass().getName().substring(getClass().getName().indexOf('.')+1)
         try {
-            image = ImageIO.read(new File("res/" + (isWhite ? "white" : "black") + "-" + name + ".png"));
+            image = defaultImage = ImageIO.read(new File("res/" + (isWhite ? "white" : "black") + "-" + name + ".png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void setTopLeft(Point topLeft) { this.topLeft = topLeft; }
-    public void setPos(Point pos) { this.topLeft = new Point(pos.x-image.getWidth()/2, pos.y-image.getHeight()/2); }
+    public void setPos(Point pos) { this.topLeft = new Point(pos.x-image.getWidth(null)/2, pos.y-image.getHeight(null)/2); }
     public void setRow(int row) {this.row = row; }
     public void setColumn(int column) {this.column = column; }
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
 
-    public BufferedImage getImage() { return image; }
+    public Image getImage() { return image; }
     public Point getTopLeft() { return topLeft; }
-    public Point getPos() { return new Point(topLeft.x+image.getWidth()/2, topLeft.y+image.getHeight()/2); }
+    public Point getPos() { return new Point(topLeft.x+image.getWidth(null)/2, topLeft.y+image.getHeight(null)/2); }
     public int getRow() { return row; }
     public int getColumn() { return column; }
     public boolean isWhite() { return isWhite; }
