@@ -7,18 +7,17 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
+    private final int xMargin;
     private final Point gridBottomRight;
     private final Dimension squareSize = new Dimension(60, 60);
 
-    private int xMargin;
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
 
-    public Board(int xMargin) {
+    public Board() {
         setBackground(new Color(194, 194, 194));
-
-        this.xMargin = xMargin;
+        xMargin = 10;
         gridBottomRight = new Point(squareSize.width * 8 + xMargin, squareSize.height * 8);
 
         grid = new Square[8][8];
@@ -325,8 +324,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (mouseContained(me, new Point (0,0), gridBottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
-
-    public void setxMargin(int xMargin) { this.xMargin = xMargin; }
 
     public Square[][] getGrid() { return grid; }
     public King getKing(boolean isWhite) {

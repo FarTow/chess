@@ -11,6 +11,14 @@ public class Main extends JFrame {
     private final CardLayout cards;
     private final Game game;
 
+    public static void forceSize(Dimension dim, Component ... components) {
+        for (Component component : components) {
+            component.setPreferredSize(dim);
+            component.setMinimumSize(dim);
+            component.setMaximumSize(dim);
+        }
+    }
+
     Main() {
         cards = new CardLayout();
         StartMenu startMenu = new StartMenu(this);

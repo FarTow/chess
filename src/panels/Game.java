@@ -18,31 +18,14 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void resize() {
-        moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        moveHistory.setMinimumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        moveHistory.setMaximumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        board.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        board.setMinimumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        board.setMaximumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-
-        getComponent(2).setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        getComponent(2).setMinimumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        getComponent(2).setMaximumSize(new Dimension(getWidth()/3, getHeight()*4/5));
-
-        getComponent(0).setSize(new Dimension(getWidth(), getHeight()/10));
-        getComponent(1).setSize(new Dimension(getWidth(), getHeight()/10));
-        //getComponent(2).setSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        moveHistory.setSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        board.setSize(new Dimension(getWidth()/3, getHeight()*4/5));
-
-        board.setxMargin(getWidth()/100);
+        Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
     }
 
     public void actionPerformed(ActionEvent ae) {
         board.actionPerformed(ae);
         moveHistory.actionPerformed(ae);
     }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -52,7 +35,7 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         setLayout(new BorderLayout(getWidth()/1000, 0));
 
-        board = new Board(getWidth()/100);
+        board = new Board();
         moveHistory = new MoveHistory(board);
 
         moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
