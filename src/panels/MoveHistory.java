@@ -13,7 +13,13 @@ public class MoveHistory extends JPanel implements ActionListener {
     Board board;
 
     public MoveHistory(Board board) {
+        setBackground(new Color(194, 194, 194));
+
         this.board = board;
+    }
+
+    public void drawUI(Graphics g) {
+
     }
 
     public void paintComponent(Graphics g) {
