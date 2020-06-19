@@ -15,11 +15,17 @@ public class Game extends JPanel implements ActionListener {
 
     public Game() {
         setBackground(new Color(194, 194, 194));
-    }
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
 
-    public void resize() {
-        Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
+                if (getComponentCount() == 0) return;
+
+                Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
+                Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
+                updateUI();
+            }
+        });
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -28,8 +34,6 @@ public class Game extends JPanel implements ActionListener {
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        resize();
     }
 
     public void start() {
@@ -38,8 +42,7 @@ public class Game extends JPanel implements ActionListener {
         board = new Board();
         moveHistory = new MoveHistory(board);
 
-        moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
-        board.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board);
 
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.SOUTH);
