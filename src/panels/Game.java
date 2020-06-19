@@ -18,11 +18,13 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void resize() {
-        getComponent(0).setSize(new Dimension(0, getHeight()/10));
-        getComponent(1).setSize(new Dimension(0, getHeight()/10));
-        getComponent(2).setSize(new Dimension(getWidth()/3, 0));
-        moveHistory.setSize(new Dimension(getWidth()/3, getHeight()/2));
-        board.setSize(new Dimension(getWidth()/3, getHeight()/2));
+        getComponent(0).setSize(new Dimension(getWidth(), getHeight()/10));
+        getComponent(1).setSize(new Dimension(getWidth(), getHeight()/10));
+        getComponent(2).setSize(new Dimension(getWidth()/3, getHeight()));
+        moveHistory.setSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        board.setSize(new Dimension(getWidth()/3, getHeight()*4/5));
+
+        board.setxMargin(getWidth()/100);
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -37,17 +39,17 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void start() {
-        setLayout(new BorderLayout(getWidth()/200, 0));
+        setLayout(new BorderLayout(getWidth()/1000, 0));
 
         board = new Board(getWidth()/100);
         moveHistory = new MoveHistory(board);
 
-        moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()/2));
-        board.setPreferredSize(new Dimension(getWidth()/3, getHeight()/2));
+        moveHistory.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
+        board.setPreferredSize(new Dimension(getWidth()/3, getHeight()*4/5));
 
-        add(Box.createVerticalStrut(getHeight()/10), BorderLayout.NORTH);
-        add(Box.createVerticalStrut(getHeight()/10), BorderLayout.SOUTH);
-        add(Box.createHorizontalStrut(getWidth()/3), BorderLayout.WEST);
+        add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.NORTH);
+        add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.SOUTH);
+        add(Box.createRigidArea(new Dimension(getWidth()/3, getHeight())), BorderLayout.WEST);
         add(moveHistory, BorderLayout.EAST);
         add(board, BorderLayout.CENTER);
 
