@@ -82,6 +82,10 @@ public abstract class Piece {
         return false;
     }
 
+    public void scaleImage(int length) {
+        image = (BufferedImage) image.getScaledInstance(length, length, -1);
+    }
+
     protected void setImage(String name) {
         // getClass().getName().substring(getClass().getName().indexOf('.')+1)
         try {

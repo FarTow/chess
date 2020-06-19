@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
@@ -62,7 +63,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
-                    g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null); // draw the square's piece if it exists
+                    g.drawImage(square.getPiece().getImage().getScaledInstance(squareLength, squareLength, 0), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
+                    //g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null); // draw the square's piece if it exists
                 }
             }
         }
@@ -165,19 +167,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     // "Update" Methods
-    public void updateBoard(int squareLength) {
-        this.squareLength = squareLength;
-        gridBottomRight.x = squareLength*8 + xMargin;
-        gridBottomRight.y = squareLength*8;
-
-        for (int row = 0; row < grid.length; row++) {
-            for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
-
-                grid[row][column].setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
-            }
-        }
-    }
     public void updatePawns() {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -259,6 +248,27 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return availableMoves;
     }
 
+    public void updateBoard(int squareLength) {
+        this.squareLength = squareLength;
+        gridBottomRight.x = squareLength*8 + xMargin;
+        gridBottomRight.y = squareLength*8;
+
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[row].length; column++) {
+                Square square = grid[row][column];
+                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
+
+                square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
+
+                if (square.getPiece() != null) {
+                    Piece piece = square.getPiece();
+
+                    piece.setTopLeft(square.getTopLeft());
+                }
+            }
+        }
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
@@ -268,7 +278,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         drawPieces(g);
         drawAvailableSquares(g);
 
-        if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+        if (selectedPiece != null) g.drawImage(selectedPiece.getImage().getScaledInstance(squareLength, squareLength, 0), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
         updatePawns();
