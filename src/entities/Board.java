@@ -95,10 +95,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public void updateBoard(int squareLength) {
+    public void resize(int squareLength) {
         this.squareLength = squareLength;
         gridTopLeft.y = getHeight()/2 - squareLength*4;
-        gridBottomRight.x = gridTopLeft.x + squareLength*8;
+        gridBottomRight.x = gridTopLeft.x+squareLength*8;
         gridBottomRight.y = gridTopLeft.y+squareLength*8;
 
         for (int row = 0; row < grid.length; row++) {
@@ -189,22 +189,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
-    // "Update" Methods
-    public void updatePawns() {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() instanceof Pawn) {
-                    ((Pawn) square.getPiece()).update(whiteTurn);
-                }
-            }
-        }
-    }
-    public void updateKings() {
-        getKing(true).setCheck(isKingInCheck(getKing(true)));
-        getKing(false).setCheck(isKingInCheck(getKing(false)));
-    }
-
-        // Logic Methods
+    // Logic Methods
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.row;
         int oldColumn = piece.column;
@@ -269,6 +254,21 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         return availableMoves;
+    }
+
+    // "Update" Methods
+    public void updatePawns() {
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (square.getPiece() instanceof Pawn) {
+                    ((Pawn) square.getPiece()).update(whiteTurn);
+                }
+            }
+        }
+    }
+    public void updateKings() {
+        getKing(true).setCheck(isKingInCheck(getKing(true)));
+        getKing(false).setCheck(isKingInCheck(getKing(false)));
     }
 
     protected void paintComponent(Graphics g) {

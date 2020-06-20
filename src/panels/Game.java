@@ -17,15 +17,15 @@ public class Game extends JPanel implements ActionListener {
         setBackground(new Color(194, 194, 194));
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
-                super.componentResized(e);
+            super.componentResized(e);
 
-                if (getComponentCount() == 0) return;
+            if (getComponentCount() == 0) return;
 
-                Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
-                Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
-                board.updateBoard(Math.min((getWidth()/24 - 1), 60));
+            Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
+            Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
+            board.resize(Math.min((getWidth()/24 - 1), 60));
 
-                updateUI();
+            updateUI();
             }
         });
     }
