@@ -97,7 +97,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void updateBoard(int squareLength) {
         this.squareLength = squareLength;
-        gridTopLeft.y = getHeight()/2;
+        gridTopLeft.y = getHeight()/2 - squareLength*4;
         gridBottomRight.x = gridTopLeft.x + squareLength*8;
         gridBottomRight.y = gridTopLeft.y+squareLength*8;
 
@@ -281,13 +281,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         drawAvailableSquares(g);
 
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
-
-        g.drawLine(0, 0, getWidth(), 0);
-        g.drawLine(0, getHeight()/2, getWidth(), getHeight()/2);
-        g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1);
-
-        g.setColor(Color.pink);
-        g.drawLine(grid[0][0].getTopLeft().x, grid[0][0].getTopLeft().y, getWidth(), grid[0][0].getTopLeft().y);
     }
     public void actionPerformed(ActionEvent ae) {
         updatePawns();
