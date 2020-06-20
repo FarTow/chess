@@ -24,6 +24,8 @@ public class Game extends JPanel implements ActionListener {
                 Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
                 Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
                 board.updateBoard(Math.min((getWidth()/24 - 1), 60));
+
+                System.out.println(board.getHeight());
                 updateUI();
             }
         });
@@ -35,12 +37,15 @@ public class Game extends JPanel implements ActionListener {
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        g.setColor(Color.red);
+        g.drawLine(0, getHeight()/2, getWidth(), getHeight()/2);
     }
 
     public void start() {
         setLayout(new BorderLayout(getWidth()/1000, 0));
 
-        board = new Board();
+        board = new Board(getHeight()*2/5);
         moveHistory = new MoveHistory(board);
 
         Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board);

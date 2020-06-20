@@ -8,19 +8,20 @@ import java.awt.image.BufferedImage;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
-    private final int xMargin = 10;
 
     private int squareLength;
+    private final Point gridTopLeft;
     private final Point gridBottomRight;
 
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
 
-    public Board() {
+    public Board(int initialHeight) {
         setBackground(new Color(194, 194, 194));
         squareLength = 60;
-        gridBottomRight = new Point(squareLength * 8 + xMargin, squareLength * 8);
+        gridTopLeft = new Point(10, initialHeight);
+        gridBottomRight = new Point(10+(squareLength*8), gridTopLeft.y+(squareLength*8));
 
         grid = new Square[8][8];
         turnCount = 0;
@@ -31,80 +32,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         addMouseMotionListener(this);
     }
 
-    // Graphics
-    public void drawBoard(Graphics g) {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                g.setColor(square.getRow()%2 == square.getColumn()%2 ?
-                        new Color(240, 199, 134) : new Color(181, 136, 99));
-                g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
-            }
-        }
-    }
-    public void drawIndicators(Graphics g) {
-        Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
-        g.setColor(Color.black);
-
-        for (int row=1; row<=grid.length; row++) {
-            String rank = Integer.toString(row);
-            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
-                    g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, xMargin-stringSize.width, (gridBottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
-        }
-
-        for (int column=0; column<grid[0].length; column++) {
-            String file = String.valueOf((char) ((char) 97+column));
-            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
-                    g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, xMargin/2+(squareLength/2+stringSize.width/4)+(squareLength * column), gridBottomRight.y+stringSize.height/2);
-        }
-    }
-    public void drawPieces(Graphics g) {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() != null) {
-                    g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
-                }
-            }
-        }
-    }
-    public void drawAvailableSquares(Graphics g) {
-        if (selectedPiece == null) return;
-
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
-                    g.setColor(new Color(130, 151, 105));
-                    g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
-                            square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
-                            square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
-                }
-            }
-        }
-    }
-    public void drawSelectedSquare(Graphics g) {
-        if (selectedPiece == null) return;
-
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) {
-                    if (square.getRow() == selectedPiece.getRow() && square.getColumn() == selectedPiece.getColumn()) {
-                        g.setColor(new Color(82, 157, 204));
-                        g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
-                        return;
-                    }
-
-                    g.setColor(((selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
-                    g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
-                    return;
-                }
-            }
-        }
-    }
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
+                Point pos = new Point(gridTopLeft.x+(column*squareLength), gridTopLeft.y+(row*squareLength));
 
                 switch (row) {
                     case 0:
@@ -161,6 +92,99 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         grid[row][column] = new Square(row, column, pos, squareLength, null);
                 }
 
+            }
+        }
+    }
+    public void updateBoard(int squareLength) {
+        this.squareLength = squareLength;
+        gridTopLeft.y = getHeight()/2;
+        gridBottomRight.x = gridTopLeft.x + squareLength*8;
+        gridBottomRight.y = gridTopLeft.y+squareLength*8;
+
+        for (int row = 0; row < grid.length; row++) {
+            for (int column = 0; column < grid[row].length; column++) {
+                Square square = grid[row][column];
+                Point pos = new Point(gridTopLeft.x + column*squareLength, gridTopLeft.y + row*squareLength);
+
+                square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
+
+                if (square.getPiece() != null) {
+                    Piece piece = square.getPiece();
+
+                    piece.setTopLeft(square.getTopLeft());
+                    piece.scaleImage(squareLength);
+                }
+            }
+        }
+    }
+
+    // Graphics
+    public void drawBoard(Graphics g) {
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                g.setColor(square.getRow()%2 == square.getColumn()%2 ?
+                        new Color(240, 199, 134) : new Color(181, 136, 99));
+                g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
+            }
+        }
+    }
+    public void drawIndicators(Graphics g) {
+        Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
+        g.setColor(Color.black);
+
+        for (int row=1; row<=grid.length; row++) {
+            String rank = Integer.toString(row);
+            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
+                    g.getFontMetrics(indicatorsFont).getHeight());
+            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridBottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
+        }
+
+        for (int column=0; column<grid[0].length; column++) {
+            String file = String.valueOf((char) ((char) 97+column));
+            Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
+                    g.getFontMetrics(indicatorsFont).getHeight());
+            g.drawString(file, gridTopLeft.x/2+(squareLength/2+stringSize.width/4)+(squareLength * column), gridBottomRight.y+stringSize.height/2);
+        }
+    }
+    public void drawPieces(Graphics g) {
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (square.getPiece() != null) {
+                    g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
+                }
+            }
+        }
+    }
+    public void drawAvailableSquares(Graphics g) {
+        if (selectedPiece == null) return;
+
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
+                    g.setColor(new Color(130, 151, 105));
+                    g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
+                            square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
+                            square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
+                }
+            }
+        }
+    }
+    public void drawSelectedSquare(Graphics g) {
+        if (selectedPiece == null) return;
+
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) {
+                    if (square.getRow() == selectedPiece.getRow() && square.getColumn() == selectedPiece.getColumn()) {
+                        g.setColor(new Color(82, 157, 204));
+                        g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
+                        return;
+                    }
+
+                    g.setColor(((selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
+                    g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
+                    return;
+                }
             }
         }
     }
@@ -247,28 +271,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return availableMoves;
     }
 
-    public void updateBoard(int squareLength) {
-        this.squareLength = squareLength;
-        gridBottomRight.x = squareLength*8 + xMargin;
-        gridBottomRight.y = squareLength*8;
-
-        for (int row = 0; row < grid.length; row++) {
-            for (int column = 0; column < grid[row].length; column++) {
-                Square square = grid[row][column];
-                Point pos = new Point(column * squareLength + xMargin, row * squareLength);
-
-                square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
-
-                if (square.getPiece() != null) {
-                    Piece piece = square.getPiece();
-
-                    piece.setTopLeft(square.getTopLeft());
-                    piece.scaleImage(squareLength);
-                }
-            }
-        }
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
@@ -279,6 +281,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         drawAvailableSquares(g);
 
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+
+        g.drawLine(0, 0, getWidth(), 0);
+        g.drawLine(0, getHeight()/2, getWidth(), getHeight()/2);
+        g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1);
+
+        g.setColor(Color.pink);
+        g.drawLine(grid[0][0].getTopLeft().x, grid[0][0].getTopLeft().y, getWidth(), grid[0][0].getTopLeft().y);
     }
     public void actionPerformed(ActionEvent ae) {
         updatePawns();
