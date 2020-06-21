@@ -1,6 +1,7 @@
 package panels;
 
 import entities.Board;
+import entities.Piece;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -54,11 +55,24 @@ public class MoveHistory extends JPanel implements ActionListener {
         return readableMoveData;
     }
 
-    public String convertToChessNotation(Point lastMove) {
+    public String convertToChessNotation(Point lastMove, Piece piece) {
         String chessNotation = "";
+        String pieceClassName = piece.getClass().getName();
+
+        switch (pieceClassName.substring(pieceClassName.indexOf('.')+1)) {
+            case "Pawn":
+                break;
+            case "Knight":
+                chessNotation += "N";
+                break;
+            default:
+                chessNotation += pieceClassName.charAt(pieceClassName.indexOf('.')+1);
+                break;
+        }
+
 
         chessNotation += (char) ((char) 97+lastMove.x);
-        chessNotation += (4+(4-lastMove.y));
+        chessNotation += (4+(4-lastMove.y)); // why am I so smart
 
         return chessNotation;
     }
@@ -68,12 +82,12 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         if (whiteTurn != board.getWhiteTurn()) {
             if (board.getWhiteTurn()) {
-                allMoveData.get(moveCount-1)[2] = convertToChessNotation(board.getLastMove());
+                allMoveData.get(moveCount-1)[2] = convertToChessNotation(board.getLastMove(), board.getLastPiece());
 
                 moveCount++;
                 allMoveData.add(new Object[] {moveCount, "", ""});
             } else {
-                allMoveData.get(moveCount-1)[1] = convertToChessNotation(board.getLastMove());
+                allMoveData.get(moveCount-1)[1] = convertToChessNotation(board.getLastMove(), board.getLastPiece());
             }
 
             moveDisplayModel.setDataVector(readableMoveData(), headers);

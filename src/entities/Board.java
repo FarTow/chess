@@ -16,6 +16,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
     private Point lastMove;
+    private Piece lastPiece;
 
     public Board(int initialHeight) {
         setBackground(new Color(194, 194, 194));
@@ -328,6 +329,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
                         lastMove = new Point(square.getColumn(), square.getRow());
+                        lastPiece = selectedPiece;
+
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
@@ -365,7 +368,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return null;
     }
     public Square[][] getGrid() { return grid; }
-    public int getTurnCount() { return turnCount; }
     public boolean getWhiteTurn() { return whiteTurn; }
     public Point getLastMove() { return lastMove; }
+    public Piece getLastPiece() { return lastPiece; }
 }
