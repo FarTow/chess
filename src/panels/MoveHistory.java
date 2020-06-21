@@ -56,15 +56,18 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         if (whiteTurn != board.getWhiteTurn()) {
             if (board.getWhiteTurn()) {
+                allMoveData.get(moveCount-1)[2] = board.getLastMove().toString();
+
                 moveCount++;
                 allMoveData.add(new Object[] {moveCount, "", ""});
+            } else {
+                allMoveData.get(moveCount-1)[1] = board.getLastMove().toString();
             }
 
             moveDisplayModel.setDataVector(readableMoveData(), headers);
             whiteTurn = board.getWhiteTurn();
         }
 
-        System.out.println(Arrays.deepToString(readableMoveData()));
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -4,18 +4,18 @@ import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
 
-    private int squareLength;
     private final Point gridTopLeft;
     private final Point gridBottomRight;
+    private int squareLength;
 
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
+    private Point lastMove;
 
     public Board(int initialHeight) {
         setBackground(new Color(194, 194, 194));
@@ -327,8 +327,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
+                        lastMove = new Point(square.getColumn(), square.getRow());
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
+
                         turnCount++;
                         whiteTurn = turnCount%2==0;
                     } else {
@@ -365,4 +367,5 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Square[][] getGrid() { return grid; }
     public int getTurnCount() { return turnCount; }
     public boolean getWhiteTurn() { return whiteTurn; }
+    public Point getLastMove() { return lastMove; }
 }
