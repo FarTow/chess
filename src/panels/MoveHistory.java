@@ -3,37 +3,43 @@ package panels;
 import entities.Board;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Graphics;
 import java.awt.Color;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class MoveHistory extends JPanel implements ActionListener {
-    Board board;
+    private final Board board;
+    private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
-    JTable moveDisplay;
-    ArrayList<Object[]> allMoveData;
+    private final DefaultTableModel moveDisplayModel;
+    private final ArrayList<Object[]> allMoveData;
+
+    private boolean whiteTurn;
+    private int moveCount;
 
     public MoveHistory(Board board) {
         setBackground(new Color(194, 194, 194));
         this.board = board;
+        whiteTurn = true;
+        moveCount = 1;
         allMoveData = new ArrayList<>();
 
-        Object[] headers = {"Turn", "White", "Black"};
-        allMoveData.add(new Object[] {1, "", ""});
+        allMoveData.add(new Object[] {moveCount, "", ""});
 
-        moveDisplay = new JTable(readableDataForTable(), headers);
+        moveDisplayModel = new DefaultTableModel(readableMoveData(), headers);
+        JTable moveDisplay = new JTable(moveDisplayModel);
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         add(new JScrollPane(moveDisplay));
     }
 
-    public void updateMoves() {
-
-    }
-
-    public Object[][] readableDataForTable() {
+    public Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 
         for (int i=0; i<allMoveData.size(); i++) {
@@ -47,12 +53,21 @@ public class MoveHistory extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         repaint();
+
+        if (whiteTurn != board.getWhiteTurn()) {
+            if (board.getWhiteTurn()) {
+                moveCount++;
+                allMoveData.add(new Object[] {moveCount, "", ""});
+            }
+
+            moveDisplayModel.setDataVector(readableMoveData(), headers);
+            whiteTurn = board.getWhiteTurn();
+        }
+
+        System.out.println(Arrays.deepToString(readableMoveData()));
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        //g.setColor(Color.blue);
-        //g.fillRect(0, 0, getWidth(), getHeight());
     }
 
 }

@@ -330,7 +330,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
                         turnCount++;
-                        whiteTurn = (turnCount%2==0);
+                        whiteTurn = turnCount%2==0;
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
@@ -351,7 +351,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
-    public Square[][] getGrid() { return grid; }
     public King getKing(boolean isWhite) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -363,4 +362,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         return null;
     }
+    public Square[][] getGrid() { return grid; }
+    public int getTurnCount() { return turnCount; }
+    public boolean getWhiteTurn() { return whiteTurn; }
 }
