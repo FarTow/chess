@@ -5,10 +5,9 @@ import entities.Board;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
-import java.awt.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +35,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         moveDisplayModel = new DefaultTableModel(readableMoveData(), headers);
         JTable moveDisplay = new JTable(moveDisplayModel);
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        moveDisplay.getTableHeader().setReorderingAllowed(false);
         add(new JScrollPane(moveDisplay));
     }
 
@@ -51,17 +51,26 @@ public class MoveHistory extends JPanel implements ActionListener {
         return readableMoveData;
     }
 
+    public String convertToChessNotation(Point lastMove) {
+        String chessNotation = "";
+
+        chessNotation += (char) ((char) 97+lastMove.x);
+        chessNotation += lastMove.y;
+
+        return chessNotation;
+    }
+
     public void actionPerformed(ActionEvent ae) {
         repaint();
 
         if (whiteTurn != board.getWhiteTurn()) {
             if (board.getWhiteTurn()) {
-                allMoveData.get(moveCount-1)[2] = board.getLastMove().toString();
+                allMoveData.get(moveCount-1)[2] = convertToChessNotation(board.getLastMove());
 
                 moveCount++;
                 allMoveData.add(new Object[] {moveCount, "", ""});
             } else {
-                allMoveData.get(moveCount-1)[1] = board.getLastMove().toString();
+                allMoveData.get(moveCount-1)[1] = convertToChessNotation(board.getLastMove());
             }
 
             moveDisplayModel.setDataVector(readableMoveData(), headers);
