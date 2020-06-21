@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
 
 public class MoveHistory extends JPanel implements ActionListener {
     private final Board board;
@@ -32,7 +30,12 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         allMoveData.add(new Object[] {moveCount, "", ""});
 
-        moveDisplayModel = new DefaultTableModel(readableMoveData(), headers);
+        moveDisplayModel = new DefaultTableModel(readableMoveData(), headers) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         JTable moveDisplay = new JTable(moveDisplayModel);
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         moveDisplay.getTableHeader().setReorderingAllowed(false);
@@ -55,7 +58,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         String chessNotation = "";
 
         chessNotation += (char) ((char) 97+lastMove.x);
-        chessNotation += lastMove.y;
+        chessNotation += (4+(4-lastMove.y));
 
         return chessNotation;
     }
