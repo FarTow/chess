@@ -57,22 +57,10 @@ public class MoveHistory extends JPanel implements ActionListener {
 
     public String convertToChessNotation(Point lastMove, Piece piece) {
         String chessNotation = "";
-        String pieceClassName = piece.getClass().getName();
 
-        switch (pieceClassName.substring(pieceClassName.indexOf('.')+1)) {
-            case "Pawn":
-                break;
-            case "Knight":
-                chessNotation += "N";
-                break;
-            default:
-                chessNotation += pieceClassName.charAt(pieceClassName.indexOf('.')+1);
-                break;
-        }
-
-
-        chessNotation += (char) ((char) 97+lastMove.x);
-        chessNotation += (4+(4-lastMove.y)); // why am I so smart
+        chessNotation += piece.getSymbol();
+        chessNotation += (char) ((char) 97+lastMove.x); // file
+        chessNotation += (4+(4-lastMove.y)); // rank
 
         return chessNotation;
     }

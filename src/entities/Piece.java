@@ -98,6 +98,7 @@ public abstract class Piece {
     public void setColumn(int column) {this.column = column; }
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
 
+    public abstract String getSymbol();
     public Image getImage() { return image; }
     public Point getTopLeft() { return topLeft; }
     public Point getPos() { return new Point(topLeft.x+image.getWidth(null)/2, topLeft.y+image.getHeight(null)/2); }
@@ -105,5 +106,6 @@ public abstract class Piece {
     public int getColumn() { return column; }
     public boolean isWhite() { return isWhite; }
     public boolean isFirstMove() { return firstMove; }
+
 
 }

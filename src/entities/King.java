@@ -55,4 +55,5 @@ public class King extends Piece {
     public void setCheck(boolean check) { this.check = check; }
 
     public boolean getCheck() { return check; }
+    public String getSymbol() { return isWhite ? "♔" : "♚"; }
 }

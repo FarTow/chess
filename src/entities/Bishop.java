@@ -19,4 +19,5 @@ public class Bishop extends Piece {
         return (rowDiff == columnDiff);
     }
 
+    public String getSymbol() { return isWhite ? "♗" : "♝"; }
 }

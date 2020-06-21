@@ -15,6 +15,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
+
     private Point lastMove;
     private Piece lastPiece;
 

@@ -20,4 +20,5 @@ public class Queen extends Piece {
         return (rowDiff == columnDiff);
     }
 
+    public String getSymbol() { return isWhite ? "♕" : "♛"; }
 }
