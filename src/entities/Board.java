@@ -16,7 +16,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
-    // MoveHistory Interaction Variables
+    // MoveHistory Trackers
     private Piece lastPiece;
     private Point oldSquare, newSquare;
     private boolean takenPiece, ambiguousMove, ambiguousColumn;
@@ -164,7 +164,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false)) {
+                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
                     g.setColor(new Color(130, 151, 105));
                     g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
                             square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
