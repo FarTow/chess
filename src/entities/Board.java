@@ -380,9 +380,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                                     mayMove(square.getPiece(), toSquare)) { // if the piece can move to the new square
                                 ambiguousMove = true;
 
-                                if (square.getPiece().getColumn() == selectedPiece.getColumn()) {
-                                    ambiguousColumn = true;
-                                }
+                                if (square.getPiece().getColumn() == selectedPiece.getColumn()) ambiguousColumn = true;
                             }
                             break;
                         }
