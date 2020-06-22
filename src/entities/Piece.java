@@ -1,7 +1,8 @@
 package entities;
 
+import panels.Board;
+
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -21,7 +22,7 @@ public abstract class Piece {
     }
 
     public abstract boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased);
-    protected boolean sameColor(int newRow, int newColumn, Square[][] grid) {
+    public boolean sameColor(int newRow, int newColumn, Square[][] grid) {
         if (grid[newRow][newColumn].getPiece() == null) return false;
         return (isWhite == grid[newRow][newColumn].getPiece().isWhite());
     }

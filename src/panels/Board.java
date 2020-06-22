@@ -1,4 +1,6 @@
-package entities;
+package panels;
+
+import entities.*;
 
 import javax.swing.JPanel;
 
@@ -195,8 +197,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // Logic Methods
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
-        int oldRow = piece.row;
-        int oldColumn = piece.column;
+        int oldRow = piece.getRow();
+        int oldColumn = piece.getColumn();
 
         if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
         piece.setRow(toSquare.getRow());
@@ -311,7 +313,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square[] squareRow : grid) {
                 for (Square square : squareRow) {
                     if (square.getPiece() != null) {
-                        if (mouseContained(me, square.getTopLeft(), square.getBottomRight()) && (square.getPiece().isWhite == whiteTurn)) { // if the mouse is in a square and it's white's turn
+                        if (mouseContained(me, square.getTopLeft(), square.getBottomRight()) && (square.getPiece().isWhite() == whiteTurn)) { // if the mouse is in a square and it's white's turn
                             selectedPiece = square.getPiece(); // set the selected piece to the piece in the square
                         }
                     }
@@ -386,7 +388,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
-                    if (square.getPiece() instanceof King && square.getPiece().isWhite == isWhite) return ((King) square.getPiece());
+                    if (square.getPiece() instanceof King && square.getPiece().isWhite() == isWhite) return ((King) square.getPiece());
                 }
             }
         }

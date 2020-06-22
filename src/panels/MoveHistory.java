@@ -1,12 +1,8 @@
 package panels;
 
-import entities.Board;
 import entities.Pawn;
-import entities.Piece;
-import entities.Square;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -27,6 +23,8 @@ public class MoveHistory extends JPanel implements ActionListener {
 
     public MoveHistory(Board board) {
         setBackground(new Color(194, 194, 194));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         this.board = board;
         whiteTurn = true;
         moveCount = 1;
@@ -85,7 +83,7 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         if (board.isKingInCheck(board.getKing(board.getWhiteTurn()))) { // if the king is in check
             if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's checkmate
-                chessNotation += "++";
+                chessNotation += "#";
             } else { // if the king is in check
                 chessNotation += "+";
             }

@@ -1,5 +1,7 @@
 package entities;
 
+import panels.Board;
+
 import java.awt.Point;
 
 public class Rook extends Piece {
