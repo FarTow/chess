@@ -97,8 +97,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             }
         }
     }
-    public void resize(int squareLength) {
-        this.squareLength = squareLength;
+    public void resize(int ... properties) {
+        this.squareLength = properties[0];
         topLeft.y = getHeight()/2 - squareLength*4;
         bottomRight.x = topLeft.x+squareLength*8;
         bottomRight.y = topLeft.y+squareLength*8;

@@ -41,7 +41,7 @@ public class Game extends JPanel implements ActionListener {
         setLayout(new BorderLayout(getWidth()/1000, 0));
 
         board = new Board(new Point(10,getHeight()*2/5 - 240));
-        moveHistory = new MoveHistory(new Point(0, 0), board);
+        moveHistory = new MoveHistory(new Point(0, getHeight()*2/5), new Dimension(getWidth()/3, getHeight()*2/5), board);
 
         Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board);
 

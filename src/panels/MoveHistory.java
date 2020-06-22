@@ -21,7 +21,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
     private boolean whiteTurn;
     private int moveCount;
 
-    public MoveHistory(Point initialTopLeft, Board board) {
+    public MoveHistory(Point initialTopLeft, Dimension initialSize, Board board) {
         super(initialTopLeft);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -43,11 +43,18 @@ public class MoveHistory extends GameComponent implements ActionListener {
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         moveDisplay.getTableHeader().setReorderingAllowed(false);
         add(new JScrollPane(moveDisplay));
+
+        Main.forceSize(initialSize, getComponent(0));
+
+        getComponent(0).setLocation(topLeft);
     }
 
-    public void resize() {
+    public void resize(int ... properties) {
+        topLeft.y = getHeight()*2/5;
 
+        getComponent(0).setLocation(topLeft);
     }
+
     public Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 

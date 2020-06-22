@@ -14,7 +14,7 @@ public abstract class GameComponent extends JPanel implements ActionListener {
         topLeft = initialTopLeft;
     }
 
-    public void resize() { }
+    public abstract void resize(int ... properties);
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
