@@ -2,16 +2,13 @@ package panels;
 
 import entities.*;
 
-import javax.swing.JPanel;
-
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class Board extends GameComponent implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
 
-    private final Point gridTopLeft;
-    private final Point gridBottomRight;
+    private final Point bottomRight;
     private int squareLength;
 
     private Piece selectedPiece;
@@ -23,11 +20,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Point oldSquare, newSquare;
     private boolean takenPiece, ambiguousMove, ambiguousColumn;
 
-    public Board(int initialHeight) {
-        setBackground(new Color(194, 194, 194));
+    public Board(Point initialTopLeft) {
+        super(initialTopLeft);
         squareLength = 60;
-        gridTopLeft = new Point(10, initialHeight);
-        gridBottomRight = new Point(10+(squareLength*8), gridTopLeft.y+(squareLength*8));
+        bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
 
         grid = new Square[8][8];
         turnCount = 0;
@@ -41,7 +37,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(gridTopLeft.x+(column*squareLength), gridTopLeft.y+(row*squareLength));
+                Point pos = new Point(topLeft.x+(column*squareLength), topLeft.y+(row*squareLength));
 
                 switch (row) {
                     case 0:
@@ -103,14 +99,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void resize(int squareLength) {
         this.squareLength = squareLength;
-        gridTopLeft.y = getHeight()/2 - squareLength*4;
-        gridBottomRight.x = gridTopLeft.x+squareLength*8;
-        gridBottomRight.y = gridTopLeft.y+squareLength*8;
+        topLeft.y = getHeight()/2 - squareLength*4;
+        bottomRight.x = topLeft.x+squareLength*8;
+        bottomRight.y = topLeft.y+squareLength*8;
 
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
                 Square square = grid[row][column];
-                Point pos = new Point(gridTopLeft.x + column*squareLength, gridTopLeft.y + row*squareLength);
+                Point pos = new Point(topLeft.x + column*squareLength, topLeft.y + row*squareLength);
 
                 square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
 
@@ -142,14 +138,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, gridTopLeft.x-stringSize.width, (gridBottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
+            g.drawString(rank, topLeft.x-stringSize.width, (bottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) {
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, gridTopLeft.x/2+(squareLength/2+stringSize.width/4)+(squareLength * column), gridBottomRight.y+stringSize.height/2);
+            g.drawString(file, topLeft.x/2+(squareLength/2+stringSize.width/4)+(squareLength * column), topLeft.y+stringSize.height/2);
         }
     }
     public void drawSelectedSquare(Graphics g) {
@@ -295,7 +291,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updatePawns();
         updateKings();
 
-        repaint();
+        super.actionPerformed(ae);
     }
 
     // Mouse Interaction Methods
@@ -358,7 +354,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseDragged(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected return
 
-        if (mouseContained(me, new Point (0,0), gridBottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
+        if (mouseContained(me, new Point (0,0), bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
 

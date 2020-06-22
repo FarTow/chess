@@ -22,6 +22,7 @@ public class Game extends JPanel implements ActionListener {
             Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
             Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
             board.resize(Math.min((getWidth()/24 - 1), 60));
+            moveHistory.resize();
 
             updateUI();
             }
@@ -39,8 +40,8 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         setLayout(new BorderLayout(getWidth()/1000, 0));
 
-        board = new Board(getHeight()*2/5 - 240);
-        moveHistory = new MoveHistory(board);
+        board = new Board(new Point(10,getHeight()*2/5 - 240));
+        moveHistory = new MoveHistory(new Point(0, 0), board);
 
         Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board);
 

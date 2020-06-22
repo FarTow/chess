@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
-public class MoveHistory extends JPanel implements ActionListener {
+public class MoveHistory extends GameComponent implements ActionListener {
     private final Board board;
     private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
@@ -21,8 +21,9 @@ public class MoveHistory extends JPanel implements ActionListener {
     private boolean whiteTurn;
     private int moveCount;
 
-    public MoveHistory(Board board) {
-        setBackground(new Color(194, 194, 194));
+    public MoveHistory(Point initialTopLeft, Board board) {
+        super(initialTopLeft);
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.board = board;
@@ -44,6 +45,9 @@ public class MoveHistory extends JPanel implements ActionListener {
         add(new JScrollPane(moveDisplay));
     }
 
+    public void resize() {
+
+    }
     public Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 
@@ -55,7 +59,6 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         return readableMoveData;
     }
-
     public String lastMove() {
         String chessNotation = "";
         int oldRank = 4 + (4 - board.getOldSquare().x);
@@ -95,7 +98,6 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         return chessNotation;
     }
-
     public void updateAllMoveData() {
         if (whiteTurn != board.getWhiteTurn()) { // essentially "if a move took place"
             if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
@@ -113,8 +115,8 @@ public class MoveHistory extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        repaint();
         updateAllMoveData();
+        super.actionPerformed(ae);
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
