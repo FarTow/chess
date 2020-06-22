@@ -60,17 +60,28 @@ public class MoveHistory extends JPanel implements ActionListener {
 
     public String lastMove() {
         String chessNotation = "";
+        int oldRank = 4 + (4 - board.getOldSquare().x);
+        char oldFile = (char) ((char) 97 + board.getOldSquare().y);
+        int newRank = 4 + (4 - board.getNewSquare().x);
+        char newFile = (char) ((char) 97 + board.getNewSquare().y);
+
         chessNotation += board.getLastPiece().getSymbol();
 
-        if (board.getTookPiece()) {
-            if (board.getLastPiece() instanceof Pawn) chessNotation += (char) ((char) 97 + board.getOldSquare().y);
+        if (board.getTakenPiece()) {
+            if (board.getLastPiece() instanceof Pawn) chessNotation += oldFile;
             chessNotation += "×";
         }
 
-        if (board.isMoveAmbigious()) chessNotation += "...";
+        if (board.isMoveAmbiguous()) {
+            if (board.isColumnAmbiguous()) {
+                chessNotation += oldRank;
+            } else {
+                chessNotation += oldFile;
+            }
+        }
 
-        chessNotation += (char) ((char) 97 + board.getNewSquare().y); // file
-        chessNotation += 4 + (4 - board.getNewSquare().x); // rank
+        chessNotation += newFile; // file
+        chessNotation += newRank; // rank
 
         return chessNotation;
     }

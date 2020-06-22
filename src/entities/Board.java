@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     // MoveHistory Interaction Variables
     private Piece lastPiece;
     private Point oldSquare, newSquare;
-    private boolean tookPiece, ambiguousMove;
+    private boolean takenPiece, ambiguousMove, ambiguousColumn;
 
     public Board(int initialHeight) {
         setBackground(new Color(194, 194, 194));
@@ -335,26 +335,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
                         ambiguousMove = false;
+                        ambiguousColumn = false;
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
-                        tookPiece = square.getPiece() != null;
+                        takenPiece = square.getPiece() != null;
 
-                        if (!(selectedPiece instanceof Pawn)) {
-                            for (Square[] squareRowTwo : grid) {
-                                for (Square squareTwo : squareRowTwo) {
-                                    if (squareTwo.getPiece() != null) { // if the piece isn't null
-                                        if (squareTwo.getPiece().getClass().equals(selectedPiece.getClass()) && squareTwo.getPiece() != selectedPiece) { // if the piece is the "other" piece
-                                            if (squareTwo.getPiece().canMove(square.getRow(), square.getColumn(), this, false) &&
-                                                    mayMove(squareTwo.getPiece(), square)) { // if the piece can move to the new square
-                                                ambiguousMove = true;
-                                            }
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        setAmbiguousMove(square);
 
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
@@ -381,6 +368,30 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
+    public void setAmbiguousMove(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Square[] squareRow : grid) {
+                for (Square square : squareRow) {
+                    if (square.getPiece() != null) { // if the piece isn't null
+                        if (square.getPiece().getClass().equals(selectedPiece.getClass()) && square.getPiece() != selectedPiece) { // if the piece is the "other" piece
+                            if (square.getPiece().canMove(toSquare.getRow(), toSquare.getColumn(), this, false) &&
+                                    mayMove(square.getPiece(), toSquare)) { // if the piece can move to the new square
+                                ambiguousMove = true;
+
+                                if (square.getPiece().getColumn() == selectedPiece.getColumn()) {
+                                    ambiguousColumn = true;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public King getKing(boolean isWhite) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -397,6 +408,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
-    public boolean getTookPiece() { return tookPiece; }
-    public boolean isMoveAmbigious() { return ambiguousMove; }
+    public boolean getTakenPiece() { return takenPiece; }
+    public boolean isMoveAmbiguous() { return ambiguousMove; }
+    public boolean isColumnAmbiguous() { return ambiguousColumn; }
 }
