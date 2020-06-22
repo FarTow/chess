@@ -13,7 +13,7 @@ public class Pawn extends Piece {
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
         Square[][] grid = board.getGrid();
 
-        if (isJumping(newRow, newColumn, grid) || sameColor(newRow, newColumn, grid)) return false;
+        if (isJumping(newRow, newColumn, grid)) return false;
         if (Math.abs(column-newColumn) > 1) return false;
 
         boolean canMove = false;

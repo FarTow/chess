@@ -9,10 +9,7 @@ public class Knight extends Piece {
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
-
         Square[][] grid = board.getGrid();
-
-        if (sameColor(newRow, newColumn, grid)) return false;
 
         if (row == newRow || column == newColumn ) return false;
         int rowDiff = Math.abs(row-newRow);

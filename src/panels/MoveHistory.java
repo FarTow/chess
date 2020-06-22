@@ -3,6 +3,7 @@ package panels;
 import entities.Board;
 import entities.Pawn;
 import entities.Piece;
+import entities.Square;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -58,14 +59,38 @@ public class MoveHistory extends JPanel implements ActionListener {
     }
 
     public String lastMove(Point oldSquare, Point newSquare, Piece piece, boolean tookPiece) {
-        String chessNotation = "";
+        StringBuilder chessNotation = new StringBuilder();
+        chessNotation.append(piece.getSymbol());
 
-        chessNotation += piece.getSymbol();
-        if (tookPiece && piece instanceof Pawn) chessNotation += (char) ((char) 97+oldSquare.x) + "×";
-        chessNotation += (char) ((char) 97+newSquare.x); // file
-        chessNotation += (4+(4-newSquare.y)); // rank
+        if (tookPiece) {
+            if (piece instanceof Pawn) chessNotation.append((char) ((char) 97 + oldSquare.y));
+            chessNotation.append("×");
+        }
 
-        return chessNotation;
+        if (!(piece instanceof Pawn)) {
+            for (Square[] squareRow : board.getGrid()) {
+                for (Square square : squareRow) {
+                    if (square.getPiece() != null) { // if the piece isn't null
+                        if (square.getPiece().getClass().equals(piece.getClass()) && square.getPiece() != piece) { // if the piece is the "other" piece
+
+                            if (square.getPiece().canMove(newSquare.x, newSquare.y, board, false)) { // if the piece can move to the new square
+                                if (square.getPiece().getColumn() == oldSquare.y) { // if they're on the same file
+                                    chessNotation.append(4 + (4 - oldSquare.x)); // show the rank of the moved piece
+                                } else { // otherwise
+                                    chessNotation.append((char) ((char) 97 + oldSquare.y)); // show the file of the moved
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        chessNotation.append((char) ((char) 97 + newSquare.y)); // file
+        chessNotation.append(4 + (4 - newSquare.x)); // rank
+
+        return chessNotation.toString();
     }
 
     public void updateAllMoveData() {

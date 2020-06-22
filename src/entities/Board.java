@@ -17,8 +17,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean whiteTurn;
 
     // MoveHistory Interaction Variables
-    private Point oldSquare, newSquare;
     private Piece lastPiece;
+    private Point oldSquare, newSquare;
     private boolean tookPiece;
 
     public Board(int initialHeight) {
@@ -164,7 +164,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
+                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false)) {
                     g.setColor(new Color(130, 151, 105));
                     g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
                             square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
@@ -205,11 +205,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
     public boolean mayMove(Piece piece, Square toSquare) {
+        Piece takenPiece = toSquare.getPiece();
+
+        if (piece.sameColor(toSquare.getRow(), toSquare.getColumn(), grid)) return false;
+
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
         boolean mayMove;
-        Piece takenPiece = toSquare.getPiece();
 
         movePiece(piece, toSquare, false); // move piece to desired square
         mayMove = !isKingInCheck(getKing(whiteTurn));
@@ -331,8 +334,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
-                        oldSquare = new Point(selectedPiece.getColumn(), selectedPiece.getRow());
-                        newSquare = new Point(square.getColumn(), square.getRow());
+                        oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
+                        newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
                         tookPiece = square.getPiece() != null;
 
