@@ -65,14 +65,14 @@ public class MoveHistory extends JPanel implements ActionListener {
         int newRank = 4 + (4 - board.getNewSquare().x);
         char newFile = (char) ((char) 97 + board.getNewSquare().y);
 
-        chessNotation += board.getLastPiece().getSymbol();
+        chessNotation += board.getLastPiece().getSymbol(); // symbol of the piece that moved
 
-        if (board.getTakenPiece()) {
-            if (board.getLastPiece() instanceof Pawn) chessNotation += oldFile;
-            chessNotation += "×";
+        if (board.getTakenPiece()) { // if a piece is captured
+            if (board.getLastPiece() instanceof Pawn) chessNotation += oldFile; // include file name if the piece is a pawn
+            chessNotation += "×"; // captured symbol
         }
 
-        if (board.isMoveAmbiguous()) {
+        if (board.isMoveAmbiguous()) { // self explanatory
             if (board.isColumnAmbiguous()) {
                 chessNotation += oldRank;
             } else {
@@ -82,7 +82,6 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         chessNotation += newFile; // file
         chessNotation += newRank; // rank
-
 
         if (board.isKingInCheck(board.getKing(board.getWhiteTurn()))) { // if the king is in check
             if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's checkmate
@@ -100,17 +99,17 @@ public class MoveHistory extends JPanel implements ActionListener {
     }
 
     public void updateAllMoveData() {
-        if (whiteTurn != board.getWhiteTurn()) {
-            if (board.getWhiteTurn()) {
-                allMoveData.get(moveCount-1)[2] = lastMove();
+        if (whiteTurn != board.getWhiteTurn()) { // essentially "if a move took place"
+            if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
+                allMoveData.get(moveCount-1)[2] = lastMove(); // update black's move
 
-                moveCount++;
-                allMoveData.add(new Object[] {moveCount, "", ""});
-            } else {
-                allMoveData.get(moveCount-1)[1] = lastMove();
+                moveCount++; // go to next move
+                allMoveData.add(new Object[] {moveCount, "", ""}); // new row of data
+            } else { // if white was the one to move
+                allMoveData.get(moveCount-1)[1] = lastMove(); // update white's move
             }
 
-            moveDisplayModel.setDataVector(readableMoveData(), headers);
+            moveDisplayModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
             whiteTurn = board.getWhiteTurn();
         }
     }
