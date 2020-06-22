@@ -1,9 +1,11 @@
 package panels;
 
 import entities.Board;
+import entities.Pawn;
 import entities.Piece;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -55,33 +57,36 @@ public class MoveHistory extends JPanel implements ActionListener {
         return readableMoveData;
     }
 
-    public String convertToChessNotation(Point lastMove, Piece piece) {
+    public String lastMove(Point oldSquare, Point newSquare, Piece piece, boolean tookPiece) {
         String chessNotation = "";
 
         chessNotation += piece.getSymbol();
-        chessNotation += (char) ((char) 97+lastMove.x); // file
-        chessNotation += (4+(4-lastMove.y)); // rank
+        if (tookPiece && piece instanceof Pawn) chessNotation += (char) ((char) 97+oldSquare.x) + "×";
+        chessNotation += (char) ((char) 97+newSquare.x); // file
+        chessNotation += (4+(4-newSquare.y)); // rank
 
         return chessNotation;
     }
 
-    public void actionPerformed(ActionEvent ae) {
-        repaint();
-
+    public void updateAllMoveData() {
         if (whiteTurn != board.getWhiteTurn()) {
             if (board.getWhiteTurn()) {
-                allMoveData.get(moveCount-1)[2] = convertToChessNotation(board.getLastMove(), board.getLastPiece());
+                allMoveData.get(moveCount-1)[2] = lastMove(board.getOldSquare(), board.getNewSquare(), board.getLastPiece(), board.getTookPiece());
 
                 moveCount++;
                 allMoveData.add(new Object[] {moveCount, "", ""});
             } else {
-                allMoveData.get(moveCount-1)[1] = convertToChessNotation(board.getLastMove(), board.getLastPiece());
+                allMoveData.get(moveCount-1)[1] = lastMove(board.getOldSquare(),board.getNewSquare(), board.getLastPiece(), board.getTookPiece());
             }
 
             moveDisplayModel.setDataVector(readableMoveData(), headers);
             whiteTurn = board.getWhiteTurn();
         }
+    }
 
+    public void actionPerformed(ActionEvent ae) {
+        repaint();
+        updateAllMoveData();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

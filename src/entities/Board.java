@@ -16,8 +16,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
-    private Point lastMove;
+    // MoveHistory Interaction Variables
+    private Point oldSquare, newSquare;
     private Piece lastPiece;
+    private boolean tookPiece;
 
     public Board(int initialHeight) {
         setBackground(new Color(194, 194, 194));
@@ -329,8 +331,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
-                        lastMove = new Point(square.getColumn(), square.getRow());
+                        oldSquare = new Point(selectedPiece.getColumn(), selectedPiece.getRow());
+                        newSquare = new Point(square.getColumn(), square.getRow());
                         lastPiece = selectedPiece;
+                        tookPiece = square.getPiece() != null;
 
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
@@ -370,6 +374,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
-    public Point getLastMove() { return lastMove; }
+    public Point getOldSquare() { return oldSquare; }
+    public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
+    public boolean getTookPiece() { return tookPiece; }
 }
