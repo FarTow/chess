@@ -293,14 +293,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updatePawns();
         updateKings();
 
-        if (availableMoves(whiteTurn)==0) {
-            if (getKing(whiteTurn).getCheck()) {
-                System.out.println((whiteTurn ? "white" : "black") + " is in checkmate");
-            } else {
-                System.out.println((whiteTurn ? "white" : "black") + " is in stalemate");
-            }
-        }
-
         repaint();
     }
 
