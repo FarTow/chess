@@ -58,19 +58,19 @@ public class MoveHistory extends JPanel implements ActionListener {
         return readableMoveData;
     }
 
-    public String lastMove(Point oldSquare, Point newSquare, Piece piece, boolean tookPiece) {
+    public String lastMove() {
         String chessNotation = "";
-        chessNotation += piece.getSymbol();
+        chessNotation += board.getLastPiece().getSymbol();
 
-        if (tookPiece) {
-            if (piece instanceof Pawn) chessNotation += (char) ((char) 97 + oldSquare.y);
+        if (board.getTookPiece()) {
+            if (board.getLastPiece() instanceof Pawn) chessNotation += (char) ((char) 97 + board.getOldSquare().y);
             chessNotation += "×";
         }
 
         if (board.isMoveAmbigious()) chessNotation += "...";
 
-        chessNotation += (char) ((char) 97 + newSquare.y); // file
-        chessNotation += 4 + (4 - newSquare.x); // rank
+        chessNotation += (char) ((char) 97 + board.getNewSquare().y); // file
+        chessNotation += 4 + (4 - board.getNewSquare().x); // rank
 
         return chessNotation;
     }
@@ -78,12 +78,12 @@ public class MoveHistory extends JPanel implements ActionListener {
     public void updateAllMoveData() {
         if (whiteTurn != board.getWhiteTurn()) {
             if (board.getWhiteTurn()) {
-                allMoveData.get(moveCount-1)[2] = lastMove(board.getOldSquare(), board.getNewSquare(), board.getLastPiece(), board.getTookPiece());
+                allMoveData.get(moveCount-1)[2] = lastMove();
 
                 moveCount++;
                 allMoveData.add(new Object[] {moveCount, "", ""});
             } else {
-                allMoveData.get(moveCount-1)[1] = lastMove(board.getOldSquare(),board.getNewSquare(), board.getLastPiece(), board.getTookPiece());
+                allMoveData.get(moveCount-1)[1] = lastMove();
             }
 
             moveDisplayModel.setDataVector(readableMoveData(), headers);
