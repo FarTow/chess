@@ -33,7 +33,7 @@ public class Main extends JFrame {
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
-        setMinimumSize(new Dimension(1000, 1000));
+        setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null); // center
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
