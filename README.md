@@ -32,4 +32,4 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [x] Resizing
 
 ### Resources
-* Piece design by (Yi Jun Yang)[https://www.instagram.com/y.yang.art/]
+* Piece design by [Yi Jun Yang](https://www.instagram.com/y.yang.art/)
