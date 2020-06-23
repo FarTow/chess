@@ -67,6 +67,9 @@ public class MoveHistory extends GameComponent implements ActionListener {
         return readableMoveData;
     }
     public String lastMove() {
+        if (board.getKing(whiteTurn).getCastled() == 1) return "O-O";
+        if (board.getKing(whiteTurn).getCastled() == 2) return "O-O-O";
+
         String chessNotation = "";
         int oldRank = 4 + (4 - board.getOldSquare().x);
         char oldFile = (char) ((char) 97 + board.getOldSquare().y);

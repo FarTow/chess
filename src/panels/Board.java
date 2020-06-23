@@ -274,6 +274,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public void updateKings() {
         getKing(true).setCheck(isKingInCheck(getKing(true)));
         getKing(false).setCheck(isKingInCheck(getKing(false)));
+
+        getKing(true).update(whiteTurn);
+        getKing(false).update(whiteTurn);
     }
 
     protected void paintComponent(Graphics g) {

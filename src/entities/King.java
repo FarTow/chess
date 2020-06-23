@@ -6,6 +6,7 @@ import java.awt.Point;
 
 public class King extends Piece {
     private boolean check;
+    private int castled; // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
 
     public King(boolean isWhite, int row, int column, Point pos) {
         super(isWhite, row, column, pos);
@@ -13,6 +14,8 @@ public class King extends Piece {
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
+        //if (mouseReleased && castled) castled = false;
+
         Square[][] grid = board.getGrid();
 
         if (isJumping(newRow, newColumn, grid)) return false;
@@ -28,7 +31,10 @@ public class King extends Piece {
                 if (rook instanceof Rook) { // piece is a rook
                     if (rook.isFirstMove() && rook.isWhite() == isWhite && castleable((Rook) rook, board)) { // rook's first move
                         canMove = true;
-                        if (mouseReleased) board.movePiece(rook, grid[row][column-newColumn < 0 ? 5 : 3], true);
+                        if (mouseReleased) {
+                            board.movePiece(rook, grid[row][column - newColumn < 0 ? 5 : 3], true);
+                            castled = column-newColumn>0 ? 2 : 1;
+                        }
                     }
                 }
             }
@@ -37,6 +43,12 @@ public class King extends Piece {
         }
 
         return canMove;
+    }
+
+    public void update(boolean whiteTurn) {
+        if(whiteTurn == isWhite) {
+            if (castled>0) castled = 0;
+        }
     }
 
     public boolean castleable(Rook rook, Board board) {
@@ -57,5 +69,6 @@ public class King extends Piece {
     public void setCheck(boolean check) { this.check = check; }
 
     public boolean getCheck() { return check; }
+    public int getCastled() { return castled; }
     public String getSymbol() { return isWhite ? "♔" : "♚"; }
 }
