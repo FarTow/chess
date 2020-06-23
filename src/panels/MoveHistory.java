@@ -78,7 +78,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
 
         chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
-        if (board.getTakenPiece()) { // if a piece is captured
+        if (board.getTakenPiece() != null) { // if a piece is captured
             if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
             chessNotation.append('×'); // captured symbol
         }

@@ -16,9 +16,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     private boolean whiteTurn;
 
     // MoveHistory Trackers
-    private Piece lastPiece;
+    private Piece lastPiece, takenPiece;
     private Point oldSquare, newSquare;
-    private boolean takenPiece, ambiguousMove, ambiguousColumn;
+    private boolean ambiguousMove, ambiguousColumn;
 
     public Board(Point initialTopLeft) {
         super(initialTopLeft);
@@ -327,12 +327,11 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
-                        ambiguousMove = false;
-                        ambiguousColumn = false;
+                        ambiguousMove = ambiguousColumn = false;
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
-                        takenPiece = square.getPiece() != null;
+                        takenPiece = square.getPiece();
 
                         setAmbiguousMove(square);
 
@@ -399,7 +398,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
-    public boolean getTakenPiece() { return takenPiece; }
+    public Piece getTakenPiece() { return takenPiece; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 }
