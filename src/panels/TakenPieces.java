@@ -4,14 +4,24 @@ import entities.Piece;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TakenPieces extends GameComponent {
-    private boolean isWhite;
-    private ArrayList<String> takenPieces;
+    private final Board board;
+    private final ArrayList<Piece> takenPieces;
 
-    public TakenPieces(Point initialTopLeft, boolean isWhite, Board board) {
+    private final boolean trackWhite;
+    private boolean whiteTurn;
+
+    public TakenPieces(Point initialTopLeft, boolean trackWhite, Board board) {
         super(initialTopLeft);
+
+        this.board = board;
+        takenPieces = new ArrayList<>();
+        this.trackWhite = trackWhite;
+        whiteTurn = true;
     }
 
     public void resize(int ... properties) {
@@ -19,14 +29,30 @@ public class TakenPieces extends GameComponent {
     }
 
     public void actionPerformed(ActionEvent ae) {
+        if (whiteTurn != board.getWhiteTurn()) {
+            if (board.getTakenPiece() != null) {
+                if (board.getTakenPiece().isWhite() == trackWhite) takenPieces.add(board.getTakenPiece());
+            }
 
+            whiteTurn = board.getWhiteTurn();
+        }
+
+        super.actionPerformed(ae);
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (String piece : takenPieces) {
-            System.out.println(piece);
+        if (takenPieces.size() == 0) return;
+
+        for (Piece takenPiece : takenPieces) {
+            g.drawImage(takenPiece.getImage(), 200, 200, null);
+            System.out.println("drew piece");
         }
+
+        g.setColor(Color.red);
+        g.fillRect(100, 100, 100, 100);
+
+        System.out.println(Arrays.deepToString(takenPieces.toArray()));
     }
 }
