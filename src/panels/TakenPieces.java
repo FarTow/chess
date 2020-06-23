@@ -37,7 +37,7 @@ public class TakenPieces extends GameComponent {
             whiteTurn = board.getWhiteTurn();
         }
 
-        super.actionPerformed(ae);
+        repaint();
     }
 
     protected void paintComponent(Graphics g) {

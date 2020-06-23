@@ -294,7 +294,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         updatePawns();
         updateKings();
 
-        super.actionPerformed(ae);
+        repaint();
     }
 
     // Mouse Interaction Methods

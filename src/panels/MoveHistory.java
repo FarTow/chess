@@ -126,7 +126,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         updateAllMoveData();
-        super.actionPerformed(ae);
+        repaint();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
