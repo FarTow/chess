@@ -70,5 +70,5 @@ public class King extends Piece {
 
     public boolean getCheck() { return check; }
     public int getCastled() { return castled; }
-    public String getSymbol() { return isWhite ? "♔" : "♚"; }
+    public char getSymbol() { return isWhite ? '♔' : '♚'; }
 }

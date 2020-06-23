@@ -19,5 +19,5 @@ public class Rook extends Piece {
         return row == newRow || column == newColumn;
     }
 
-    public String getSymbol() { return isWhite ? "♖" : "♜"; }
+    public char getSymbol() { return isWhite ? '♖' : '♜'; }
 }

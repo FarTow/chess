@@ -65,5 +65,5 @@ public class Pawn extends Piece {
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
     public boolean isPromotable() { return promotable; }
-    public String getSymbol() { return isWhite ? "♙" : "♟"; }
+    public char getSymbol() { return isWhite ? '♙' : '♟'; }
 }

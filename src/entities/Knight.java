@@ -20,5 +20,5 @@ public class Knight extends Piece {
         return (rowDiff+columnDiff == 3);
     }
 
-    public String getSymbol() { return isWhite ? "♘" : "♞"; }
+    public char getSymbol() { return isWhite ? '♘' : '♞'; }
 }
