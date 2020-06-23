@@ -145,7 +145,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, topLeft.x/2+(squareLength/2+stringSize.width/4)+(squareLength * column), topLeft.y+stringSize.height/2);
+            g.drawString(file, topLeft.x/2+(squareLength/2+stringSize.width/4)+(squareLength * column), bottomRight.y+stringSize.height/2);
         }
     }
     public void drawSelectedSquare(Graphics g) {
