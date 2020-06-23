@@ -70,43 +70,43 @@ public class MoveHistory extends GameComponent implements ActionListener {
         if (board.getKing(whiteTurn).getCastled() == 1) return "O-O";
         if (board.getKing(whiteTurn).getCastled() == 2) return "O-O-O";
 
-        String chessNotation = "";
-        int oldRank = 4 + (4 - board.getOldSquare().x);
+        StringBuilder chessNotation = new StringBuilder();
+        int oldRank = (4 + (4 - board.getOldSquare().x));
         char oldFile = (char) ((char) 97 + board.getOldSquare().y);
-        int newRank = 4 + (4 - board.getNewSquare().x);
+        int newRank = (4 + (4 - board.getNewSquare().x));
         char newFile = (char) ((char) 97 + board.getNewSquare().y);
 
-        chessNotation += board.getLastPiece().getSymbol(); // symbol of the piece that moved
+        chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
         if (board.getTakenPiece()) { // if a piece is captured
-            if (board.getLastPiece() instanceof Pawn) chessNotation += oldFile; // include file name if the piece is a pawn
-            chessNotation += "×"; // captured symbol
+            if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
+            chessNotation.append('×'); // captured symbol
         }
 
         if (board.isMoveAmbiguous()) { // self explanatory
             if (board.isColumnAmbiguous()) {
-                chessNotation += oldRank;
+                chessNotation.append(oldRank);
             } else {
-                chessNotation += oldFile;
+                chessNotation.append(oldFile);
             }
         }
 
-        chessNotation += newFile; // file
-        chessNotation += newRank; // rank
+        chessNotation.append(newFile); // file
+        chessNotation.append(newRank); // rank
 
         if (board.isKingInCheck(board.getKing(board.getWhiteTurn()))) { // if the king is in check
             if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's checkmate
-                chessNotation += "#";
+                chessNotation.append('#');
             } else { // if the king is in check
-                chessNotation += "+";
+                chessNotation.append('+');
             }
         } else {
             if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's stalemate
-                chessNotation += "$";
+                chessNotation.append('$');
             }
         }
 
-        return chessNotation;
+        return chessNotation.toString();
     }
     public void updateAllMoveData() {
         if (whiteTurn != board.getWhiteTurn()) { // essentially "if a move took place"

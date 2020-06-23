@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TakenPieces extends GameComponent {
     private boolean isWhite;
-    private ArrayList<Piece> takenPieces;
+    private ArrayList<String> takenPieces;
 
     public TakenPieces(Point initialTopLeft, boolean isWhite, Board board) {
         super(initialTopLeft);
@@ -25,8 +25,8 @@ public class TakenPieces extends GameComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (Piece piece : takenPieces) {
-            System.out.println(piece.getSymbol());
+        for (String piece : takenPieces) {
+            System.out.println(piece);
         }
     }
 }
