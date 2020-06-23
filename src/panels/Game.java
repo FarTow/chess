@@ -1,12 +1,16 @@
 package panels;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
 
 public class Game extends JPanel implements ActionListener {
     public static final int FRAME_RATE = 60;
+
+    private JPanel centerDisplay;
+    private JPanel eastDisplay;
 
     private Board board;
     private MoveHistory moveHistory;
@@ -20,7 +24,7 @@ public class Game extends JPanel implements ActionListener {
             if (getComponentCount() == 0) return;
 
             Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
-            Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board, getComponent(2));
+            Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
             board.resize(Math.min((getWidth()/24 - 1), 60));
             moveHistory.resize();
 
@@ -40,16 +44,22 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         setLayout(new BorderLayout(getWidth()/500, 0));
 
+        centerDisplay = new JPanel(new BorderLayout());
+        eastDisplay = new JPanel(new BorderLayout());
+
         board = new Board(new Point(10,getHeight()*2/5 - 240));
         moveHistory = new MoveHistory(new Point(0, getHeight()*2/5), new Dimension(getWidth()/3, getHeight()*2/5), board);
 
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), moveHistory, board);
+        centerDisplay.add(board, BorderLayout.CENTER);
+        eastDisplay.add(moveHistory, BorderLayout.CENTER);
+
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), centerDisplay, eastDisplay);
 
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.SOUTH);
         add(Box.createRigidArea(new Dimension(getWidth()/3, getHeight())), BorderLayout.WEST);
-        add(moveHistory, BorderLayout.EAST);
-        add(board, BorderLayout.CENTER);
+        add(centerDisplay, BorderLayout.CENTER);
+        add(eastDisplay, BorderLayout.EAST);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();

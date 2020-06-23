@@ -24,7 +24,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
     public MoveHistory(Point initialTopLeft, Dimension initialSize, Board board) {
         super(initialTopLeft);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout(0, 0));
 
         this.board = board;
         whiteTurn = true;
