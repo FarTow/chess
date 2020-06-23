@@ -19,7 +19,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] Timer settings
   - [ ] Movement displays (i.e. show where pieces can and can't move)
 - [ ] General game display
-  - [ ] Movement history
+  - [x] Move history
   - [ ] Taken pieces
   - [ ] Timer
 - [ ] Win conditions
