@@ -25,7 +25,11 @@ public class TakenPieces extends GameComponent {
     }
 
     public void resize(int ... properties) {
+        int newImageSize = properties[0];
 
+        for (Piece takenPiece : takenPieces) {
+            takenPiece.scaleImage(newImageSize);
+        }
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -45,14 +49,8 @@ public class TakenPieces extends GameComponent {
 
         if (takenPieces.size() == 0) return;
 
-        for (Piece takenPiece : takenPieces) {
-            g.drawImage(takenPiece.getImage(), 200, 200, null);
-            System.out.println("drew piece");
+        for (int i=0; i<takenPieces.size(); i++) {
+            g.drawImage(takenPieces.get(i).getImage(), i*60, 200, null);
         }
-
-        g.setColor(Color.red);
-        g.fillRect(100, 100, 100, 100);
-
-        System.out.println(Arrays.deepToString(takenPieces.toArray()));
     }
 }
