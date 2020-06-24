@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TakenPieces extends GameComponent {
     private final Board board;
@@ -50,7 +49,7 @@ public class TakenPieces extends GameComponent {
         if (takenPieces.size() == 0) return;
 
         for (int i=0; i<takenPieces.size(); i++) {
-            g.drawImage(takenPieces.get(i).getImage(), i*60, 200, null);
+            g.drawImage(takenPieces.get(i).getImage(), i*60, 0, null);
         }
     }
 }
