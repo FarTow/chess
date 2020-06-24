@@ -13,8 +13,8 @@ public class Game extends JPanel implements ActionListener {
 
     private Board board;
     private MoveHistory moveHistory;
-    private TakenPieces whiteTakenPieces;
     private TakenPieces blackTakenPieces;
+    private TakenPieces whiteTakenPieces;
 
     public Game() {
         setBackground(new Color(194, 194, 194));
@@ -57,8 +57,8 @@ public class Game extends JPanel implements ActionListener {
 
         board = new Board(new Point(10,getHeight()*2/5 - 240));
         moveHistory = new MoveHistory(new Point(0, getHeight()*2/5), new Dimension(getWidth()/3, getHeight()*2/5), board);
-        whiteTakenPieces = new TakenPieces(new Point(0, getHeight()*4/5), false, board);
         blackTakenPieces = new TakenPieces(new Point(0, getHeight()/5), true, board);
+        whiteTakenPieces = new TakenPieces(new Point(0, getHeight()*4/5), false, board);
 
         centerDisplay.add(board);
         eastDisplay.add(blackTakenPieces);
