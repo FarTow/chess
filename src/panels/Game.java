@@ -49,18 +49,21 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         setLayout(new BorderLayout(getWidth()/500, 0));
 
-        centerDisplay = new JPanel(new BorderLayout());
-        eastDisplay = new JPanel(new BorderLayout());
+        centerDisplay = new JPanel();
+        eastDisplay = new JPanel();
+
+        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS));
+        eastDisplay.setLayout(new BoxLayout(eastDisplay, BoxLayout.Y_AXIS));
 
         board = new Board(new Point(10,getHeight()*2/5 - 240));
         moveHistory = new MoveHistory(new Point(0, getHeight()*2/5), new Dimension(getWidth()/3, getHeight()*2/5), board);
         blackTakenPieces = new TakenPieces(new Point(0, getHeight()*4/5), false, board);
         whiteTakenPieces = new TakenPieces(new Point(0, getHeight()/5), true, board);
 
-        centerDisplay.add(board, BorderLayout.CENTER);
-        eastDisplay.add(blackTakenPieces, BorderLayout.NORTH);
-        eastDisplay.add(whiteTakenPieces, BorderLayout.SOUTH);
-        eastDisplay.add(moveHistory, BorderLayout.CENTER);
+        centerDisplay.add(board);
+        eastDisplay.add(blackTakenPieces);
+        eastDisplay.add(moveHistory);
+        eastDisplay.add(whiteTakenPieces);
 
         Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), centerDisplay, eastDisplay);
 
