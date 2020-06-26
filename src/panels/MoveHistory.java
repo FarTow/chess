@@ -50,9 +50,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
     }
 
     public void resize(int ... properties) {
-        topLeft.y = getHeight()*2/5;
 
-        getComponent(0).setLocation(topLeft);
     }
 
     public Object[][] readableMoveData() {
