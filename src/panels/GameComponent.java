@@ -9,8 +9,9 @@ import java.awt.event.ActionListener;
 public abstract class GameComponent extends JPanel implements ActionListener {
     protected final Point topLeft;
 
+    // HEAVILY REFACTOR THIS
     public GameComponent(Point initialTopLeft) { // respective to own JPanel
-        //setBackground(new Color(194, 194, 194));
+        setBackground(new Color(194, 194, 194));
         topLeft = initialTopLeft;
     }
 

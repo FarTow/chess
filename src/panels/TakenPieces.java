@@ -49,7 +49,9 @@ public class TakenPieces extends GameComponent {
         if (takenPieces.size() == 0) return;
 
         for (int i=0; i<takenPieces.size(); i++) {
-            g.drawImage(takenPieces.get(i).getImage(), i*60, 0, null);
+            g.drawImage(takenPieces.get(i).getImage(),
+                    i*takenPieces.get(i).getImage().getWidth(null),
+                    trackWhite ? 0 : getHeight()-takenPieces.get(i).getImage().getHeight(null), null);
         }
     }
 }

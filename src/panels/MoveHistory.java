@@ -42,15 +42,16 @@ public class MoveHistory extends GameComponent implements ActionListener {
         JTable moveDisplay = new JTable(moveDisplayModel);
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         moveDisplay.getTableHeader().setReorderingAllowed(false);
+        moveDisplay.getTableHeader().setResizingAllowed(false);
         add(new JScrollPane(moveDisplay));
 
-        Main.forceSize(initialSize, getComponent(0));
+        Main.forceSize(initialSize, this);
 
         getComponent(0).setLocation(topLeft);
     }
 
     public void resize(int ... properties) {
-
+        getComponent(0).setLocation(topLeft);
     }
 
     public Object[][] readableMoveData() {
