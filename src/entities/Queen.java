@@ -10,16 +10,20 @@ public class Queen extends Piece {
         setImage("queen");
     }
 
-    public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
+    public void update(Board board) {
         Square[][] grid = board.getGrid();
 
-        if (isJumping(newRow, newColumn, grid)) return false;
-        if (row == newRow || column == newColumn) return true;
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
 
-        int rowDiff = Math.abs(row-newRow);
-        int columnDiff = Math.abs(column-newColumn);
-
-        return (rowDiff == columnDiff);
+                if (!isJumping(newRow, newColumn, grid)) {
+                    if (row == newRow || column == newColumn) moveableSquares.add(square);
+                    if (Math.abs(row-newRow) == Math.abs(column-newColumn)) moveableSquares.add(square);
+                }
+            }
+        }
     }
 
     public char getSymbol() { return isWhite ? '♕' : '♛'; }

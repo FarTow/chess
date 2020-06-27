@@ -6,12 +6,14 @@ import java.awt.*;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class Piece {
-    protected boolean isWhite, firstMove;
-    protected int row, column;
     protected Point topLeft;
     protected Image image, defaultImage;
+    protected final ArrayList<Square> moveableSquares;
+    protected boolean isWhite, firstMove;
+    protected int row, column;
 
     public Piece(boolean isWhite, int row, int column, Point topLeft) {
         this.isWhite = isWhite;
@@ -19,9 +21,13 @@ public abstract class Piece {
         this.column = column;
         this.topLeft = topLeft;
         firstMove = true;
+        moveableSquares = new ArrayList<>();
     }
 
-    public abstract boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased);
+    public boolean canMove(Square toSquare) {
+        return moveableSquares.contains(toSquare);
+    }
+
     public boolean sameColor(int newRow, int newColumn, Square[][] grid) {
         if (grid[newRow][newColumn].getPiece() == null) return false;
         return (isWhite == grid[newRow][newColumn].getPiece().isWhite());
@@ -82,6 +88,8 @@ public abstract class Piece {
 
         return false;
     }
+
+    public abstract void update(Board board);
 
     public void scaleImage(int length) { image = defaultImage.getScaledInstance(length, length, 0); }
 

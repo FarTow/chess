@@ -13,54 +13,51 @@ public class Pawn extends Piece {
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
+        return moveableSquares.contains(board.getGrid()[newRow][newColumn]);
+    }
+
+    public void update(Board board) {
         Square[][] grid = board.getGrid();
 
-        if (isJumping(newRow, newColumn, grid)) return false;
-        if (Math.abs(column-newColumn) > 1) return false;
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
+                int movementModifier = isWhite ? -1 : 1;
 
-        boolean canMove = false;
-        int movementModifier = isWhite ? -1 : 1;
+                if (!isJumping(newRow, newColumn, grid) && !(Math.abs(column-newColumn) > 1)) {
+                    if (square.getPiece() == null) { // moving to a spot with no piece
+                        if (column == newColumn) { // moving to a spot in the same column
+                            if (firstMove) { // move two on first turn
+                                if (row + movementModifier == newRow || row + movementModifier * 2 == newRow) moveableSquares.add(square);
+                            } else {
+                                if (row + movementModifier == newRow) moveableSquares.add(square);
+                            }
+                        } else { // only other case is en passant when moving to a spot with no piece
+                            if (Math.abs(row - newRow) == 1) {
+                                if ((newRow + movementModifier * -1 >= 0 && newRow + movementModifier * -1 <= 7)) {
+                                    Square pawnSquare = grid[newRow + movementModifier * -1][newColumn];
 
-        if (grid[newRow][newColumn].getPiece() == null) { // moving to a spot with no piece
-            if (column == newColumn) { // moving to a spot in the same column
-                if (firstMove) { // move two on first turn
-                    canMove = (row + movementModifier == newRow || row + movementModifier*2 == newRow);
-                } else {
-                    canMove = (row + movementModifier == newRow);
-                }
-            } else { // only other case is en passant when moving to a spot with no piece
-                if (Math.abs(row-newRow) == 1) {
-                    if (!(newRow + movementModifier*-1 >= 0 && newRow + movementModifier*-1 <=7)) return false;
-                    Square currentSquare = grid[newRow + movementModifier*-1][newColumn];
-
-                    if (currentSquare.getPiece() instanceof Pawn) {
-                        canMove = ((Pawn) currentSquare.getPiece()).isEnPassantCapturable();
-                        if (canMove && mouseReleased) currentSquare.setPiece(null);
+                                    if (pawnSquare.getPiece() instanceof Pawn) {
+                                        if (((Pawn) pawnSquare.getPiece()).isEnPassantCapturable()) {
+                                            moveableSquares.add(square);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else { // moving to a spot with a piece
+                        if (column != newColumn) { // moving to a spot on a different column
+                            if (isWhite != square.getPiece().isWhite()) { // the piece is a different color
+                                if (row - newRow == movementModifier * -1) moveableSquares.add(square);
+                            }
+                        }
                     }
                 }
-            }
-        } else { // moving to a spot with a piece
-            if (column != newColumn) { // moving to a spot on a different column
-                if (isWhite != grid[newRow][newColumn].getPiece().isWhite()) { // the piece is a different color
-                    canMove = row - newRow == movementModifier * -1;
-                }
+
             }
         }
 
-        if (mouseReleased && canMove && firstMove && board.mayMove(this, grid[newRow][newColumn])) {
-            if (row + movementModifier * 2 == newRow) movedTwo = true;
-            if (movedTwo) enPassantCapturable = true;
-        }
-
-        return canMove;
-    }
-    public void update(boolean whiteTurn) {
-        if (isWhite ? row==0 : row==7) promotable = true;
-
-        if(whiteTurn == isWhite) {
-            if (movedTwo) movedTwo = false;
-            if (enPassantCapturable) enPassantCapturable = false;
-        }
     }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }

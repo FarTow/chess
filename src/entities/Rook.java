@@ -11,12 +11,19 @@ public class Rook extends Piece {
         setImage("rook");
     }
 
-    public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
+    public void update(Board board) {
         Square[][] grid = board.getGrid();
 
-        if (isJumping(newRow, newColumn, grid)) return false;
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
 
-        return row == newRow || column == newColumn;
+                if (!isJumping(newRow, newColumn, grid)) {
+                    if (row == newRow || column == newColumn) moveableSquares.add(square);
+                }
+            }
+        }
     }
 
     public char getSymbol() { return isWhite ? '♖' : '♜'; }

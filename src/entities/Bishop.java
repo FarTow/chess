@@ -21,5 +21,20 @@ public class Bishop extends Piece {
         return (rowDiff == columnDiff);
     }
 
+    public void update(Board board) {
+        Square[][] grid = board.getGrid();
+
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
+
+                if (!isJumping(newRow, newColumn, grid)) {
+                    if (Math.abs(row-newRow) == Math.abs(column-newColumn)) moveableSquares.add(square);
+                }
+            }
+        }
+    }
+
     public char getSymbol() { return isWhite ? '♗' : '♝'; }
 }

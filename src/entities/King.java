@@ -14,8 +14,6 @@ public class King extends Piece {
     }
 
     public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
-        //if (mouseReleased && castled) castled = false;
-
         Square[][] grid = board.getGrid();
 
         if (isJumping(newRow, newColumn, grid)) return false;
@@ -43,10 +41,12 @@ public class King extends Piece {
         }
 
         return canMove;
+        //if (mouseReleased && castled) castled = false;
     }
 
-    public void update(boolean whiteTurn) {
-        if(whiteTurn == isWhite) {
+    public void update(Board board) {
+
+        if(isWhite == board.getWhiteTurn()) {
             if (castled>0) castled = 0;
         }
     }

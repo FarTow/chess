@@ -160,7 +160,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         return;
                     }
 
-                    g.setColor(((selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
+                    g.setColor(((selectedPiece.canMove(square) && mayMove(selectedPiece, square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
                     g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
                     return;
                 }
@@ -181,7 +181,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, false) && mayMove(selectedPiece, square)) {
+                if (selectedPiece.canMove(square) && mayMove(selectedPiece, square)) {
                     g.setColor(new Color(130, 151, 105));
                     g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
                             square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
@@ -229,7 +229,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
                     if (!(square.getPiece() instanceof King)) {
-                        if (square.getPiece().isWhite() != isKingWhite && square.getPiece().canMove(king.getRow(), king.getColumn(), this, false)) {
+                        if (square.getPiece().isWhite() != isKingWhite && square.getPiece().canMove(grid[king.getRow()][king.getColumn()])) {
                             checkCount++;
                         }
                     }
@@ -248,7 +248,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
                     for (Square[] squareRowTwo : grid) {
                         for (Square squareTwo : squareRowTwo) { // for all squares on the board
-                            if (square.getPiece().canMove(squareTwo.getRow(), squareTwo.getColumn(), this, false) && mayMove(square.getPiece(), squareTwo)) { // if the piece can move to the new square
+                            if (square.getPiece().canMove(squareTwo) && mayMove(square.getPiece(), squareTwo)) { // if the piece can move to the new square
                                     availableMoves++;
                             }
                         }
@@ -262,21 +262,22 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     }
 
     // "Update" Methods
-    public void updatePawns() {
+    public void updatePieces() {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (square.getPiece() instanceof Pawn) {
-                    ((Pawn) square.getPiece()).update(whiteTurn);
+                if (square.getPiece() != null) {
+                    if (square.getPiece().isWhite() == whiteTurn) square.getPiece().update(this);
                 }
             }
         }
     }
+
     public void updateKings() {
         getKing(true).setCheck(isKingInCheck(getKing(true)));
         getKing(false).setCheck(isKingInCheck(getKing(false)));
 
-        getKing(true).update(whiteTurn);
-        getKing(false).update(whiteTurn);
+        getKing(true).update(this);
+        getKing(false).update(this);
     }
 
     protected void paintComponent(Graphics g) {
@@ -291,9 +292,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
-        updatePawns();
-        updateKings();
-
+        updatePieces();
         repaint();
     }
 
@@ -326,7 +325,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
-                    if (selectedPiece.canMove(square.getRow(), square.getColumn(), this, true) && mayMove(selectedPiece, square)) { // if the piece can move to that location
+                    if (selectedPiece.canMove(square) && mayMove(selectedPiece, square)) { // if the piece can move to that location
                         ambiguousMove = ambiguousColumn = false;
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
@@ -368,7 +367,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                 for (Square square : squareRow) {
                     if (square.getPiece() != null) { // if the piece isn't null
                         if (square.getPiece().getClass().equals(selectedPiece.getClass()) && square.getPiece() != selectedPiece) { // if the piece is the "other" piece
-                            if (square.getPiece().canMove(toSquare.getRow(), toSquare.getColumn(), this, false) &&
+                            if (square.getPiece().canMove(toSquare) &&
                                     mayMove(square.getPiece(), toSquare)) { // if the piece can move to the new square
                                 ambiguousMove = true;
 

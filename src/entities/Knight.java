@@ -10,14 +10,19 @@ public class Knight extends Piece {
         setImage("knight");
     }
 
-    public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
+    public void update(Board board) {
         Square[][] grid = board.getGrid();
 
-        if (row == newRow || column == newColumn ) return false;
-        int rowDiff = Math.abs(row-newRow);
-        int columnDiff = Math.abs(column-newColumn);
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
 
-        return (rowDiff+columnDiff == 3);
+                if (!isJumping(newRow, newColumn, grid)) {
+                    if (Math.abs(row-newRow)+Math.abs(column-newColumn) == 3) moveableSquares.add(square);
+                }
+            }
+        }
     }
 
     public char getSymbol() { return isWhite ? '♘' : '♞'; }
