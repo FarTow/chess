@@ -3,6 +3,7 @@ package entities;
 import panels.Board;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Rook extends Piece {
 
@@ -12,6 +13,8 @@ public class Rook extends Piece {
     }
 
     public void update(Board board) {
+        moveableSquares = new ArrayList<>();
+
         Square[][] grid = board.getGrid();
 
         for (Square[] squareRow : grid) {
@@ -19,9 +22,9 @@ public class Rook extends Piece {
                 int newRow = square.getRow();
                 int newColumn = square.getColumn();
 
-                if (!isJumping(newRow, newColumn, grid)) {
-                    if (row == newRow || column == newColumn) moveableSquares.add(square);
-                }
+                if (isJumping(newRow, newColumn, grid)) continue;
+
+                if (row == newRow || column == newColumn) moveableSquares.add(square);
             }
         }
     }

@@ -3,6 +3,7 @@ package entities;
 import panels.Board;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Knight extends Piece {
     public Knight(boolean isWhite, int row, int column, Point topLeft) {
@@ -11,6 +12,8 @@ public class Knight extends Piece {
     }
 
     public void update(Board board) {
+        moveableSquares = new ArrayList<>();
+
         Square[][] grid = board.getGrid();
 
         for (Square[] squareRow : grid) {
@@ -18,9 +21,9 @@ public class Knight extends Piece {
                 int newRow = square.getRow();
                 int newColumn = square.getColumn();
 
-                if (!isJumping(newRow, newColumn, grid)) {
-                    if (Math.abs(row-newRow)+Math.abs(column-newColumn) == 3) moveableSquares.add(square);
-                }
+                if (row == newRow || column == newColumn) continue;
+
+                if ((Math.abs(row - newRow) + Math.abs(column - newColumn)) == 3) moveableSquares.add(square);
             }
         }
     }

@@ -3,6 +3,7 @@ package entities;
 import panels.Board;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Bishop extends Piece {
     public Bishop(boolean isWhite, int row, int column, Point topLeft) {
@@ -10,18 +11,9 @@ public class Bishop extends Piece {
         setImage("bishop");
     }
 
-    public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
-        Square[][] grid = board.getGrid();
-
-        if (isJumping(newRow, newColumn, grid)) return false;
-
-        int rowDiff = Math.abs(row-newRow);
-        int columnDiff = Math.abs(column-newColumn);
-
-        return (rowDiff == columnDiff);
-    }
-
     public void update(Board board) {
+        moveableSquares = new ArrayList<>();
+
         Square[][] grid = board.getGrid();
 
         for (Square[] squareRow : grid) {
@@ -29,9 +21,9 @@ public class Bishop extends Piece {
                 int newRow = square.getRow();
                 int newColumn = square.getColumn();
 
-                if (!isJumping(newRow, newColumn, grid)) {
-                    if (Math.abs(row-newRow) == Math.abs(column-newColumn)) moveableSquares.add(square);
-                }
+                if (isJumping(newRow, newColumn, grid) || row == newRow || column == newColumn) continue;
+
+                if (Math.abs(row - newRow) == Math.abs(column - newColumn)) moveableSquares.add(square);
             }
         }
     }

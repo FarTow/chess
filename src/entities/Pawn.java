@@ -3,6 +3,7 @@ package entities;
 import panels.Board;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Pawn extends Piece {
     private boolean movedTwo, enPassantCapturable, promotable;
@@ -17,6 +18,8 @@ public class Pawn extends Piece {
     }
 
     public void update(Board board) {
+        moveableSquares = new ArrayList<>();
+
         Square[][] grid = board.getGrid();
 
         for (Square[] squareRow : grid) {

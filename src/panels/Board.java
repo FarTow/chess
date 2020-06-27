@@ -205,7 +205,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
 
-        if (piece.sameColor(toSquare.getRow(), toSquare.getColumn(), grid)) return false;
+        if (toSquare.getPiece() != null) {
+            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
+        }
 
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();

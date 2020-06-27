@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public abstract class Piece {
     protected Point topLeft;
     protected Image image, defaultImage;
-    protected final ArrayList<Square> moveableSquares;
+    protected ArrayList<Square> moveableSquares;
     protected boolean isWhite, firstMove;
     protected int row, column;
 
@@ -26,11 +26,6 @@ public abstract class Piece {
 
     public boolean canMove(Square toSquare) {
         return moveableSquares.contains(toSquare);
-    }
-
-    public boolean sameColor(int newRow, int newColumn, Square[][] grid) {
-        if (grid[newRow][newColumn].getPiece() == null) return false;
-        return (isWhite == grid[newRow][newColumn].getPiece().isWhite());
     }
 
     // Jumping Checkers (no pun intended)
