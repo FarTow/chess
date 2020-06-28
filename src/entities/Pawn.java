@@ -19,7 +19,6 @@ public class Pawn extends Piece {
 
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
-
         Square[][] grid = board.getGrid();
 
         for (Square[] squareRow : grid) {
