@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public abstract class Piece {
+    protected Square square;
     protected Point topLeft;
     protected Image image, defaultImage;
     protected ArrayList<Square> moveableSquares;
@@ -17,6 +18,7 @@ public abstract class Piece {
 
     public Piece(boolean isWhite, Square square) {
         this.isWhite = isWhite;
+        this.square = square;
         row = square.getRow();
         column = square.getColumn();
         topLeft = square.getTopLeft();
@@ -88,6 +90,7 @@ public abstract class Piece {
 
     public void scaleImage(int length) { image = defaultImage.getScaledInstance(length, length, 0); }
 
+    public void setSquare(Square square) { this.square = square; }
     protected void setImage(String name) {
         // getClass().getName().substring(getClass().getName().indexOf('.')+1)
         try {
@@ -103,6 +106,7 @@ public abstract class Piece {
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
 
     public abstract char getSymbol();
+    public Square getSquare() { return square; }
     public Image getImage() { return image; }
     public Point getTopLeft() { return topLeft; }
     public Point getPos() { return new Point(topLeft.x+image.getWidth(null)/2, topLeft.y+image.getHeight(null)/2); }

@@ -2,7 +2,6 @@ package entities;
 
 import panels.Board;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -49,7 +48,9 @@ public class Player {
         }
     }
 
-    public ArrayList<Piece> getPieces() {
-        return pieces;
+    public void removePiece(Piece piece) {
+        pieces.remove(piece);
     }
+
+    public ArrayList<Piece> getPieces() { return pieces; }
 }

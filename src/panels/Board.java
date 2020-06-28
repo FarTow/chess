@@ -66,71 +66,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         }
     }
 
-    /*
-    public void resetBoard() {
-        for (int row = 0; row < grid.length; row++) {
-            for (int column = 0; column < grid[row].length; column++) {
-                Point pos = new Point(topLeft.x+(column*squareLength), topLeft.y+(row*squareLength));
-
-                switch (row) {
-                    case 0:
-                        switch (column) {
-                            case 0:
-                            case 7: // rooks
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Rook(false, row, column, pos));
-                                break;
-                            case 1:
-                            case 6: // knights
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Knight(false, row, column, pos));
-                                break;
-                            case 2:
-                            case 5: // bishop
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Bishop(false, row, column, pos));
-                                break;
-                            case 3: // queen
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Queen(false, row, column, pos));
-                                break;
-                            case 4: // queen
-                                grid[row][column] = new Square(row, column, pos, squareLength, new King(false, row, column, pos));
-                                break;
-                        }
-                        break;
-                    case 1:
-                        grid[row][column] = new Square(row, column, pos, squareLength, new Pawn(false, row, column, pos));
-                        break;
-                    case 6:
-                        grid[row][column] = new Square(row, column, pos, squareLength, new Pawn(true, row, column, pos));
-                        break;
-                    case 7:
-                        switch (column) {
-                            case 0:
-                            case 7: // rooks
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Rook(true, row, column, pos));
-                                break;
-                            case 1:
-                            case 6: // knights
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Knight(true, row, column, pos));
-                                break;
-                            case 2:
-                            case 5: // bishop
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Bishop(true, row, column, pos));
-                                break;
-                            case 3: // queen
-                                grid[row][column] = new Square(row, column, pos, squareLength, new Queen(true, row, column, pos));
-                                break;
-                            case 4: // king
-                                grid[row][column] = new Square(row, column, pos, squareLength, new King(true, row, column, pos));
-                                break;
-                        }
-                        break;
-                    default:
-                        grid[row][column] = new Square(row, column, pos, squareLength, null);
-                }
-
-            }
-        }
-    }
-     */
     public void resize(int ... properties) {
         this.squareLength = properties[0];
         topLeft.y = getHeight()/2 - squareLength*4;
@@ -229,7 +164,10 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
-        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
+        if (permanent) {
+            piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
+
+        }
         piece.setRow(toSquare.getRow());
         piece.setColumn(toSquare.getColumn());
         toSquare.setPiece(piece); // set the square's piece to the selected piece
@@ -336,11 +274,20 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public void mouseClicked(MouseEvent me) {}
     public void mousePressed(MouseEvent me) {
         if (selectedPiece == null) { // if a piece isn't selected already
-            for (Square[] squareRow : grid) {
-                for (Square square : squareRow) {
-                    if (square.getPiece() != null) {
-                        if (mouseContained(me, square.getTopLeft(), square.getBottomRight()) && (square.getPiece().isWhite() == whiteTurn)) { // if the mouse is in a square and it's white's turn
-                            selectedPiece = square.getPiece(); // set the selected piece to the piece in the square
+
+            if (whiteTurn) {
+                for (Piece piece : whitePlayer.getPieces()) {
+                    if (piece.getSquare() != null) {
+                        if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
+                            selectedPiece = piece;
+                        }
+                    }
+                }
+            } else {
+                for (Piece piece : blackPlayer.getPieces()) {
+                    if (piece.getSquare() != null) {
+                        if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
+                            selectedPiece = piece;
                         }
                     }
                 }
