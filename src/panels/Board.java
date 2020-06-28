@@ -225,13 +225,12 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     public boolean isKingInCheck(King king) {
         int checkCount = 0;
-        boolean isKingWhite = king.isWhite();
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
                     if (!(square.getPiece() instanceof King)) {
-                        if (square.getPiece().isWhite() != isKingWhite && square.getPiece().canMove(grid[king.getRow()][king.getColumn()])) {
+                        if (square.getPiece().isWhite() != king.isWhite() && square.getPiece().canMove(grid[king.getRow()][king.getColumn()])) {
                             checkCount++;
                         }
                     }
@@ -239,6 +238,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             }
         }
 
+        if (checkCount > 0) System.out.println((king.isWhite() ? "White King" : "Black King") + " is in check");
         return checkCount > 0;
     }
     public int availableMoves(boolean isWhite) {
