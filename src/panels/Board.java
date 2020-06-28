@@ -8,6 +8,9 @@ import java.awt.event.*;
 public class Board extends GameComponent implements ActionListener, MouseListener, MouseMotionListener {
     private final Square[][] grid;
 
+    private final Player whitePlayer;
+    private final Player blackPlayer;
+
     private final Point bottomRight;
     private int squareLength;
 
@@ -26,6 +29,18 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
 
         grid = new Square[8][8];
+
+        for (int row=0; row<grid.length; row++) {
+            for (int column=0; column<grid[row].length; column++) {
+                Point pos = new Point(topLeft.x+(column*squareLength), topLeft.y+(row*squareLength));
+
+                grid[row][column] = new Square(row, column, pos, squareLength, null);
+            }
+        }
+
+        whitePlayer = new Player(true, this);
+        blackPlayer = new Player (false, this);
+
         turnCount = 0;
         whiteTurn = true;
         resetBoard();
@@ -34,6 +49,24 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         addMouseMotionListener(this);
     }
 
+    public void resetBoard() {
+        whitePlayer.resetPieces();
+        blackPlayer.resetPieces();
+
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                for (Piece piece : whitePlayer.getPieces()) {
+                    if (piece.getRow() == square.getRow() && piece.getColumn() == square.getColumn()) square.setPiece(piece);
+                }
+
+                for (Piece piece : blackPlayer.getPieces()) {
+                    if (piece.getRow() == square.getRow() && piece.getColumn() == square.getColumn()) square.setPiece(piece);
+                }
+            }
+        }
+    }
+
+    /*
     public void resetBoard() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
@@ -97,6 +130,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             }
         }
     }
+     */
     public void resize(int ... properties) {
         this.squareLength = properties[0];
         topLeft.y = getHeight()/2 - squareLength*4;
@@ -390,6 +424,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     }
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
+    public Point getTopLeft() { return topLeft; }
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }

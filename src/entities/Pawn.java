@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Pawn extends Piece {
     private boolean movedTwo, enPassantCapturable, promotable;
 
-    public Pawn(boolean isWhite, int row, int column, Point topLeft) {
-        super(isWhite, row, column, topLeft);
+    public Pawn(boolean isWhite, Square square) {
+        super(isWhite, square);
         setImage("pawn");
     }
 

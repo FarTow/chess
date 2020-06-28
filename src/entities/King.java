@@ -9,8 +9,8 @@ public class King extends Piece {
     private boolean check;
     private int castled; // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
 
-    public King(boolean isWhite, int row, int column, Point pos) {
-        super(isWhite, row, column, pos);
+    public King(boolean isWhite, Square square) {
+        super(isWhite, square);
         setImage("king");
     }
 

@@ -15,11 +15,11 @@ public abstract class Piece {
     protected boolean isWhite, firstMove;
     protected int row, column;
 
-    public Piece(boolean isWhite, int row, int column, Point topLeft) {
+    public Piece(boolean isWhite, Square square) {
         this.isWhite = isWhite;
-        this.row = row;
-        this.column = column;
-        this.topLeft = topLeft;
+        row = square.getRow();
+        column = square.getColumn();
+        topLeft = square.getTopLeft();
         firstMove = true;
         moveableSquares = new ArrayList<>();
     }

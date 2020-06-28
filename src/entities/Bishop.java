@@ -6,8 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Bishop extends Piece {
-    public Bishop(boolean isWhite, int row, int column, Point topLeft) {
-        super(isWhite, row, column, topLeft);
+
+    public Bishop(boolean isWhite, Square square) {
+        super(isWhite, square);
         setImage("bishop");
     }
 

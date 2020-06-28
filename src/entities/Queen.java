@@ -6,8 +6,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Queen extends Piece {
-    public Queen(boolean isWhite, int row, int column, Point topLeft) {
-        super(isWhite, row, column, topLeft);
+
+    public Queen(boolean isWhite, Square square) {
+        super(isWhite, square);
         setImage("queen");
     }
 

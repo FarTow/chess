@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
-    public Rook(boolean isWhite, int row, int column, Point topLeft) {
-        super(isWhite, row, column, topLeft);
+    public Rook(boolean isWhite, Square square) {
+        super(isWhite, square);
         setImage("rook");
     }
 
