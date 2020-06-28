@@ -202,12 +202,11 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         }
     }
     public void drawPieces(Graphics g) {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() != null) {
-                    g.drawImage(square.getPiece().getImage(), square.getPiece().getTopLeft().x, square.getPiece().getTopLeft().y, null);
-                }
-            }
+        for (Piece piece : whitePlayer.getPieces()) {
+            g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
+        }
+        for (Piece piece : blackPlayer.getPieces()) {
+            g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
         }
     }
     public void drawAvailableSquares(Graphics g) {
@@ -298,12 +297,11 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     // "Update" Methods
     public void updatePieces() {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() != null) {
-                    square.getPiece().update(this);
-                }
-            }
+        for (Piece piece : whitePlayer.getPieces()) {
+            piece.update(this);
+        }
+        for (Piece piece : blackPlayer.getPieces()) {
+            piece.update(this);
         }
     }
 
