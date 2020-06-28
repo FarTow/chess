@@ -238,7 +238,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             }
         }
 
-        if (checkCount > 0) System.out.println((king.isWhite() ? "White King" : "Black King") + " is in check");
         return checkCount > 0;
     }
     public int availableMoves(boolean isWhite) {
@@ -268,7 +267,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) {
-                    if (square.getPiece().isWhite() == whiteTurn) square.getPiece().update(this);
+                    square.getPiece().update(this);
                 }
             }
         }
@@ -288,6 +287,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public void actionPerformed(ActionEvent ae) {
         updatePieces();
         repaint();
+
+        getKing(true).setCheck(isKingInCheck(getKing(true)));
+        getKing(false).setCheck(isKingInCheck(getKing(false)));
     }
 
     // Mouse Interaction Methods
