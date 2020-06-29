@@ -23,8 +23,8 @@ public class Queen extends Piece {
 
                 if (isJumping(newRow, newColumn, grid)) continue;
 
-                if (row == newRow || column == newColumn) moveableSquares.add(square);
-                if (Math.abs(row-newRow) == Math.abs(column-newColumn)) moveableSquares.add(square);
+                if (getRow() == newRow || getColumn() == newColumn) moveableSquares.add(square);
+                if (Math.abs(getRow()-newRow) == Math.abs(getColumn()-newColumn)) moveableSquares.add(square);
             }
         }
     }

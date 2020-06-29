@@ -20,17 +20,17 @@ public class King extends Piece {
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                int newRow = square.getRow();
-                int newColumn = square.getColumn();
-                int rowDiff = Math.abs(row - newRow);
-                int columnDiff = Math.abs(column - newColumn);
+                int newRow = getRow();
+                int newColumn = getColumn();
+                int rowDiff = Math.abs(getRow() - newRow);
+                int columnDiff = Math.abs(getColumn() - newColumn);
 
                 if (isJumping(newRow, newColumn, grid)) continue;
                 if (rowDiff >= 2 || columnDiff >= 3) continue;
 
                 if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally
                     if (firstMove) { // if it's the king's first move
-                        Piece rook = column - newColumn < 0 ? grid[row][7].getPiece() : grid[row][0].getPiece(); // rook on the side player moved
+                        Piece rook = getColumn() - newColumn < 0 ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece(); // rook on the side player moved
 
                         if (rook instanceof Rook) { // piece is a rook
                             if (rook.isFirstMove() && rook.isWhite() == isWhite && castleable((Rook) rook, board)) { // rook's first move
@@ -55,13 +55,13 @@ public class King extends Piece {
     public boolean castleable(Rook rook, Board board) {
         Square[][] grid = board.getGrid();
         int dangerSquares = 0;
-        boolean castleLeftRook = rook.getColumn() > column;
+        boolean castleLeftRook = rook.getColumn() > getColumn();
 
-        for (int currentColumn=column+(castleLeftRook ? 1 : -1);
+        for (int currentColumn=getColumn()+(castleLeftRook ? 1 : -1);
              (castleLeftRook ? currentColumn<rook.getColumn() : currentColumn>rook.getColumn());
              currentColumn += (castleLeftRook ? 1 : -1)) {
 
-            if (!board.mayMove(this, grid[row][currentColumn])) dangerSquares++;
+            if (!board.mayMove(this, grid[getRow()][currentColumn])) dangerSquares++;
         }
 
         return dangerSquares == 0;

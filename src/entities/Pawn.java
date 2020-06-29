@@ -27,16 +27,16 @@ public class Pawn extends Piece {
                 int newColumn = square.getColumn();
                 int movementModifier = isWhite ? -1 : 1;
 
-                if (!isJumping(newRow, newColumn, grid) && !(Math.abs(column-newColumn) > 1)) {
+                if (!isJumping(newRow, newColumn, grid) && !(Math.abs(getColumn()-newColumn) > 1)) {
                     if (square.getPiece() == null) { // moving to a spot with no piece
-                        if (column == newColumn) { // moving to a spot in the same column
+                        if (getColumn() == newColumn) { // moving to a spot in the same column
                             if (firstMove) { // move two on first turn
-                                if (row + movementModifier == newRow || row + movementModifier * 2 == newRow) moveableSquares.add(square);
+                                if (getRow() + movementModifier == newRow || getRow() + movementModifier * 2 == newRow) moveableSquares.add(square);
                             } else {
-                                if (row + movementModifier == newRow) moveableSquares.add(square);
+                                if (getRow() + movementModifier == newRow) moveableSquares.add(square);
                             }
                         } else { // only other case is en passant when moving to a spot with no piece
-                            if (Math.abs(row - newRow) == 1) {
+                            if (Math.abs(getRow() - newRow) == 1) {
                                 if ((newRow + movementModifier * -1 >= 0 && newRow + movementModifier * -1 <= 7)) {
                                     Square pawnSquare = grid[newRow + movementModifier * -1][newColumn];
 
@@ -49,9 +49,9 @@ public class Pawn extends Piece {
                             }
                         }
                     } else { // moving to a spot with a piece
-                        if (column != newColumn) { // moving to a spot on a different column
+                        if (getColumn() != newColumn) { // moving to a spot on a different column
                             if (isWhite != square.getPiece().isWhite()) { // the piece is a different color
-                                if (row - newRow == movementModifier * -1) moveableSquares.add(square);
+                                if (getRow() - newRow == movementModifier * -1) moveableSquares.add(square);
                             }
                         }
                     }

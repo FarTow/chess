@@ -21,9 +21,9 @@ public class Bishop extends Piece {
                 int newRow = square.getRow();
                 int newColumn = square.getColumn();
 
-                if (isJumping(newRow, newColumn, grid) || row == newRow || column == newColumn) continue;
+                if (isJumping(newRow, newColumn, grid) || getRow() == newRow || getColumn() == newColumn) continue;
 
-                if (Math.abs(row - newRow) == Math.abs(column - newColumn)) moveableSquares.add(square);
+                if (Math.abs(getRow() - newRow) == Math.abs(getColumn() - newColumn)) moveableSquares.add(square);
             }
         }
     }

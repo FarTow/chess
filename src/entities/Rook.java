@@ -23,7 +23,7 @@ public class Rook extends Piece {
 
                 if (isJumping(newRow, newColumn, grid)) continue;
 
-                if (row == newRow || column == newColumn) moveableSquares.add(square);
+                if (getRow() == newRow || getColumn() == newColumn) moveableSquares.add(square);
             }
         }
     }

@@ -166,10 +166,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
         if (permanent) {
             piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
-
         }
-        piece.setRow(toSquare.getRow());
-        piece.setColumn(toSquare.getColumn());
+        piece.setSquare(toSquare);
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
@@ -187,7 +185,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
         movePiece(piece, toSquare, false); // move piece to desired square
         mayMove = !isKingInCheck(getKing(whiteTurn));
-
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
 
@@ -235,12 +232,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     // "Update" Methods
     public void updatePieces() {
-        for (Piece piece : whitePlayer.getPieces()) {
-            piece.update(this);
-        }
-        for (Piece piece : blackPlayer.getPieces()) {
-            piece.update(this);
-        }
+        whitePlayer.updatePieces();
+        blackPlayer.updatePieces();
     }
 
     protected void paintComponent(Graphics g) {

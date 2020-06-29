@@ -21,9 +21,9 @@ public class Knight extends Piece {
                 int newRow = square.getRow();
                 int newColumn = square.getColumn();
 
-                if (row == newRow || column == newColumn) continue;
+                if (getRow() == newRow || getColumn() == newColumn) continue;
 
-                if ((Math.abs(row - newRow) + Math.abs(column - newColumn)) == 3) moveableSquares.add(square);
+                if ((Math.abs(getRow() - newRow) + Math.abs(getColumn() - newColumn)) == 3) moveableSquares.add(square);
             }
         }
     }
