@@ -20,8 +20,8 @@ public class King extends Piece {
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                int newRow = getRow();
-                int newColumn = getColumn();
+                int newRow = square.getRow();
+                int newColumn = square.getColumn();
                 int rowDiff = Math.abs(getRow() - newRow);
                 int columnDiff = Math.abs(getColumn() - newColumn);
 
