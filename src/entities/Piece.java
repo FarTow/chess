@@ -14,13 +14,10 @@ public abstract class Piece {
     protected Image image, defaultImage;
     protected ArrayList<Square> moveableSquares;
     protected boolean isWhite, firstMove;
-    protected int row, column;
 
     public Piece(boolean isWhite, Square square) {
         this.isWhite = isWhite;
         this.square = square;
-        row = square.getRow();
-        column = square.getColumn();
         topLeft = square.getTopLeft();
         firstMove = true;
         moveableSquares = new ArrayList<>();
@@ -37,48 +34,48 @@ public abstract class Piece {
                 isJumpingDiagonally(newRow, newColumn, grid));
     }
     protected boolean isJumpingVertically(int newRow, int newColumn, Square[][] grid) {
-        if (column != newColumn) return false;
+        if (square.getColumn() != newColumn) return false;
 
-        for (int currentRow = row + (row<newRow ? 1 : -1);
-             (row<newRow ? currentRow<newRow : currentRow>newRow);
-             currentRow += (row<newRow ? 1 : -1)) {
-            if (grid[currentRow][column].getPiece() != null) return true;
+        for (int currentRow = square.getRow() + (square.getRow()<newRow ? 1 : -1);
+             (square.getRow()<newRow ? currentRow<newRow : currentRow>newRow);
+             currentRow += (square.getRow()<newRow ? 1 : -1)) {
+            if (grid[currentRow][square.getColumn()].getPiece() != null) return true;
         }
 
         return false;
     }
     protected boolean isJumpingHorizontally(int newRow, int newColumn, Square[][] grid) {
-        if (row != newRow) return false;
+        if (square.getRow() != newRow) return false;
 
-        for (int currentColumn = column + (column<newColumn ? 1 : -1);
-             (column<newColumn ? currentColumn<newColumn : currentColumn>newColumn);
-             currentColumn += (column<newColumn ? 1 : -1)) {
-            if (grid[row][currentColumn].getPiece() != null) return true;
+        for (int currentColumn = square.getColumn() + (square.getColumn()<newColumn ? 1 : -1);
+             (square.getColumn()<newColumn ? currentColumn<newColumn : currentColumn>newColumn);
+             currentColumn += (square.getColumn()<newColumn ? 1 : -1)) {
+            if (grid[square.getRow()][currentColumn].getPiece() != null) return true;
         }
 
         return false;
     }
     // Review isJumpingDiagonally
     protected boolean isJumpingDiagonally(int newRow, int newColumn, Square[][] grid) {
-        int rowDiff = row-newRow; // positive result = moving "up"
-        int columnDiff = column-newColumn; // positive result = moving "left"
+        int rowDiff = square.getRow()-newRow; // positive result = moving "up"
+        int columnDiff = square.getColumn()-newColumn; // positive result = moving "left"
 
         if(Math.abs(rowDiff) != Math.abs(columnDiff)) return false;
 
         if (rowDiff > 0 && columnDiff > 0) {
-            for (int currentRow=row-1, currentColumn=column-1; currentRow > newRow && currentColumn > newColumn; currentRow--, currentColumn--) {
+            for (int currentRow=square.getRow()-1, currentColumn=square.getColumn()-1; currentRow > newRow && currentColumn > newColumn; currentRow--, currentColumn--) {
                 if (grid[currentRow][currentColumn].getPiece() != null) return true;
             }
         } else if (rowDiff > 0 && columnDiff < 0) {
-            for (int currentRow=row-1, currentColumn=column+1; currentRow > newRow && currentColumn < newColumn; currentRow--, currentColumn++) {
+            for (int currentRow=square.getRow()-1, currentColumn=square.getColumn()+1; currentRow > newRow && currentColumn < newColumn; currentRow--, currentColumn++) {
                 if (grid[currentRow][currentColumn].getPiece() != null) return true;
             }
         } else if (rowDiff < 0 && columnDiff > 0) {
-            for (int currentRow=row+1, currentColumn=column-1; currentRow < newRow && currentColumn > newColumn; currentRow++, currentColumn--) {
+            for (int currentRow=square.getRow()+1, currentColumn=square.getColumn()-1; currentRow < newRow && currentColumn > newColumn; currentRow++, currentColumn--) {
                 if (grid[currentRow][currentColumn].getPiece() != null) return true;
             }
         } else { // if (rowDiff < 0 && columnDiff < 0)
-            for (int currentRow=row+1, currentColumn=column+1; currentRow < newRow && currentColumn < newColumn; currentRow++, currentColumn++) {
+            for (int currentRow=square.getRow()+1, currentColumn=square.getColumn()+1; currentRow < newRow && currentColumn < newColumn; currentRow++, currentColumn++) {
                 if (grid[currentRow][currentColumn].getPiece() != null) return true;
             }
         }
@@ -101,8 +98,6 @@ public abstract class Piece {
     }
     public void setTopLeft(Point topLeft) { this.topLeft = topLeft; }
     public void setPos(Point pos) { this.topLeft = new Point(pos.x-image.getWidth(null)/2, pos.y-image.getHeight(null)/2); }
-    public void setRow(int row) {this.row = row; }
-    public void setColumn(int column) {this.column = column; }
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
 
     public abstract char getSymbol();
@@ -110,8 +105,8 @@ public abstract class Piece {
     public Image getImage() { return image; }
     public Point getTopLeft() { return topLeft; }
     public Point getPos() { return new Point(topLeft.x+image.getWidth(null)/2, topLeft.y+image.getHeight(null)/2); }
-    public int getRow() { return row; }
-    public int getColumn() { return column; }
+    public int getRow() { return square.getRow(); }
+    public int getColumn() { return square.getColumn(); }
     public boolean isWhite() { return isWhite; }
     public boolean isFirstMove() { return firstMove; }
 

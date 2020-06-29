@@ -5,7 +5,7 @@ import panels.Board;
 import java.util.ArrayList;
 
 public class Player {
-    private Board board;
+    private final Board board;
     private ArrayList<Piece> pieces;
     private final boolean isWhite;
 
@@ -46,6 +46,9 @@ public class Player {
         for (int i=0; i<=7; i++) {
             pieces.add(new Pawn(isWhite, board.getGrid()[startRow + (isWhite ? -1 : 1)][i]));
         }
+    }
+    public void updatePieces() {
+        for (Piece piece : pieces) piece.update(board);
     }
 
     public void removePiece(Piece piece) {
