@@ -65,7 +65,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             }
         }
     }
-
     public void resize(int ... properties) {
         this.squareLength = properties[0];
         topLeft.y = getHeight()/2 - squareLength*4;
@@ -184,44 +183,33 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         boolean mayMove;
 
         movePiece(piece, toSquare, false); // move piece to desired square
-        mayMove = !isKingInCheck(getKing(whiteTurn));
+        mayMove = true;
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
 
         return mayMove;
     }
 
-    public boolean isKingInCheck(King king) {
-        int checkCount = 0;
+    public int availableMoves(boolean isWhite) {
+        int availableMoves = 0;
 
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() != null) {
-                    if (!(square.getPiece() instanceof King)) {
-                        if (square.getPiece().isWhite() != king.isWhite() && square.getPiece().canMove(grid[king.getRow()][king.getColumn()])) {
-                            checkCount++;
+        if (isWhite) {
+            for (Piece piece : whitePlayer.getPieces()) {
+                for (Square[] squareRow : grid) {
+                    for (Square square : squareRow) {
+                        if (piece.canMove(square) && mayMove(piece, square)) {
+                            availableMoves++;
                         }
                     }
                 }
             }
-        }
-
-        return checkCount > 0;
-    }
-    public int availableMoves(boolean isWhite) {
-        int availableMoves = 0;
-
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) { // for all squares on the board
-                if (square.getPiece() != null && square.getPiece().isWhite() == isWhite) { // if there's a piece there and it's the right color
-
-                    for (Square[] squareRowTwo : grid) {
-                        for (Square squareTwo : squareRowTwo) { // for all squares on the board
-                            if (square.getPiece().canMove(squareTwo) && mayMove(square.getPiece(), squareTwo)) { // if the piece can move to the new square
-                                    availableMoves++;
-                            }
+        } else {
+            for (Piece piece : blackPlayer.getPieces()) {
+                for (Square[] squareRow : grid) {
+                    for (Square square : squareRow) {
+                        if (piece.canMove(square) && mayMove(piece, square)) {
+                            availableMoves++;
                         }
-
                     }
                 }
             }
@@ -251,8 +239,19 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         updatePieces();
         repaint();
 
-        getKing(true).setCheck(isKingInCheck(getKing(true)));
-        getKing(false).setCheck(isKingInCheck(getKing(false)));
+        System.out.println("White has:");
+        for (Piece piece : whitePlayer.getPieces()) {
+            System.out.print(piece.getSymbol() + ", ");
+        }
+
+        System.out.println();
+
+        System.out.println("Black has:");
+        for (Piece piece : blackPlayer.getPieces()) {
+            System.out.print(piece.getSymbol() + ", ");
+        }
+
+        System.out.println();
     }
 
     // Mouse Interaction Methods
@@ -303,6 +302,11 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         setAmbiguousMove(square);
 
                         movePiece(selectedPiece, square, true);
+                        if (selectedPiece.isWhite()) {
+                            blackPlayer.removePiece(takenPiece);
+                        } else {
+                            whitePlayer.removePiece(takenPiece);
+                        }
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
                         turnCount++;
@@ -349,17 +353,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         }
     }
 
-    public King getKing(boolean isWhite) {
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                if (square.getPiece() != null) {
-                    if (square.getPiece() instanceof King && square.getPiece().isWhite() == isWhite) return ((King) square.getPiece());
-                }
-            }
-        }
-
-        return null;
-    }
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
     public Point getTopLeft() { return topLeft; }
@@ -367,6 +360,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
     public Piece getTakenPiece() { return takenPiece; }
+    public Player getWhitePlayer() { return whitePlayer; }
+    public Player getBlackPlayer() { return blackPlayer; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 }

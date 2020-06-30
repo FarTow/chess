@@ -49,6 +49,18 @@ public class Player {
     }
     public void updatePieces() {
         for (Piece piece : pieces) piece.update(board);
+
+        getKing().setCheck(isKingInCheck());
+    }
+
+    public boolean isKingInCheck() {
+        int checkCount = 0;
+
+        for (Piece piece : isWhite ? board.getBlackPlayer().getPieces() : board.getWhitePlayer().getPieces() ) {
+            if (piece.canMove(getKing().getSquare())) checkCount++;
+        }
+
+        return checkCount > 0;
     }
 
     public void removePiece(Piece piece) {
@@ -56,4 +68,11 @@ public class Player {
     }
 
     public ArrayList<Piece> getPieces() { return pieces; }
+    public King getKing() {
+        for (Piece piece : pieces) {
+            if (piece instanceof King) return (King) piece;
+        }
+
+        return null;
+    }
 }

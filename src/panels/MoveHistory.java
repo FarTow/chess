@@ -66,8 +66,8 @@ public class MoveHistory extends GameComponent implements ActionListener {
         return readableMoveData;
     }
     public String lastMove() {
-        if (board.getKing(whiteTurn).getCastled() == 1) return "O-O";
-        if (board.getKing(whiteTurn).getCastled() == 2) return "O-O-O";
+        if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 1) return "O-O";
+        if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 2) return "O-O-O";
 
         StringBuilder chessNotation = new StringBuilder();
         int oldRank = (4 + (4 - board.getOldSquare().x));
@@ -93,7 +93,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
 
-        if (board.isKingInCheck(board.getKing(board.getWhiteTurn()))) { // if the king is in check
+        if (board.getWhiteTurn() ? board.getWhitePlayer().isKingInCheck() : board.getBlackPlayer().isKingInCheck()) {
             if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's checkmate
                 chessNotation.append('#');
             } else { // if the king is in check
