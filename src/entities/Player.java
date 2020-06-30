@@ -66,8 +66,10 @@ public class Player {
     }
 
     public void removePiece(Piece piece) {
-        deadPieces.add(piece);
-        pieces.remove(piece);
+        if (piece != null) {
+            pieces.remove(piece);
+            deadPieces.add(piece);
+        }
     }
 
     public ArrayList<Piece> getPieces() { return pieces; }
