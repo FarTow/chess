@@ -183,7 +183,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         boolean mayMove;
 
         movePiece(piece, toSquare, false); // move piece to desired square
-        mayMove = true;
+        mayMove = piece.isWhite() ? !(whitePlayer.isKingInCheck()) : !(whitePlayer.isKingInCheck());
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
 
@@ -239,19 +239,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         updatePieces();
         repaint();
 
-        System.out.println("White has:");
-        for (Piece piece : whitePlayer.getPieces()) {
-            System.out.print(piece.getSymbol() + ", ");
-        }
-
-        System.out.println();
-
-        System.out.println("Black has:");
-        for (Piece piece : blackPlayer.getPieces()) {
-            System.out.print(piece.getSymbol() + ", ");
-        }
-
-        System.out.println();
+        System.out.println(whitePlayer.toString());
+        System.out.println(blackPlayer.toString());
     }
 
     // Mouse Interaction Methods

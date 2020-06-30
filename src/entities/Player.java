@@ -6,13 +6,15 @@ import java.util.ArrayList;
 
 public class Player {
     private final Board board;
-    private ArrayList<Piece> pieces;
     private final boolean isWhite;
+    private ArrayList<Piece> pieces;
+    private final ArrayList<Piece> deadPieces;
 
     public Player(boolean isWhite, Board board) {
-        this.board = board;
         this.isWhite = isWhite;
+        this.board = board;
         resetPieces();
+        deadPieces = new ArrayList<>();
     }
 
     public void resetPieces() {
@@ -64,15 +66,30 @@ public class Player {
     }
 
     public void removePiece(Piece piece) {
+        deadPieces.add(piece);
         pieces.remove(piece);
     }
 
     public ArrayList<Piece> getPieces() { return pieces; }
+    public ArrayList<Piece> getDeadPieces() { return deadPieces; }
     public King getKing() {
         for (Piece piece : pieces) {
             if (piece instanceof King) return (King) piece;
         }
 
         return null;
+    }
+    public boolean isWhite() { return isWhite; }
+
+    public String toString() {
+        StringBuilder returnString = new StringBuilder();
+        returnString.append(isWhite ? "White: " : "Black: ");
+
+        for (Piece piece : pieces) {
+            returnString.append(piece.getSymbol());
+            returnString.append(", ");
+        }
+
+        return returnString.toString();
     }
 }
