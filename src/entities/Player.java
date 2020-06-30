@@ -66,10 +66,8 @@ public class Player {
     }
 
     public void removePiece(Piece piece) {
-        if (piece != null) {
-            pieces.remove(piece);
-            deadPieces.add(piece);
-        }
+        pieces.remove(piece);
+        deadPieces.add(piece);
     }
 
     public ArrayList<Piece> getPieces() { return pieces; }
@@ -89,7 +87,7 @@ public class Player {
 
         for (Piece piece : pieces) {
             returnString.append(piece.getSymbol());
-            returnString.append(", ");
+            returnString.append(" ");
         }
 
         return returnString.toString();

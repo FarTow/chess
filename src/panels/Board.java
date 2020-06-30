@@ -19,7 +19,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     private boolean whiteTurn;
 
     // MoveHistory Trackers
-    private Piece lastPiece, takenPiece;
+    private Piece lastPiece;
     private Point oldSquare, newSquare;
     private boolean ambiguousMove, ambiguousColumn;
 
@@ -163,9 +163,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
-        if (permanent) {
-            piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
-        }
+        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
         piece.setSquare(toSquare);
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
@@ -218,12 +216,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         return availableMoves;
     }
 
-    // "Update" Methods
-    public void updatePieces() {
-        whitePlayer.updatePieces();
-        blackPlayer.updatePieces();
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
@@ -236,7 +228,12 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
-        updatePieces();
+        if (whiteTurn) {
+            whitePlayer.updatePieces();
+        } else {
+            blackPlayer.updatePieces();
+        }
+
         repaint();
 
         System.out.println(whitePlayer.toString());
@@ -286,14 +283,15 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
-                        takenPiece = square.getPiece();
-
+                        Piece takenPiece = square.getPiece();
                         setAmbiguousMove(square);
 
-                        if (selectedPiece.isWhite()) {
-                            blackPlayer.removePiece(takenPiece);
-                        } else {
-                            whitePlayer.removePiece(takenPiece);
+                        if (takenPiece != null) {
+                            if (selectedPiece.isWhite()) {
+                                blackPlayer.removePiece(takenPiece);
+                            } else {
+                                whitePlayer.removePiece(takenPiece);
+                            }
                         }
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
@@ -344,11 +342,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
-    public Point getTopLeft() { return topLeft; }
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
-    public Piece getTakenPiece() { return takenPiece; }
     public Player getWhitePlayer() { return whitePlayer; }
     public Player getBlackPlayer() { return blackPlayer; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
