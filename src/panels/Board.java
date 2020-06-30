@@ -19,7 +19,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     private boolean whiteTurn;
 
     // MoveHistory Trackers
-    private Piece lastPiece;
+    private Piece lastPiece, takenPiece;
     private Point oldSquare, newSquare;
     private boolean ambiguousMove, ambiguousColumn;
 
@@ -283,15 +283,14 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
-                        Piece takenPiece = square.getPiece();
+                        takenPiece = square.getPiece();
+
                         setAmbiguousMove(square);
 
-                        if (takenPiece != null) {
-                            if (selectedPiece.isWhite()) {
-                                blackPlayer.removePiece(takenPiece);
-                            } else {
-                                whitePlayer.removePiece(takenPiece);
-                            }
+                        if (selectedPiece.isWhite()) {
+                            blackPlayer.removePiece(takenPiece);
+                        } else {
+                            whitePlayer.removePiece(takenPiece);
                         }
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
@@ -342,9 +341,11 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
+    public Point getTopLeft() { return topLeft; }
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
+    public Piece getTakenPiece() { return takenPiece; }
     public Player getWhitePlayer() { return whitePlayer; }
     public Player getBlackPlayer() { return blackPlayer; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
