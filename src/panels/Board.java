@@ -235,9 +235,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         }
 
         repaint();
-
-        System.out.println(whitePlayer.toString());
-        System.out.println(blackPlayer.toString());
     }
 
     // Mouse Interaction Methods
