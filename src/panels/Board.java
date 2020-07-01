@@ -268,9 +268,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         turnCount++;
                         whiteTurn = turnCount%2==0;
 
-                        //whitePlayer.updatePieces();
-                        //blackPlayer.updatePieces();
-
                         (whiteTurn ? whitePlayer : blackPlayer).updatePieces();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there

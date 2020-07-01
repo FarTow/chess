@@ -69,8 +69,12 @@ public class Player {
 
         if (toSquare == piece.getSquare()) return false;
 
-        if (toSquare.getPiece() != null) { // check if they're the same color
-            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
+        if (takenPiece != null) { // check if they're the same color
+            if (piece.isWhite() == toSquare.getPiece().isWhite()) {
+                return false;
+            }
+
+            (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).removePiece(takenPiece);
         }
 
         boolean mayMove;
@@ -81,6 +85,7 @@ public class Player {
         mayMove = !isKingInCheck();
         board.movePiece(piece, board.getGrid()[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
+        if (takenPiece != null) (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).addPiece(takenPiece);
 
         return mayMove;
     }
@@ -90,9 +95,7 @@ public class Player {
         for (Piece piece : (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).getPieces() ) {
             piece.update(board);
 
-            if (piece.canMove(getKing().getSquare())) {
-                checkCount++;
-            }
+            if (piece.canMove(getKing().getSquare())) { checkCount++; }
         }
 
         return checkCount > 0;
@@ -104,6 +107,7 @@ public class Player {
             deadPieces.add(piece);
         }
     }
+    public void addPiece(Piece piece) { pieces.add(piece); }
 
     public ArrayList<Piece> getPieces() { return pieces; }
     public ArrayList<Piece> getDeadPieces() { return deadPieces; }
