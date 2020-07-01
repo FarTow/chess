@@ -61,8 +61,6 @@ public class Player {
             }
 
             piece.setMoveableSquares(mayMoveSquares);
-            System.out.print(piece.getSymbol());
-            System.out.println(": " + piece.getMoveableSquares().toString() + " ");
         }
     }
 
@@ -97,17 +95,14 @@ public class Player {
             }
         }
 
-        if (checkCount > 0) {
-            System.out.println((isWhite ? "White " : "Black ") + "is in check.");
-            System.out.println(checkCount);
-        }
-
         return checkCount > 0;
     }
 
     public void removePiece(Piece piece) {
-        pieces.remove(piece);
-        deadPieces.add(piece);
+        if (piece != null) {
+            pieces.remove(piece);
+            deadPieces.add(piece);
+        }
     }
 
     public ArrayList<Piece> getPieces() { return pieces; }
