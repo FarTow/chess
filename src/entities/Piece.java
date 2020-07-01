@@ -26,6 +26,8 @@ public abstract class Piece {
     public boolean canMove(Square toSquare) {
         return moveableSquares.contains(toSquare);
     }
+    public abstract void update(Board board);
+    public void removeSquare(Square square) { moveableSquares.remove(square); }
 
     // Jumping Checkers (no pun intended)
     protected boolean isJumping(int newRow, int newColumn, Square[][] grid) {
@@ -83,8 +85,6 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract void update(Board board);
-
     public void scaleImage(int length) { image = defaultImage.getScaledInstance(length, length, 0); }
 
     public void setSquare(Square square) { this.square = square; }
@@ -99,6 +99,7 @@ public abstract class Piece {
     public void setTopLeft(Point topLeft) { this.topLeft = topLeft; }
     public void setPos(Point pos) { this.topLeft = new Point(pos.x-image.getWidth(null)/2, pos.y-image.getHeight(null)/2); }
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
+    public void setMoveableSquares(ArrayList<Square> moveableSquares) { this.moveableSquares = moveableSquares; }
 
     public abstract char getSymbol();
     public Square getSquare() { return square; }
@@ -109,6 +110,7 @@ public abstract class Piece {
     public int getColumn() { return square.getColumn(); }
     public boolean isWhite() { return isWhite; }
     public boolean isFirstMove() { return firstMove; }
+    public ArrayList<Square> getMoveableSquares() { return moveableSquares; }
 
 
 }

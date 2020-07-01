@@ -51,21 +51,52 @@ public class Player {
         }
     }
     public void updatePieces() {
-        for (Piece piece : pieces) piece.update(board);
+        getKing().setCheck(isKingInCheck());
 
-        getKing().setCheck(isKingInCheck());
-        getKing().setCheck(isKingInCheck());
+        for (Piece piece : pieces) {
+            piece.update(board);
+
+            ArrayList<Square> mayMoveSquares = new ArrayList<>();
+
+            for (Square square : piece.getMoveableSquares()) {
+                if (mayMove(piece, square)) mayMoveSquares.add(square);
+            }
+
+            piece.setMoveableSquares(mayMoveSquares);
+        }
+
+        System.out.println(pieces.get(0).moveableSquares);
     }
 
+    public boolean mayMove(Piece piece, Square toSquare) {
+        Piece takenPiece = toSquare.getPiece();
+
+        if (toSquare.getPiece() != null) { // check if they're the same color
+            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
+        }
+
+        boolean mayMove;
+        int oldRow = piece.getRow();
+        int oldColumn = piece.getColumn();
+
+        board.movePiece(piece, toSquare, false); // move piece to desired square
+        //(piece.isWhite() ? whitePlayer : blackPlayer).updatePieces();
+        mayMove = !isKingInCheck();
+        board.movePiece(piece, board.getGrid()[oldRow][oldColumn], false); // move the piece back to original square
+        toSquare.setPiece(takenPiece); // set the new square's piece back
+
+        return mayMove;
+    }
     public boolean isKingInCheck() {
         int checkCount = 0;
 
-        for (Piece piece : isWhite ? board.getBlackPlayer().getPieces() : board.getWhitePlayer().getPieces() ) {
+        for (Piece piece : (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).getPieces() ) {
             if (piece.canMove(getKing().getSquare())) checkCount++;
         }
 
         if (checkCount > 0) {
             System.out.println((isWhite ? "White " : "Black ") + "is in check.");
+            System.out.println(checkCount);
         }
 
         return checkCount > 0;

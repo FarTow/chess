@@ -1,8 +1,6 @@
 package entities;
 
 import panels.Board;
-
-import java.awt.Point;
 import java.util.ArrayList;
 
 public class King extends Piece {
@@ -57,14 +55,18 @@ public class King extends Piece {
         int dangerSquares = 0;
         boolean castleLeftRook = rook.getColumn() > getColumn();
 
+        /*
         for (int currentColumn=getColumn()+(castleLeftRook ? 1 : -1);
              (castleLeftRook ? currentColumn<rook.getColumn() : currentColumn>rook.getColumn());
              currentColumn += (castleLeftRook ? 1 : -1)) {
 
-            if (!board.mayMove(this, grid[getRow()][currentColumn])) dangerSquares++;
+            //if (!board.mayMove(this, grid[getRow()][currentColumn])) dangerSquares++;
         }
 
         return dangerSquares == 0;
+         */
+
+        return (Math.random() > .5);
     }
 
     public void setCheck(boolean check) { this.check = check; }

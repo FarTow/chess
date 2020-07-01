@@ -130,7 +130,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         return;
                     }
 
-                    g.setColor(((selectedPiece.canMove(square) && mayMove(selectedPiece, square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
+                    g.setColor(((selectedPiece.canMove(square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
                     g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
                     return;
                 }
@@ -150,7 +150,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square) && mayMove(selectedPiece, square)) {
+                if (selectedPiece.canMove(square)) {
                     g.setColor(new Color(130, 151, 105));
                     g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
                             square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
@@ -171,25 +171,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
 
-    public boolean mayMove(Piece piece, Square toSquare) {
-        Piece takenPiece = toSquare.getPiece();
-
-        if (toSquare.getPiece() != null) { // check if they're the same color
-            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
-        }
-
-        boolean mayMove;
-        int oldRow = piece.getRow();
-        int oldColumn = piece.getColumn();
-
-        movePiece(piece, toSquare, false); // move piece to desired square
-        mayMove = piece.isWhite() ? !(whitePlayer.isKingInCheck()) : !(blackPlayer.isKingInCheck());
-        movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
-        toSquare.setPiece(takenPiece); // set the new square's piece back
-
-        return mayMove;
-    }
-
     public int availableMoves(boolean isWhite) {
         int availableMoves = 0;
 
@@ -197,7 +178,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             for (Piece piece : whitePlayer.getPieces()) {
                 for (Square[] squareRow : grid) {
                     for (Square square : squareRow) {
-                        if (piece.canMove(square) && mayMove(piece, square)) {
+                        if (piece.canMove(square)) {
                             availableMoves++;
                         }
                     }
@@ -207,7 +188,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             for (Piece piece : blackPlayer.getPieces()) {
                 for (Square[] squareRow : grid) {
                     for (Square square : squareRow) {
-                        if (piece.canMove(square) && mayMove(piece, square)) {
+                        if (piece.canMove(square)) {
                             availableMoves++;
                         }
                     }
@@ -271,7 +252,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
-                    if (selectedPiece.canMove(square) && mayMove(selectedPiece, square)) { // if the piece can move to that location
+                    if (selectedPiece.canMove(square)) { // if the piece can move to that location
                         ambiguousMove = ambiguousColumn = false;
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
@@ -316,8 +297,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                 for (Square square : squareRow) {
                     if (square.getPiece() != null) { // if the piece isn't null
                         if (square.getPiece().getClass().equals(selectedPiece.getClass()) && square.getPiece() != selectedPiece) { // if the piece is the "other" piece
-                            if (square.getPiece().canMove(toSquare) &&
-                                    mayMove(square.getPiece(), toSquare)) { // if the piece can move to the new square
+                            if (square.getPiece().canMove(toSquare)) { // if the piece can move to the new square
                                 ambiguousMove = true;
 
                                 if (square.getPiece().getColumn() == selectedPiece.getColumn()) ambiguousColumn = true;
