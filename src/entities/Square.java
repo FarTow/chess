@@ -17,6 +17,7 @@ public class Square {
     public void setPiece(Piece piece) { this.piece = piece; }
     public void setRect(Rectangle rect) { this.rect = rect; }
 
+    public String toString() { return ("(" + row + ", " + column + ")"); }
     public int getRow() { return row; }
     public int getColumn() { return column; }
     public Rectangle getRect() { return rect; }

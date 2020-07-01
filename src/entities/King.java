@@ -4,7 +4,6 @@ import panels.Board;
 import java.util.ArrayList;
 
 public class King extends Piece {
-    private boolean check;
     private int castled; // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
 
     public King(boolean isWhite, Square square) {
@@ -69,9 +68,6 @@ public class King extends Piece {
         return (Math.random() > .5);
     }
 
-    public void setCheck(boolean check) { this.check = check; }
-
-    public boolean getCheck() { return check; }
     public int getCastled() { return castled; }
     public char getSymbol() { return isWhite ? '♔' : '♚'; }
 }

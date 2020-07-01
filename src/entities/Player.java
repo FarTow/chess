@@ -51,8 +51,6 @@ public class Player {
         }
     }
     public void updatePieces() {
-        getKing().setCheck(isKingInCheck());
-
         for (Piece piece : pieces) {
             piece.update(board);
 
@@ -63,13 +61,15 @@ public class Player {
             }
 
             piece.setMoveableSquares(mayMoveSquares);
+            System.out.print(piece.getSymbol());
+            System.out.println(": " + piece.getMoveableSquares().toString() + " ");
         }
-
-        System.out.println(pieces.get(0).moveableSquares);
     }
 
     public boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
+
+        if (toSquare == piece.getSquare()) return false;
 
         if (toSquare.getPiece() != null) { // check if they're the same color
             if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
@@ -80,7 +80,6 @@ public class Player {
         int oldColumn = piece.getColumn();
 
         board.movePiece(piece, toSquare, false); // move piece to desired square
-        //(piece.isWhite() ? whitePlayer : blackPlayer).updatePieces();
         mayMove = !isKingInCheck();
         board.movePiece(piece, board.getGrid()[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
@@ -91,7 +90,11 @@ public class Player {
         int checkCount = 0;
 
         for (Piece piece : (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).getPieces() ) {
-            if (piece.canMove(getKing().getSquare())) checkCount++;
+            piece.update(board);
+
+            if (piece.canMove(getKing().getSquare())) {
+                checkCount++;
+            }
         }
 
         if (checkCount > 0) {
