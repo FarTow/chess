@@ -8,7 +8,7 @@ public class Player {
     private final Board board;
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
-    private final ArrayList<Piece> deadPieces;
+    private ArrayList<Piece> deadPieces;
 
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
@@ -19,6 +19,7 @@ public class Player {
 
     public void resetPieces() {
         pieces = new ArrayList<>();
+        deadPieces = new ArrayList<>();
 
         int startRow = isWhite ? 7 : 0;
 
@@ -53,6 +54,7 @@ public class Player {
         for (Piece piece : pieces) piece.update(board);
 
         getKing().setCheck(isKingInCheck());
+        getKing().setCheck(isKingInCheck());
     }
 
     public boolean isKingInCheck() {
@@ -60,6 +62,10 @@ public class Player {
 
         for (Piece piece : isWhite ? board.getBlackPlayer().getPieces() : board.getWhitePlayer().getPieces() ) {
             if (piece.canMove(getKing().getSquare())) checkCount++;
+        }
+
+        if (checkCount > 0) {
+            System.out.println((isWhite ? "White " : "Black ") + "is in check.");
         }
 
         return checkCount > 0;

@@ -47,6 +47,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        whitePlayer.updatePieces();
     }
 
     public void resetBoard() {
@@ -168,20 +170,20 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
+
     public boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
 
-        if (toSquare.getPiece() != null) {
+        if (toSquare.getPiece() != null) { // check if they're the same color
             if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
         }
 
+        boolean mayMove;
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
-        boolean mayMove;
-
         movePiece(piece, toSquare, false); // move piece to desired square
-        mayMove = piece.isWhite() ? !(whitePlayer.isKingInCheck()) : !(whitePlayer.isKingInCheck());
+        mayMove = piece.isWhite() ? !(whitePlayer.isKingInCheck()) : !(blackPlayer.isKingInCheck());
         movePiece(piece, grid[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
 
@@ -228,12 +230,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
-        if (whiteTurn) {
-            whitePlayer.updatePieces();
-        } else {
-            blackPlayer.updatePieces();
-        }
-
         repaint();
     }
 
@@ -284,16 +280,14 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
                         setAmbiguousMove(square);
 
-                        if (selectedPiece.isWhite()) {
-                            blackPlayer.removePiece(takenPiece);
-                        } else {
-                            whitePlayer.removePiece(takenPiece);
-                        }
+                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece);
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
                         turnCount++;
                         whiteTurn = turnCount%2==0;
+
+                        (whiteTurn ? whitePlayer : blackPlayer).updatePieces();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
