@@ -74,7 +74,7 @@ public class Player {
                 return false;
             }
 
-            (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).removePiece(takenPiece);
+            (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).removePiece(takenPiece, false);
         }
 
         boolean mayMove;
@@ -101,10 +101,10 @@ public class Player {
         return checkCount > 0;
     }
 
-    public void removePiece(Piece piece) {
+    public void removePiece(Piece piece, boolean permanent) {
         if (piece != null) {
+            if (permanent) deadPieces.add(piece);
             pieces.remove(piece);
-            deadPieces.add(piece);
         }
     }
     public void addPiece(Piece piece) { pieces.add(piece); }

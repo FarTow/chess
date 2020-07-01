@@ -261,7 +261,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
                         setAmbiguousMove(square);
 
-                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece);
+                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece, true);
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
