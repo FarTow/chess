@@ -299,7 +299,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public void mouseDragged(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected return
 
-        if (mouseContained(me, new Point (0,0), bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
+        if (mouseContained(me, topLeft, bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
 
