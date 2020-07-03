@@ -51,6 +51,8 @@ public class Player {
         }
     }
     public void updatePieces() {
+        enPassantUpdate();
+
         for (Piece piece : pieces) {
             piece.update(board);
 
@@ -63,6 +65,22 @@ public class Player {
             piece.setMoveableSquares(mayMoveSquares);
         }
     }
+    public void enPassantUpdate() { // credits to Tanvir for this logic
+        for (Piece piece : pieces) {
+            if (piece instanceof Pawn) {
+                int behindRowDirection = isWhite ? 1 : -1;
+                Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getColumn()]; // square behind pawn
+                Piece possiblePawn = possiblePawnSquare.getPiece();
+
+                if (possiblePawn instanceof Pawn) {
+                    if (isWhite != possiblePawn.isWhite()) {
+                        pieces.remove(piece);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     public boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
@@ -70,9 +88,7 @@ public class Player {
         if (toSquare == piece.getSquare()) return false;
 
         if (takenPiece != null) { // check if they're the same color
-            if (piece.isWhite() == toSquare.getPiece().isWhite()) {
-                return false;
-            }
+            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
 
             (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).removePiece(takenPiece, false);
         }

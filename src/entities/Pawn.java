@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
-    private boolean movedTwo, enPassantCapturable, promotable;
+    private boolean enPassantCapturable, promotable;
 
     public Pawn(boolean isWhite, Square square) {
         super(isWhite, square);
