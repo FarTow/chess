@@ -114,9 +114,6 @@ public class MoveHistory extends GameComponent implements ActionListener {
             int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
             boolean pieceTaken = pieceCount == newPieceCount+1;
 
-            System.out.println("MoveHistory's piece count: " + pieceCount);
-            System.out.println("Board's piece count: " + newPieceCount);
-
             if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
                 allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
 
