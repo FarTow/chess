@@ -51,6 +51,36 @@ public class Player {
             pieces.add(new Pawn(isWhite, board.getGrid()[startRow + (isWhite ? -1 : 1)][i]));
         }
     }
+    public void enPassantUpdate() { // credits to Tanvir for this logic
+        for (Piece piece : pieces) {
+            if (piece instanceof Pawn) {
+                int behindRowDirection = isWhite ? 1 : -1;
+                Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getColumn()]; // square behind pawn
+                Piece possiblePawn = possiblePawnSquare.getPiece();
+
+                if (possiblePawn instanceof Pawn) {
+                    if (isWhite != possiblePawn.isWhite()) {
+                        piece.getSquare().setPiece(null);
+                        piece.setSquare(null);
+                        pieces.remove(piece);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public void castleUpdate() {
+        switch(getKing().getCastled()) {
+            case 1:
+                board.movePiece(board.getGrid()[getKing().getRow()][7].getPiece(), board.getGrid()[getKing().getRow()][5], true);
+                break;
+            case 2:
+                board.movePiece(board.getGrid()[getKing().getRow()][0].getPiece(), board.getGrid()[getKing().getRow()][3], true);
+                break;
+            default:
+                break;
+        }
+    }
     public void updatePieces() {
         enPassantUpdate();
 
@@ -72,24 +102,6 @@ public class Player {
             }
 
             piece.setMoveableSquares(mayMoveSquares);
-        }
-    }
-    public void enPassantUpdate() { // credits to Tanvir for this logic
-        for (Piece piece : pieces) {
-            if (piece instanceof Pawn) {
-                int behindRowDirection = isWhite ? 1 : -1;
-                Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getColumn()]; // square behind pawn
-                Piece possiblePawn = possiblePawnSquare.getPiece();
-
-                if (possiblePawn instanceof Pawn) {
-                    if (isWhite != possiblePawn.isWhite()) {
-                        piece.getSquare().setPiece(null);
-                        piece.setSquare(null);
-                        pieces.remove(piece);
-                        break;
-                    }
-                }
-            }
         }
     }
 
@@ -127,6 +139,7 @@ public class Player {
 
         return checkCount > 0;
     }
+
 
     public void removePiece(Piece piece, boolean permanent) {
         if (piece != null) {

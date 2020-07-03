@@ -256,18 +256,29 @@ public class Board extends GameComponent implements ActionListener, MouseListene
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square)) { // if the piece can move to that location
+                        // MoveHistory Interaction
                         ambiguousMove = ambiguousColumn = false;
-                        oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
-                        newSquare = new Point(square.getRow(), square.getColumn());
                         lastPiece = selectedPiece;
                         takenPiece = square.getPiece();
-
+                        oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
+                        newSquare = new Point(square.getRow(), square.getColumn());
                         setAmbiguousMove(square);
 
+                        // Physical "Moving" of Pieces
                         (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece, true);
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
+                        if (selectedPiece instanceof King) {
+                            int columnDiff = oldSquare.y - newSquare.y;
+
+                            if (Math.abs(columnDiff) == 2) {
+                                ((King) selectedPiece).setCastled(columnDiff < 0 ? 1 : 2);
+                                (selectedPiece.isWhite() ? whitePlayer : blackPlayer).castleUpdate();
+                            }
+                        }
+
+                        // Update Board / Players
                         turnCount++;
                         whiteTurn = turnCount%2==0;
 
