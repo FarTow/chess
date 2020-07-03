@@ -82,6 +82,8 @@ public class Player {
 
                 if (possiblePawn instanceof Pawn) {
                     if (isWhite != possiblePawn.isWhite()) {
+                        piece.getSquare().setPiece(null);
+                        piece.setSquare(null);
                         pieces.remove(piece);
                         break;
                     }
