@@ -53,6 +53,14 @@ public class Player {
     public void updatePieces() {
         enPassantUpdate();
 
+        if (isWhite == board.getWhiteTurn()) {
+            for (Piece piece : pieces) {
+                if (piece instanceof Pawn) {
+                    if (((Pawn) piece).isEnPassantCapturable()) ((Pawn) piece).setEnPassantCapturable(false);
+                }
+            }
+        }
+
         for (Piece piece : pieces) {
             piece.update(board);
 
