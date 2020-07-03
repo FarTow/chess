@@ -305,26 +305,6 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                 }
             }
         }
-
-        /*
-        if (!(selectedPiece instanceof Pawn)) {
-            for (Square[] squareRow : grid) {
-                for (Square square : squareRow) {
-                    if (square.getPiece() != null) { // if the piece isn't null
-                        if (square.getPiece().getClass().equals(selectedPiece.getClass()) && square.getPiece() != selectedPiece) { // if the piece is the "other" piece
-                            if (square.getPiece().canMove(toSquare)) { // if the piece can move to the new square
-                                ambiguousMove = true;
-
-                                if (square.getPiece().getColumn() == selectedPiece.getColumn()) ambiguousColumn = true;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-         */
     }
 
     public Square[][] getGrid() { return grid; }
