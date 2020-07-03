@@ -20,6 +20,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
 
     private boolean whiteTurn;
     private int moveCount;
+    private int pieceCount;
 
     public MoveHistory(Point initialTopLeft, Dimension initialSize, Board board) {
         super(initialTopLeft);
@@ -29,6 +30,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
         this.board = board;
         whiteTurn = true;
         moveCount = 1;
+        pieceCount = 32;
         allMoveData = new ArrayList<>();
 
         allMoveData.add(new Object[] {moveCount, "", ""});
@@ -65,7 +67,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
 
         return readableMoveData;
     }
-    public String lastMove() {
+    public String lastMove(boolean pieceTaken) {
         if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 1) return "O-O";
         if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 2) return "O-O-O";
 
@@ -77,7 +79,7 @@ public class MoveHistory extends GameComponent implements ActionListener {
 
         chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
-        if (board.getTakenPiece() != null) { // if a piece is captured
+        if (pieceTaken) {
             if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
             chessNotation.append('×'); // captured symbol
         }
@@ -109,15 +111,22 @@ public class MoveHistory extends GameComponent implements ActionListener {
     }
     public void updateAllMoveData() {
         if (whiteTurn != board.getWhiteTurn()) { // essentially "if a move took place"
+            int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
+            boolean pieceTaken = pieceCount == newPieceCount+1;
+
+            System.out.println("MoveHistory's piece count: " + pieceCount);
+            System.out.println("Board's piece count: " + newPieceCount);
+
             if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                allMoveData.get(moveCount-1)[2] = lastMove(); // update black's move
+                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
 
                 moveCount++; // go to next move
                 allMoveData.add(new Object[] {moveCount, "", ""}); // new row of data
             } else { // if white was the one to move
-                allMoveData.get(moveCount-1)[1] = lastMove(); // update white's move
+                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
             }
 
+            pieceCount = newPieceCount;
             moveDisplayModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
             whiteTurn = board.getWhiteTurn();
         }
