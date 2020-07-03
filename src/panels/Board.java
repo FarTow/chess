@@ -41,6 +41,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         whitePlayer = new Player(true, this);
         blackPlayer = new Player (false, this);
 
+        whitePlayer.setEnemyPlayer();
+        blackPlayer.setEnemyPlayer();
+
         turnCount = 0;
         whiteTurn = true;
         resetBoard();

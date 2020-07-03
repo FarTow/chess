@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Player {
     private final Board board;
     private final boolean isWhite;
+    private Player enemyPlayer;
     private ArrayList<Piece> pieces;
     private ArrayList<Piece> deadPieces;
 
@@ -100,7 +101,7 @@ public class Player {
         if (takenPiece != null) { // check if they're the same color
             if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
 
-            (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).removePiece(takenPiece, false);
+            enemyPlayer.removePiece(takenPiece, false);
         }
 
         boolean mayMove;
@@ -111,14 +112,14 @@ public class Player {
         mayMove = !isKingInCheck();
         board.movePiece(piece, board.getGrid()[oldRow][oldColumn], false); // move the piece back to original square
         toSquare.setPiece(takenPiece); // set the new square's piece back
-        if (takenPiece != null) (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).addPiece(takenPiece);
+        if (takenPiece != null) enemyPlayer.addPiece(takenPiece);
 
         return mayMove;
     }
     public boolean isKingInCheck() {
         int checkCount = 0;
 
-        for (Piece piece : (isWhite ? board.getBlackPlayer() : board.getWhitePlayer()).getPieces() ) {
+        for (Piece piece : enemyPlayer.getPieces() ) {
             piece.update(board);
 
             if (piece.canMove(getKing().getSquare())) { checkCount++; }
@@ -134,6 +135,10 @@ public class Player {
         }
     }
     public void addPiece(Piece piece) { pieces.add(piece); }
+
+    public void setEnemyPlayer() {
+        enemyPlayer = isWhite ? board.getBlackPlayer() : board.getWhitePlayer();
+    }
 
     public ArrayList<Piece> getPieces() { return pieces; }
     public ArrayList<Piece> getDeadPieces() { return deadPieces; }
