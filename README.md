@@ -20,7 +20,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] Movement displays (i.e. show where pieces can and can't move)
 - [ ] General game display
   - [x] Move history
-  - [ ] Taken pieces
+  - [x] Taken pieces
   - [ ] Timer
 - [ ] Win conditions
   - [x] Checkmate
@@ -30,6 +30,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Network capabilities
 - [x] Custom made pieces
 - [x] Resizing
+- [ ] Chess AI
 
 ### Resources
 * Piece design by [Yi Jun Yang](https://www.instagram.com/y.yang.art/)
