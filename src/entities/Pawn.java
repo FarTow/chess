@@ -13,10 +13,6 @@ public class Pawn extends Piece {
         setImage("pawn");
     }
 
-    public boolean canMove(int newRow, int newColumn, Board board, boolean mouseReleased) {
-        return moveableSquares.contains(board.getGrid()[newRow][newColumn]);
-    }
-
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();
@@ -27,22 +23,28 @@ public class Pawn extends Piece {
                 int newColumn = square.getColumn();
                 int movementModifier = isWhite ? -1 : 1;
 
+
+
                 if (!isJumping(newRow, newColumn, grid) && !(Math.abs(getColumn()-newColumn) > 1)) {
                     if (square.getPiece() == null) { // moving to a spot with no piece
                         if (getColumn() == newColumn) { // moving to a spot in the same column
                             if (firstMove) { // move two on first turn
-                                if (getRow() + movementModifier == newRow || getRow() + movementModifier * 2 == newRow) moveableSquares.add(square);
-                            } else {
-                                if (getRow() + movementModifier == newRow) moveableSquares.add(square);
+                                if (getRow() + movementModifier * 2 == newRow) {
+                                    enPassantCapturable = true;
+                                    moveableSquares.add(square);
+                                }
                             }
-                        } else { // only other case is en passant when moving to a spot with no piece
+                            if (getRow() + movementModifier == newRow) moveableSquares.add(square);
+                        } else { // when moving to a spot with no piece, only other case is en passant
                             if (Math.abs(getRow() - newRow) == 1) {
                                 if ((newRow + movementModifier * -1 >= 0 && newRow + movementModifier * -1 <= 7)) {
                                     Square pawnSquare = grid[newRow + movementModifier * -1][newColumn];
 
                                     if (pawnSquare.getPiece() instanceof Pawn) {
-                                        if (((Pawn) pawnSquare.getPiece()).isEnPassantCapturable()) {
-                                            moveableSquares.add(square);
+                                        if (isWhite != pawnSquare.getPiece().isWhite) {
+                                            if (((Pawn) pawnSquare.getPiece()).isEnPassantCapturable()) {
+                                                moveableSquares.add(square);
+                                            }
                                         }
                                     }
                                 }
