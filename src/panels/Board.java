@@ -292,6 +292,21 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     public void setAmbiguousMove(Square toSquare) {
         if (selectedPiece == null) return;
 
+        Player player = whiteTurn ? whitePlayer : blackPlayer;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Piece piece : player.getPieces()) {
+                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
+                    if (piece.canMove(toSquare)) {
+                        ambiguousMove = true;
+
+                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                    }
+                }
+            }
+        }
+
+        /*
         if (!(selectedPiece instanceof Pawn)) {
             for (Square[] squareRow : grid) {
                 for (Square square : squareRow) {
@@ -308,6 +323,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                 }
             }
         }
+
+         */
     }
 
     public Square[][] getGrid() { return grid; }
