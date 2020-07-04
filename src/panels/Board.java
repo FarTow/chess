@@ -55,8 +55,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     }
 
     public void resetBoard() {
-        whitePlayer.randomResetPieces();
-        blackPlayer.randomResetPieces();
+        whitePlayer.defaultResetPieces();
+        blackPlayer.defaultResetPieces();
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {

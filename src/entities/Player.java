@@ -14,7 +14,7 @@ public class Player {
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
         this.board = board;
-        randomResetPieces();
+        defaultResetPieces();
         deadPieces = new ArrayList<>();
     }
 
