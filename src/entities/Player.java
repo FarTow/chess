@@ -149,9 +149,7 @@ public class Player {
     }
     public void addPiece(Piece piece) { pieces.add(piece); }
 
-    public void setEnemyPlayer() {
-        enemyPlayer = isWhite ? board.getBlackPlayer() : board.getWhitePlayer();
-    }
+    public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
 
     public ArrayList<Piece> getPieces() { return pieces; }
     public ArrayList<Piece> getDeadPieces() { return deadPieces; }

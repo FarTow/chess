@@ -41,8 +41,8 @@ public class Board extends GameComponent implements ActionListener, MouseListene
         whitePlayer = new Player(true, this);
         blackPlayer = new Player (false, this);
 
-        whitePlayer.setEnemyPlayer();
-        blackPlayer.setEnemyPlayer();
+        whitePlayer.setEnemyPlayer(blackPlayer);
+        blackPlayer.setEnemyPlayer(whitePlayer);
 
         turnCount = 0;
         whiteTurn = true;
@@ -323,11 +323,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
 
     public Square[][] getGrid() { return grid; }
     public boolean getWhiteTurn() { return whiteTurn; }
-    public Point getTopLeft() { return topLeft; }
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
     public Piece getLastPiece() { return lastPiece; }
-    public Piece getTakenPiece() { return takenPiece; }
     public Player getWhitePlayer() { return whitePlayer; }
     public Player getBlackPlayer() { return blackPlayer; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
