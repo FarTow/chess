@@ -14,47 +14,89 @@ public class Player {
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
         this.board = board;
-        resetPieces();
+        randomResetPieces();
         deadPieces = new ArrayList<>();
     }
 
-    public void resetPieces() {
+    public void defaultResetPieces() {
         pieces = new ArrayList<>();
         deadPieces = new ArrayList<>();
+        Square[][] grid = board.getGrid();
 
         int startRow = isWhite ? 7 : 0;
 
         for (int i=0; i<=7; i++) {
+            Square currentSquare = grid[startRow][i];
+
             switch(i) {
                 case 0:
                 case 7:
-                    pieces.add(new Rook(isWhite, board.getGrid()[startRow][i]));
+                    pieces.add(new Rook(isWhite, currentSquare));
                     break;
                 case 1:
                 case 6:
-                    pieces.add(new Knight(isWhite, board.getGrid()[startRow][i]));
+                    pieces.add(new Knight(isWhite, currentSquare));
                     break;
                 case 2:
                 case 5:
-                    pieces.add(new Bishop(isWhite, board.getGrid()[startRow][i]));
+                    pieces.add(new Bishop(isWhite, currentSquare));
                     break;
                 case 3:
-                    pieces.add(new Queen(isWhite, board.getGrid()[startRow][i]));
+                    pieces.add(new Queen(isWhite, currentSquare));
                     break;
                 case 4:
-                    pieces.add(new King(isWhite, board.getGrid()[startRow][i]));
+                    pieces.add(new King(isWhite, currentSquare));
                     break;
             }
         }
 
         for (int i=0; i<=7; i++) {
-            pieces.add(new Pawn(isWhite, board.getGrid()[startRow + (isWhite ? -1 : 1)][i]));
+            Square currentSquare = grid[startRow + (isWhite ? -1 : 1)][i];
+            pieces.add(new Pawn(isWhite, currentSquare));
         }
     }
+    public void randomResetPieces() {
+        pieces = new ArrayList<>();
+        deadPieces = new ArrayList<>();
+        Square[][] grid = board.getGrid();
+
+        int startRow = isWhite ? 7 : 0;
+
+        for (int i=0; i<=7; i++) {
+            Square currentSquare = grid[startRow][i];
+
+            if (i == 4) {
+                pieces.add(new King(isWhite, currentSquare));
+            } else {
+                double randomNumber = Math.random();
+
+                if (randomNumber <= .2) {
+                    pieces.add(new Pawn(isWhite, currentSquare));
+                } else if (randomNumber <= .4) {
+                    pieces.add(new Rook(isWhite, currentSquare));
+                } else if (randomNumber <= .6) {
+                    pieces.add(new Knight(isWhite, currentSquare));
+                } else if (randomNumber <= .8) {
+                    pieces.add(new Bishop(isWhite, currentSquare));
+                } else {
+                    pieces.add(new Queen(isWhite, currentSquare));
+                }
+            }
+        }
+
+        for (int i=0; i<=7; i++) {
+            Square currentSquare = grid[startRow + (isWhite ? -1 : 1)][i];
+            pieces.add(new Pawn(isWhite, currentSquare));
+        }
+    }
+
     public void enPassantUpdate() { // credits to Tanvir for this logic
         for (Piece piece : pieces) {
             if (piece instanceof Pawn) {
                 int behindRowDirection = isWhite ? 1 : -1;
+
+                if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) continue;
+
                 Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getColumn()]; // square behind pawn
                 Piece possiblePawn = possiblePawnSquare.getPiece();
 
