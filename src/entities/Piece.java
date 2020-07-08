@@ -27,7 +27,6 @@ public abstract class Piece {
         return moveableSquares.contains(toSquare);
     }
     public abstract void update(Board board);
-    public void removeSquare(Square square) { moveableSquares.remove(square); }
 
     // Jumping Checkers (no pun intended)
     protected boolean isJumping(int newRow, int newColumn, Square[][] grid) {
