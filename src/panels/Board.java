@@ -19,7 +19,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     private boolean whiteTurn;
 
     // MoveHistory Trackers
-    private Piece lastPiece, takenPiece;
+    private Piece lastPiece;
     private Point oldSquare, newSquare;
     private boolean ambiguousMove, ambiguousColumn;
 
@@ -259,7 +259,7 @@ public class Board extends GameComponent implements ActionListener, MouseListene
                         // MoveHistory Interaction
                         ambiguousMove = ambiguousColumn = false;
                         lastPiece = selectedPiece;
-                        takenPiece = square.getPiece();
+                        Piece takenPiece = square.getPiece();
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
                         setAmbiguousMove(square);
