@@ -74,8 +74,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public void resize(int ... properties) {
-        this.squareLength = properties[0];
+    public void resize(int newSquareSize) {
+        this.squareLength = newSquareSize;
         topLeft.y = getHeight()/2 - squareLength*4;
         bottomRight.x = topLeft.x+squareLength*8;
         bottomRight.y = topLeft.y+squareLength*8;
