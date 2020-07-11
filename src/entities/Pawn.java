@@ -23,8 +23,6 @@ public class Pawn extends Piece {
                 int newColumn = square.getColumn();
                 int movementModifier = isWhite ? -1 : 1;
 
-
-
                 if (!isJumping(newRow, newColumn, grid) && !(Math.abs(getColumn()-newColumn) > 1)) {
                     if (square.getPiece() == null) { // moving to a spot with no piece
                         if (getColumn() == newColumn) { // moving to a spot in the same column
@@ -58,7 +56,6 @@ public class Pawn extends Piece {
                         }
                     }
                 }
-
             }
         }
     }
