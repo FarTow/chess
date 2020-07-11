@@ -12,6 +12,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     private final Player whitePlayer;
     private final Player blackPlayer;
+    private Player currentPlayer;
 
     private final Point bottomRight;
     private int squareLength;
@@ -48,6 +49,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         whitePlayer.setEnemyPlayer(blackPlayer);
         blackPlayer.setEnemyPlayer(whitePlayer);
 
+        currentPlayer = whitePlayer;
+
         turnCount = 0;
         whiteTurn = true;
         resetBoard();
@@ -55,7 +58,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        whitePlayer.updatePieces();
+        currentPlayer.updatePieces();
     }
 
     public void resetBoard() {
@@ -177,27 +180,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
-
-    public int availableMoves(boolean isWhite) {
+    public int availableMoves() {
         int availableMoves = 0;
 
-        if (isWhite) {
-            for (Piece piece : whitePlayer.getPieces()) {
-                for (Square[] squareRow : grid) {
-                    for (Square square : squareRow) {
-                        if (piece.canMove(square)) {
-                            availableMoves++;
-                        }
-                    }
-                }
-            }
-        } else {
-            for (Piece piece : blackPlayer.getPieces()) {
-                for (Square[] squareRow : grid) {
-                    for (Square square : squareRow) {
-                        if (piece.canMove(square)) {
-                            availableMoves++;
-                        }
+        for (Piece piece : currentPlayer.getPieces()) {
+            for (Square[] squareRow : grid) {
+                for (Square square : squareRow) {
+                    if (piece.canMove(square)) {
+                        availableMoves++;
                     }
                 }
             }
@@ -232,26 +222,16 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         // MouseListener Methods
     public void mouseClicked(MouseEvent me) {}
     public void mousePressed(MouseEvent me) {
-        if (selectedPiece == null) { // if a piece isn't selected already
+        if (selectedPiece != null) return; // if a piece isn't selected already
 
-            if (whiteTurn) {
-                for (Piece piece : whitePlayer.getPieces()) {
-                    if (piece.getSquare() != null) {
-                        if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
-                            selectedPiece = piece;
-                        }
-                    }
-                }
-            } else {
-                for (Piece piece : blackPlayer.getPieces()) {
-                    if (piece.getSquare() != null) {
-                        if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
-                            selectedPiece = piece;
-                        }
-                    }
+        for (Piece piece : currentPlayer.getPieces()) {
+            if (piece.getSquare() != null) {
+                if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
+                    selectedPiece = piece;
                 }
             }
         }
+
     }
     public void mouseReleased(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected, return
@@ -286,7 +266,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         turnCount++;
                         whiteTurn = turnCount%2==0;
 
-                        (whiteTurn ? whitePlayer : blackPlayer).updatePieces();
+                        currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
+
+                        currentPlayer.updatePieces();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
@@ -310,10 +292,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void setAmbiguousMove(Square toSquare) {
         if (selectedPiece == null) return;
 
-        Player player = whiteTurn ? whitePlayer : blackPlayer;
-
         if (!(selectedPiece instanceof Pawn)) {
-            for (Piece piece : player.getPieces()) {
+            for (Piece piece : currentPlayer.getPieces()) {
                 if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
                     if (piece.canMove(toSquare)) {
                         ambiguousMove = true;
@@ -332,6 +312,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Piece getLastPiece() { return lastPiece; }
     public Player getWhitePlayer() { return whitePlayer; }
     public Player getBlackPlayer() { return blackPlayer; }
+    public Player getCurrentPlayer() { return currentPlayer; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 }

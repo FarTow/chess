@@ -88,14 +88,14 @@ public class MoveHistory extends JPanel implements ActionListener {
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
 
-        if (board.getWhiteTurn() ? board.getWhitePlayer().isKingInCheck() : board.getBlackPlayer().isKingInCheck()) {
-            if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's checkmate
+        if (board.getCurrentPlayer().isKingInCheck()) {
+            if (board.availableMoves() == 0) { // if it's checkmate
                 chessNotation.append('#');
             } else { // if the king is in check
                 chessNotation.append('+');
             }
         } else {
-            if (board.availableMoves(board.getWhiteTurn()) == 0) { // if it's stalemate
+            if (board.availableMoves() == 0) { // if it's stalemate
                 chessNotation.append('$');
             }
         }
