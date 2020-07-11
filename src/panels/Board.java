@@ -2,10 +2,12 @@ package panels;
 
 import entities.*;
 
+import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends GameComponent implements ActionListener, MouseListener, MouseMotionListener {
+public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+    private final Point topLeft;
     private final Square[][] grid;
 
     private final Player whitePlayer;
@@ -24,7 +26,9 @@ public class Board extends GameComponent implements ActionListener, MouseListene
     private boolean ambiguousMove, ambiguousColumn;
 
     public Board(Point initialTopLeft) {
-        super(initialTopLeft);
+        setBackground(new Color(194, 194, 194));
+
+        topLeft = initialTopLeft;
         squareLength = 60;
         bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
 

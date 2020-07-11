@@ -27,7 +27,6 @@ public class Game extends JPanel implements ActionListener {
             Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
             Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
             board.resize(Math.min((getWidth()/24 - 1), 60));
-            moveHistory.resize();
             whiteTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
             blackTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
 
@@ -56,9 +55,9 @@ public class Game extends JPanel implements ActionListener {
         eastDisplay.setLayout(new BoxLayout(eastDisplay, BoxLayout.Y_AXIS));
 
         board = new Board(new Point(10,getHeight()*2/5 - 240));
-        moveHistory = new MoveHistory(new Point(0, 0), new Dimension(getWidth()/3, getHeight()*2/5), board);
-        blackTakenPieces = new TakenPieces(new Point(0, 0), board.getBlackPlayer(), board);
-        whiteTakenPieces = new TakenPieces(new Point(0, 0), board.getWhitePlayer(), board);
+        moveHistory = new MoveHistory(new Dimension(getWidth()/3, getHeight()*2/5), board);
+        blackTakenPieces = new TakenPieces(board.getBlackPlayer());
+        whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
 
         Main.forceSize(new Dimension(getWidth()/3, getHeight()/10), blackTakenPieces, whiteTakenPieces);
 

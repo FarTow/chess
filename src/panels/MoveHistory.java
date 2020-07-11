@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
-public class MoveHistory extends GameComponent implements ActionListener {
+public class MoveHistory extends JPanel implements ActionListener {
     private final Board board;
     private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
@@ -22,9 +22,8 @@ public class MoveHistory extends GameComponent implements ActionListener {
     private int moveCount;
     private int pieceCount;
 
-    public MoveHistory(Point initialTopLeft, Dimension initialSize, Board board) {
-        super(initialTopLeft);
-
+    public MoveHistory(Dimension initialSize, Board board) {
+        setBackground(new Color(194, 194, 194));
         setLayout(new BorderLayout(0, 0));
 
         this.board = board;
@@ -48,12 +47,6 @@ public class MoveHistory extends GameComponent implements ActionListener {
         add(new JScrollPane(moveDisplay));
 
         Main.forceSize(initialSize, this);
-
-        getComponent(0).setLocation(topLeft);
-    }
-
-    public void resize(int ... properties) {
-        getComponent(0).setLocation(topLeft);
     }
 
     public Object[][] readableMoveData() {

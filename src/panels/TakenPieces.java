@@ -3,23 +3,16 @@ package panels;
 import entities.Piece;
 import entities.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-import java.util.ArrayList;
-
-public class TakenPieces extends GameComponent {
-    private final Board board;
+public class TakenPieces extends JPanel {
     private final Player player;
 
-    private boolean whiteTurn;
-
-    public TakenPieces(Point initialTopLeft, Player player, Board board) {
-        super(initialTopLeft);
-
-        this.board = board;
+    public TakenPieces(Player player) {
+        setBackground(new Color(194, 194, 194));
         this.player = player;
-        whiteTurn = true;
     }
 
     public void resize(int ... properties) {
