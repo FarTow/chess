@@ -123,6 +123,33 @@ public class Player {
                 break;
         }
     }
+
+    /*
+    public boolean castleable(int castleSide) {
+        int dangerSquares = 0;
+
+        switch(castleSide) {
+            case 1: // castle kings side
+                for (int betweenColumn=getKing().getColumn()+1; betweenColumn < 7; betweenColumn++) { // all squares between king and rook
+                    if (!getKing().getMoveableSquares().contains(board.getGrid()[getKing().getRow()][betweenColumn])) { // if king can't move to between square
+                        dangerSquares++;
+                    }
+                }
+                break;
+            case 2: // castle queens side
+                for (int betweenColumn=getKing().getColumn()-1; betweenColumn > 0; betweenColumn--) { // all squares between king and rook
+                    if (!getKing().getMoveableSquares().contains(board.getGrid()[getKing().getRow()][betweenColumn])) { // if king can't move to between square
+                        dangerSquares++;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        return dangerSquares == 0;
+    }
+     */
     public void updatePieces() {
         enPassantUpdate();
 
