@@ -1,5 +1,6 @@
 package panels;
 
+import entities.King;
 import entities.Pawn;
 
 import javax.swing.*;
@@ -61,8 +62,10 @@ public class MoveHistory extends JPanel implements ActionListener {
         return readableMoveData;
     }
     public String lastMove(boolean pieceTaken) {
-        if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 1) return "O-O";
-        if ((whiteTurn ? board.getWhitePlayer().getKing() : board.getBlackPlayer().getKing()).getCastled() == 2) return "O-O-O";
+        if (board.getLastPiece() instanceof King) { // castling
+            if (((King) board.getLastPiece()).getCastled() == 1) return "O-O";
+            if (((King) board.getLastPiece()).getCastled() == 2) return "O-O-O";
+        }
 
         StringBuilder chessNotation = new StringBuilder();
         int oldRank = (4 + (4 - board.getOldSquare().x));

@@ -15,12 +15,6 @@ public class TakenPieces extends JPanel {
         this.player = player;
     }
 
-    //public void resize(int newImageSize) {
-    //    for (Piece piece : player.getDeadPieces()) {
-    //        piece.scaleImage(newImageSize);
-    //    }
-    //}
-
     public void actionPerformed(ActionEvent ae) {
         repaint();
     }
