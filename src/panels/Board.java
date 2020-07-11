@@ -256,7 +256,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                             if (Math.abs(columnDiff) == 2) {
                                 ((King) selectedPiece).setCastled(columnDiff < 0 ? 1 : 2);
-                                (selectedPiece.isWhite() ? whitePlayer : blackPlayer).castleUpdate();
+                                currentPlayer.castleUpdate();
                             }
                         }
 
@@ -265,7 +265,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         whiteTurn = turnCount%2==0;
 
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-
                         currentPlayer.updatePieces();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
