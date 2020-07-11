@@ -83,6 +83,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         bottomRight.x = topLeft.x+squareLength*8;
         bottomRight.y = topLeft.y+squareLength*8;
 
+        whitePlayer.scalePieceImages(newSquareSize);
+        blackPlayer.scalePieceImages(newSquareSize);
+
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
                 Square square = grid[row][column];
@@ -90,12 +93,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                 square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
 
-                if (square.getPiece() != null) {
-                    Piece piece = square.getPiece();
-
-                    piece.setTopLeft(square.getTopLeft());
-                    piece.scaleImage(squareLength);
-                }
+                if (square.getPiece() != null) square.getPiece().setTopLeft(pos);
             }
         }
     }

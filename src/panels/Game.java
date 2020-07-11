@@ -27,8 +27,8 @@ public class Game extends JPanel implements ActionListener {
             Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
             Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
             board.resize(Math.min((getWidth()/24 - 1), 60));
-            whiteTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
-            blackTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
+            //whiteTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
+            //blackTakenPieces.resize(Math.min((getWidth()/24 - 1), 60));
 
             updateUI();
             }

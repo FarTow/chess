@@ -209,6 +209,15 @@ public class Player {
         return checkCount > 0;
     }
 
+    public void scalePieceImages(int newSize) {
+        for (Piece piece : pieces) {
+            piece.scaleImage(newSize);
+        }
+
+        for (Piece deadPiece : deadPieces) {
+            deadPiece.scaleImage(newSize);
+        }
+    }
 
     public void removePiece(Piece piece, boolean permanent) {
         if (piece != null) {
