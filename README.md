@@ -13,7 +13,9 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 ### To-Do List
 - [ ] Piece movement functionality
   - [x] Check
-  - [x] Pawn promotion
+  - [x] En Passant
+  - [ ] Castling
+  - [ ] Pawn promotion
 - [ ] Start menu
 - [ ] Options
   - [ ] Timer settings
@@ -26,6 +28,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Checkmate
   - [x] Stalemate
   - [ ] 3-Fold repetition
+  - [ ] 50 Move Draw
 - [ ] Make application executable
 - [ ] Network capabilities
 - [x] Custom made pieces
