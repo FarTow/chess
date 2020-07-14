@@ -308,6 +308,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         } else if (selectedPiece instanceof Pawn) {
                             if (Math.abs(oldSquare.x - newSquare.x) == 2) { // set piece to be en-passant capturable
                                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
+                            } else if (selectedPiece.isWhite() ? newSquare.x == 0 : newSquare.x == 7) { // if the pawn is on the opposite side
+                                ((Pawn) selectedPiece).setPromotable(true);
+
+                                System.out.println("This pawn is promotable");
                             }
                         }
 

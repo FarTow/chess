@@ -93,6 +93,7 @@ public class Player {
     public void enPassantUpdate() { // credits to Tanvir for this logic
         for (Piece piece : pieces) {
             if (piece instanceof Pawn) {
+                if (piece.getRow() != (isWhite ? 3 : 4)) continue;
                 int behindRowDirection = isWhite ? 1 : -1;
 
                 if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) continue;
@@ -133,8 +134,6 @@ public class Player {
     }
 
     public void updatePieces() {
-        System.out.println(((Pawn) pieces.get(14)).isPromotable());
-
         // Update pawns
         enPassantUpdate();
 
