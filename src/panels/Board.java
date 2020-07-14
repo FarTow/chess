@@ -7,21 +7,25 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+    // Board Properties
     private final Point topLeft;
     private final Square[][] grid;
+    private final Point bottomRight;
+    private int squareLength;
 
+    // Players
     private final Player whitePlayer;
     private final Player blackPlayer;
     private Player currentPlayer;
 
-    private final Point bottomRight;
-    private int squareLength;
-
+    // "Game" Properties
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
 
-    private boolean check, checkmate, stalemate;
+    // Win Conditions
+    private boolean check, checkmate, stalemate; // objective game ends
+    private boolean threeFoldRepetition, fiftyMoveRule; // claimable draws
 
     // MoveHistory Trackers
     private Piece lastPiece;
