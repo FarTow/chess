@@ -302,11 +302,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                             int columnDiff = oldSquare.y - newSquare.y;
 
                             if (Math.abs(columnDiff) == 2) {
-                                currentPlayer.phsyicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
+                                currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
                                 castleState = columnDiff < 0 ? 1 : 2; // needs work probably
                             }
                         } else if (selectedPiece instanceof Pawn) {
-                            if (Math.abs(oldSquare.x - newSquare.x) == 2) ((Pawn) selectedPiece).setEnPassantCapturable(true);
+                            if (Math.abs(oldSquare.x - newSquare.x) == 2) { // set piece to be en-passant capturable
+                                ((Pawn) selectedPiece).setEnPassantCapturable(true);
+                            }
                         }
 
                         // Update Board / Players

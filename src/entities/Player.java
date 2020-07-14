@@ -119,7 +119,7 @@ public class Player {
             }
         }
     }
-    public void phsyicallyCastle(int castleSide) {
+    public void physicallyCastle(int castleSide) {
         switch(castleSide) { // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
             case 1:
                 board.movePiece(board.getGrid()[getKing().getRow()][7].getPiece(), board.getGrid()[getKing().getRow()][5], true);
