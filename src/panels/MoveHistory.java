@@ -67,20 +67,22 @@ public class MoveHistory extends JPanel implements ActionListener {
             if (board.getCastleState() == 2) return "O-O-O";
         }
 
+        // Initialize chessNotation string and other used variables
         StringBuilder chessNotation = new StringBuilder();
         int oldRank = (4 + (4 - board.getOldSquare().x));
         char oldFile = (char) ((char) 97 + board.getOldSquare().y);
         int newRank = (4 + (4 - board.getNewSquare().x));
         char newFile = (char) ((char) 97 + board.getNewSquare().y);
-
         chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
+        // Append taken notation if a piece was taken
         if (pieceTaken) {
             if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
             chessNotation.append('×'); // captured symbol
         }
 
-        if (board.isMoveAmbiguous()) { // self explanatory
+        // Check for ambiguity and adjust string accordingly
+        if (board.isMoveAmbiguous()) {
             if (board.isColumnAmbiguous()) {
                 chessNotation.append(oldRank);
             } else {
@@ -88,20 +90,9 @@ public class MoveHistory extends JPanel implements ActionListener {
             }
         }
 
+        // Notate new file and rank
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
-
-        if (board.getCurrentPlayer().isKingInCheck()) {
-            if (board.availableMoves() == 0) { // if it's checkmate
-                chessNotation.append('#');
-            } else { // if the king is in check
-                chessNotation.append('+');
-            }
-        } else {
-            if (board.availableMoves() == 0) { // if it's stalemate
-                chessNotation.append('$');
-            }
-        }
 
         return chessNotation.toString();
     }

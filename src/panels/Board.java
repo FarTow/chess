@@ -21,6 +21,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
+    private boolean check, checkmate, stalemate;
+
     // MoveHistory Trackers
     private Piece lastPiece;
     private Point oldSquare, newSquare;
@@ -195,6 +197,35 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return availableMoves;
     }
 
+    public void updateWinCondition() {
+        if (getCurrentPlayer().isKingInCheck()) {
+            if (availableMoves() == 0) { // if it's checkmate
+                checkmate = true;
+            } else { // if the king is in check
+                check = true;
+            }
+        } else {
+            if (availableMoves() == 0) { // if it's stalemate
+                stalemate = true;
+            }
+        }
+    }
+    public void updateAmbiguousMove(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Piece piece : currentPlayer.getPieces()) {
+                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
+                    if (piece.canMove(toSquare)) {
+                        ambiguousMove = true;
+
+                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                    }
+                }
+            }
+        }
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
@@ -247,7 +278,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         Piece takenPiece = square.getPiece();
                         oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquare = new Point(square.getRow(), square.getColumn());
-                        setAmbiguousMove(square);
+                        updateAmbiguousMove(square);
 
                         // Physical "Moving" of Pieces
                         (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece, true);
@@ -259,7 +290,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                             if (Math.abs(columnDiff) == 2) {
                                 currentPlayer.phsyicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
-                                castleState = columnDiff < 0 ? 1 : 2;
+                                castleState = columnDiff < 0 ? 1 : 2; // needs work probably
                             }
                         }
 
@@ -269,6 +300,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
                         currentPlayer.updatePieces(); // PIECES UPDATED AT THE START OF THEIR TURN
+
+                        updateWinCondition();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
@@ -289,31 +322,19 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
-    public void setAmbiguousMove(Square toSquare) {
-        if (selectedPiece == null) return;
-
-        if (!(selectedPiece instanceof Pawn)) {
-            for (Piece piece : currentPlayer.getPieces()) {
-                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
-                    if (piece.canMove(toSquare)) {
-                        ambiguousMove = true;
-
-                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
-                    }
-                }
-            }
-        }
-    }
-
-    public Square[][] getGrid() { return grid; }
-    public boolean getWhiteTurn() { return whiteTurn; }
+    public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquare() { return oldSquare; }
     public Point getNewSquare() { return newSquare; }
-    public Piece getLastPiece() { return lastPiece; }
-    public Player getWhitePlayer() { return whitePlayer; }
+    public Player getWhitePlayer() { return whitePlayer; } // Player Getters
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }
+    public boolean isCheck() { return check; } // Win Condition Getters
+    public boolean isCheckmate() { return checkmate; }
+    public boolean isStalemate() { return stalemate; }
+    public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
     public int getCastleState() { return castleState; }
+    public Piece getLastPiece() { return lastPiece; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
+
 }
