@@ -268,7 +268,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         whiteTurn = turnCount%2==0;
 
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-                        currentPlayer.updatePieces();
+                        currentPlayer.updatePieces(); // PIECES UPDATED AT THE START OF THEIR TURN
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }

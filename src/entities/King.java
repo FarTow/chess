@@ -44,5 +44,19 @@ public class King extends Piece {
         }
     }
 
+    public void castleCheck(Board board) {
+        Square[][] grid = board.getGrid();
+        Square kingSideCastleSquare = grid[getRow()][6];
+        Square queenSideCastleSquare = grid[getRow()][2];
+
+        if (moveableSquares.contains(kingSideCastleSquare)) {
+            if (!moveableSquares.contains(grid[getRow()][5])) moveableSquares.remove(kingSideCastleSquare);
+        }
+
+        if (moveableSquares.contains(queenSideCastleSquare)) {
+            if (!moveableSquares.contains(grid[getRow()][3])) moveableSquares.remove(queenSideCastleSquare);
+        }
+    }
+
     public char getSymbol() { return isWhite ? '♔' : '♚'; }
 }

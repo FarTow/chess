@@ -125,8 +125,8 @@ public class Player {
     }
 
     public void updatePieces() {
+        // Update pawns
         enPassantUpdate();
-
         if (isWhite == board.getWhiteTurn()) {
             for (Piece piece : pieces) {
                 if (piece instanceof Pawn) {
@@ -135,7 +135,8 @@ public class Player {
             }
         }
 
-        for (Piece piece : pieces) { // set pieces to where the only squares they can move to are squares they may move to
+        // Update all pieces to where they may move
+        for (Piece piece : pieces) {
             piece.update(board);
 
             ArrayList<Square> mayMoveSquares = new ArrayList<>();
@@ -145,6 +146,8 @@ public class Player {
 
             piece.setMoveableSquares(mayMoveSquares);
         }
+
+        getKing().castleCheck(board);
     }
 
     public boolean mayMove(Piece piece, Square toSquare) {
