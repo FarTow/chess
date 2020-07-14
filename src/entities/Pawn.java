@@ -14,6 +14,8 @@ public class Pawn extends Piece {
     }
 
     public void update(Board board) {
+        if (isWhite ? getRow() == 0 : getRow() == 7) promotable = true;
+
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
@@ -28,7 +30,6 @@ public class Pawn extends Piece {
                         if (getColumn() == newColumn) { // moving to a spot in the same column
                             if (firstMove) { // move two on first turn
                                 if (getRow() + movementModifier * 2 == newRow) {
-                                    enPassantCapturable = true;
                                     moveableSquares.add(square);
                                 }
                             }

@@ -297,6 +297,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
+                        // Special Pieces (pieces that require special checks)
                         if (selectedPiece instanceof King) { // if the piece was a king
                             int columnDiff = oldSquare.y - newSquare.y;
 
@@ -304,6 +305,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                                 currentPlayer.phsyicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
                                 castleState = columnDiff < 0 ? 1 : 2; // needs work probably
                             }
+                        } else if (selectedPiece instanceof Pawn) {
+                            if (Math.abs(oldSquare.x - newSquare.x) == 2) ((Pawn) selectedPiece).setEnPassantCapturable(true);
                         }
 
                         // Update Board / Players

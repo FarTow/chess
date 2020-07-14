@@ -110,6 +110,14 @@ public class Player {
                 }
             }
         }
+
+        if (isWhite == board.getWhiteTurn()) {
+            for (Piece piece : pieces) {
+                if (piece instanceof Pawn) {
+                    if (((Pawn) piece).isEnPassantCapturable()) ((Pawn) piece).setEnPassantCapturable(false);
+                }
+            }
+        }
     }
     public void phsyicallyCastle(int castleSide) {
         switch(castleSide) { // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
@@ -125,15 +133,10 @@ public class Player {
     }
 
     public void updatePieces() {
+        System.out.println(((Pawn) pieces.get(14)).isPromotable());
+
         // Update pawns
         enPassantUpdate();
-        if (isWhite == board.getWhiteTurn()) {
-            for (Piece piece : pieces) {
-                if (piece instanceof Pawn) {
-                    if (((Pawn) piece).isEnPassantCapturable()) ((Pawn) piece).setEnPassantCapturable(false);
-                }
-            }
-        }
 
         // Update all pieces to where they may move
         for (Piece piece : pieces) {
