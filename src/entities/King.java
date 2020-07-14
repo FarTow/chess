@@ -49,12 +49,12 @@ public class King extends Piece {
         Square kingSideCastleSquare = grid[getRow()][6];
         Square queenSideCastleSquare = grid[getRow()][2];
 
-        if (moveableSquares.contains(kingSideCastleSquare)) {
-            if (!moveableSquares.contains(grid[getRow()][5])) moveableSquares.remove(kingSideCastleSquare);
+        if (moveableSquares.contains(kingSideCastleSquare) && !moveableSquares.contains(grid[getRow()][5])) {
+            moveableSquares.remove(kingSideCastleSquare);
         }
 
-        if (moveableSquares.contains(queenSideCastleSquare)) {
-            if (!moveableSquares.contains(grid[getRow()][3])) moveableSquares.remove(queenSideCastleSquare);
+        if (moveableSquares.contains(queenSideCastleSquare) && !moveableSquares.contains(grid[getRow()][3])) {
+            moveableSquares.remove(queenSideCastleSquare);
         }
     }
 
