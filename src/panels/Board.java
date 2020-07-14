@@ -254,6 +254,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mousePressed(MouseEvent me) {
         if (selectedPiece != null) return; // if a piece isn't selected already
 
+        if (checkmate || stalemate) return; // determine a better way to end the gamer soon
+
         for (Piece piece : currentPlayer.getPieces()) {
             if (piece.getSquare() != null) {
                 if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
