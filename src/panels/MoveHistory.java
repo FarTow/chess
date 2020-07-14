@@ -94,6 +94,15 @@ public class MoveHistory extends JPanel implements ActionListener {
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
 
+        // Check for win conditions
+        if (board.isCheck()) {
+            chessNotation.append('+');
+        } else if (board.isCheckmate()) {
+            chessNotation.append('#');
+        } else if (board.isStalemate()) {
+            chessNotation.append('$');
+        }
+
         return chessNotation.toString();
     }
     public void updateAllMoveData() {
