@@ -4,8 +4,6 @@ import panels.Board;
 import java.util.ArrayList;
 
 public class King extends Piece {
-    private int castled; // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
-
     public King(boolean isWhite, Square square) {
         super(isWhite, square);
         setImage("king");
@@ -31,7 +29,7 @@ public class King extends Piece {
                         Piece rook = kingSideCastle ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece(); // rook on the side player moved
 
                         if (rook instanceof Rook) { // piece is a rook
-                            if (rook.isFirstMove() && rook.isWhite() == isWhite && castled == 0) { // rook's first move
+                            if (rook.isFirstMove() && rook.isWhite() == isWhite) { // rook's first move
                                 moveableSquares.add(square);
                             }
                         }
@@ -44,14 +42,7 @@ public class King extends Piece {
 
             }
         }
-
-        if(isWhite == board.getWhiteTurn()) {
-            if (castled != 0) castled = 0;
-        }
     }
 
-    public void setCastled(int castled) { this.castled = castled; }
-
-    public int getCastled() { return castled; }
     public char getSymbol() { return isWhite ? '♔' : '♚'; }
 }

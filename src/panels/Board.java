@@ -25,6 +25,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Piece lastPiece;
     private Point oldSquare, newSquare;
     private boolean ambiguousMove, ambiguousColumn;
+    private int castleState;
 
     public Board(Point initialTopLeft) {
         setBackground(new Color(194, 194, 194));
@@ -234,6 +235,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseReleased(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected, return
 
+        castleState = 0;
+
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
@@ -251,12 +254,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
-                        if (selectedPiece instanceof King) {
+                        if (selectedPiece instanceof King) { // if the piece was a king
                             int columnDiff = oldSquare.y - newSquare.y;
 
                             if (Math.abs(columnDiff) == 2) {
-                                ((King) selectedPiece).setCastled(columnDiff < 0 ? 1 : 2);
-                                currentPlayer.phsyicallyCastle();
+                                currentPlayer.phsyicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
+                                castleState = columnDiff < 0 ? 1 : 2;
                             }
                         }
 
@@ -310,6 +313,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Player getWhitePlayer() { return whitePlayer; }
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }
+    public int getCastleState() { return castleState; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 }
