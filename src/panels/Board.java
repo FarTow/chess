@@ -202,6 +202,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     public void updateWinCondition() {
+        if (check) {
+            check = false;
+            return;
+        }
+        if (checkmate || stalemate) return;
+
         if (getCurrentPlayer().isKingInCheck()) {
             if (availableMoves() == 0) { // if it's checkmate
                 checkmate = true;

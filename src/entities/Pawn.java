@@ -61,6 +61,7 @@ public class Pawn extends Piece {
     }
 
     public void setEnPassantCapturable(boolean enPassantCapturable) { this.enPassantCapturable = enPassantCapturable; }
+    public void setPromotable(boolean promotable) { this.promotable = promotable; }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
     public boolean isPromotable() { return promotable; }
