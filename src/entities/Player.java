@@ -196,10 +196,10 @@ public class Player {
     }
 
     public void removePiece(Piece piece, boolean permanent) {
-        if (piece != null) {
-            if (permanent) deadPieces.add(piece);
-            pieces.remove(piece);
-        }
+        if (piece == null) return;
+
+        if (permanent) deadPieces.add(piece);
+        pieces.remove(piece);
     }
     public void addPiece(Piece piece) { pieces.add(piece); }
 
