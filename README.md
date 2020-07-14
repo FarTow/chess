@@ -14,7 +14,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [ ] Piece movement functionality
   - [x] Check
   - [x] En Passant
-  - [ ] Castling
+  - [x] Castling
   - [ ] Pawn promotion
 - [ ] Start menu
 - [ ] Options
