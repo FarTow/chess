@@ -111,7 +111,7 @@ public class Player {
             }
         }
     }
-    public void castleUpdate() {
+    public void phsyicallyCastle() {
         switch(getKing().getCastled()) {
             case 1:
                 board.movePiece(board.getGrid()[getKing().getRow()][7].getPiece(), board.getGrid()[getKing().getRow()][5], true);
@@ -124,32 +124,6 @@ public class Player {
         }
     }
 
-    /*
-    public boolean castleable(int castleSide) {
-        int dangerSquares = 0;
-
-        switch(castleSide) {
-            case 1: // castle kings side
-                for (int betweenColumn=getKing().getColumn()+1; betweenColumn < 7; betweenColumn++) { // all squares between king and rook
-                    if (!getKing().getMoveableSquares().contains(board.getGrid()[getKing().getRow()][betweenColumn])) { // if king can't move to between square
-                        dangerSquares++;
-                    }
-                }
-                break;
-            case 2: // castle queens side
-                for (int betweenColumn=getKing().getColumn()-1; betweenColumn > 0; betweenColumn--) { // all squares between king and rook
-                    if (!getKing().getMoveableSquares().contains(board.getGrid()[getKing().getRow()][betweenColumn])) { // if king can't move to between square
-                        dangerSquares++;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        return dangerSquares == 0;
-    }
-     */
     public void updatePieces() {
         enPassantUpdate();
 
@@ -161,11 +135,10 @@ public class Player {
             }
         }
 
-        for (Piece piece : pieces) {
+        for (Piece piece : pieces) { // set pieces to where the only squares they can move to are squares they may move to
             piece.update(board);
 
             ArrayList<Square> mayMoveSquares = new ArrayList<>();
-
             for (Square square : piece.getMoveableSquares()) {
                 if (mayMove(piece, square)) mayMoveSquares.add(square);
             }

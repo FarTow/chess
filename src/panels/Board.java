@@ -256,7 +256,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                             if (Math.abs(columnDiff) == 2) {
                                 ((King) selectedPiece).setCastled(columnDiff < 0 ? 1 : 2);
-                                currentPlayer.castleUpdate();
+                                currentPlayer.phsyicallyCastle();
                             }
                         }
 

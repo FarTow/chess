@@ -27,7 +27,8 @@ public class King extends Piece {
 
                 if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally
                     if (firstMove) { // if it's the king's first move
-                        Piece rook = getColumn() - newColumn < 0 ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece(); // rook on the side player moved
+                        boolean kingSideCastle = getColumn() - newColumn < 0;
+                        Piece rook = kingSideCastle ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece(); // rook on the side player moved
 
                         if (rook instanceof Rook) { // piece is a rook
                             if (rook.isFirstMove() && rook.isWhite() == isWhite && castled == 0) { // rook's first move
@@ -45,30 +46,9 @@ public class King extends Piece {
         }
 
         if(isWhite == board.getWhiteTurn()) {
-            if (castled>0) castled = 0;
+            if (castled != 0) castled = 0;
         }
     }
-
-    /*
-    public boolean castleable(Rook rook, Board board) {
-        if (castled == 3) return false;
-
-        Square[][] grid = board.getGrid();
-        int dangerSquares = 0;
-        boolean castleLeftRook = rook.getColumn() > getColumn();
-
-        // for all the spaces between the king and rook
-        for (int currentColumn=getColumn()+(castleLeftRook ? 1 : -1); // start at rook
-             (castleLeftRook ? currentColumn<rook.getColumn() : currentColumn>rook.getColumn()); // condition based on if castling king or queens side
-             currentColumn += (castleLeftRook ? 1 : -1)) { // increment based on kings or queens side
-
-            //if (!board.mayMove(this, grid[getRow()][currentColumn])) dangerSquares++;
-        }
-
-        return dangerSquares == 0;
-    }
-
-     */
 
     public void setCastled(int castled) { this.castled = castled; }
 
