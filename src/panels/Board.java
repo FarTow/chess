@@ -235,7 +235,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseReleased(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected, return
 
-        castleState = 0;
+        if (castleState != 0) castleState = 0; // not a fan of having to check this every time the mouse is released
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
