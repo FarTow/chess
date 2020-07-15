@@ -56,7 +56,7 @@ public class StartMenu extends JPanel {
             }
 
             Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/20), getComponent(i));
-            getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/50)));
+            getComponent(i).setFont(new Font("Serif", Font.PLAIN, Math.min(getHeight()/30, getWidth()/50)));
 
             ((JButton) getComponent(i)).setAlignmentX(Component.CENTER_ALIGNMENT);
             getComponent(i).setFocusable(false);

@@ -27,7 +27,7 @@ public class MoveHistory extends JPanel implements ActionListener {
     private int pieceCount;
 
     public MoveHistory(Dimension initialSize, Board board) {
-        setBackground(new Color(194, 194, 194));
+        setBackground(new Color(61, 35, 23));
         setLayout(new BorderLayout(0, 0));
 
         this.board = board;
