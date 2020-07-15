@@ -141,13 +141,22 @@ public class MoveHistory extends JPanel implements ActionListener {
             int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
             boolean pieceTaken = pieceCount == newPieceCount+1;
 
-            if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+            if (moveCount == 1) {
+                if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
+                    allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                    moveCount++; // go to next move
+                } else { // if white was the one to move
+                    allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+                }
+            } else {
+                if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
+                    allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                    moveCount++; // go to next move
+                } else { // if white was the one to move
+                    allMoveData.add(new Object[]{moveCount, "", ""}); // new row of data
 
-                moveCount++; // go to next move
-                allMoveData.add(new Object[] {moveCount, "", ""}); // new row of data
-            } else { // if white was the one to move
-                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+                    allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+                }
             }
 
             pieceCount = newPieceCount;
