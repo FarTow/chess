@@ -27,6 +27,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean check, checkmate, stalemate; // objective game ends
     private boolean threeFoldRepetition, fiftyMoveRule; // claimable draws
 
+    private final Object[] whitePromotionDialogIcons = new Object[] {
+            new ImageIcon(new Queen(true).getImage()),
+            new ImageIcon(new Rook(true).getImage()),
+            new ImageIcon(new Bishop(true).getImage()),
+            new ImageIcon(new Knight(true).getImage()),};
+    private final Object[] blackPromotionDialogIcons = new Object[] {
+            new ImageIcon(new Queen(false).getImage()),
+            new ImageIcon(new Rook(false).getImage()),
+            new ImageIcon(new Bishop(false).getImage()),
+            new ImageIcon(new Knight(false).getImage()),};
+
     // MoveHistory Trackers
     private Piece lastPiece;
     private Point oldSquareCords, newSquareCords;
@@ -242,14 +253,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         switch(newPiece) {
             case -1:
-                Object[] promotionDialogIcons = new Object[] {
-                        new ImageIcon(new Queen(selectedPiece.isWhite()).getImage()),
-                        new ImageIcon(new Rook(selectedPiece.isWhite()).getImage()),
-                        new ImageIcon(new Bishop(selectedPiece.isWhite()).getImage()),
-                        new ImageIcon(new Knight(selectedPiece.isWhite()).getImage()),};
                 promotePawn(promotedPawn, newSquare, JOptionPane.showOptionDialog(
                         this, "Promote Piece", "Congrats!",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                        promotedPawn.isWhite() ? whitePromotionDialogIcons : blackPromotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
                 break;
             case 0:
                 currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
@@ -345,16 +352,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                             if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
                                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
                             } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
-                                Object[] promotionDialogIcons = new Object[] {
-                                        new ImageIcon(new Queen(selectedPiece.isWhite()).getImage()),
-                                        new ImageIcon(new Rook(selectedPiece.isWhite()).getImage()),
-                                        new ImageIcon(new Bishop(selectedPiece.isWhite()).getImage()),
-                                        new ImageIcon(new Knight(selectedPiece.isWhite()).getImage()),};
-
                                 promotePawn(selectedPiece, selectedPiece.getSquare(),
                                         JOptionPane.showOptionDialog(
                                                 this, "Promote Piece", "Congrats!",
-                                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                                                selectedPiece.isWhite() ? whitePromotionDialogIcons : blackPromotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
                             }
                         }
 
