@@ -180,7 +180,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 if (selectedPiece.canMove(square)) {
                     g.setColor(new Color(130, 151, 105));
 
-                    if (square.getPiece() != null) { // if there's a takeable piece
+                    if (square.getPiece() != null) { // if there's a capturable piece
                         for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/5; xDest++) { // topLeftCorner
                             for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/5; yDest++) {
                                 g.drawLine(xDest, square.getTopLeft().y, square.getTopLeft().x, yDest);
@@ -204,8 +204,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     } else { // if it's a free square
                         g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
                                 square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
-                                square.getRect().width / 5,
-                                square.getRect().height / 5); // draw the square's piece if it exists
+                                square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
                     }
                 }
             }
