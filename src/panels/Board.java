@@ -127,7 +127,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void drawIndicators(Graphics g) {
         Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
-        g.setColor(Color.white);
+        g.setColor(Color.black);
 
         for (int row=1; row<=grid.length; row++) {
             String rank = Integer.toString(row);

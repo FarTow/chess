@@ -35,6 +35,7 @@ public class StartMenu extends JPanel {
     }
 
     public void initUI(Main main) {
+        setBackground(new Color(212, 202, 186));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Create start button
