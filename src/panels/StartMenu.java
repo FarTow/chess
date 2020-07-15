@@ -3,8 +3,37 @@ package panels;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class StartMenu extends JPanel {
+    public StartMenu() {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) { // review time
+                super.componentResized(e);
+
+                if (getComponentCount() == 0) return;
+
+                for (int i=0; i<getComponentCount(); i++) {
+                    switch(i) {
+                        case 0: // top rigid body
+                            Main.forceSize(new Dimension(getWidth(), getHeight() / 3), getComponent(i));
+                            break;
+                        case 2: // middle rigid body
+                            Main.forceSize(new Dimension(getWidth(), getHeight() / 20), getComponent(i));
+                            break;
+                        default: // buttons
+                            getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/50)));
+                            Main.forceSize(new Dimension(getWidth()/6, getHeight()/20), getComponent(i));
+                            break;
+                    }
+                }
+
+                updateUI();
+            }
+        });
+    }
+
     public void initUI(Main main) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -27,7 +56,7 @@ public class StartMenu extends JPanel {
             }
 
             Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/20), getComponent(i));
-            getComponent(i).setFont(new Font("Serif", Font.PLAIN, 20));
+            getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/50)));
 
             ((JButton) getComponent(i)).setAlignmentX(Component.CENTER_ALIGNMENT);
             getComponent(i).setFocusable(false);
