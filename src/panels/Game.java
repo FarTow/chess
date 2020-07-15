@@ -47,29 +47,29 @@ public class Game extends JPanel implements ActionListener {
     public void start() {
         setLayout(new BorderLayout(getWidth()/500, 0));
 
+        // Initialize displays to be used by border layout
         centerDisplay = new JPanel();
         eastDisplay = new JPanel();
-
-        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS));
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), centerDisplay, eastDisplay); // set size
+        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS)); // layout
         eastDisplay.setLayout(new BoxLayout(eastDisplay, BoxLayout.Y_AXIS));
+        centerDisplay.setOpaque(false); // background color
+        eastDisplay.setOpaque(false);
 
+        // Create specific panels that will be arranged around the Game panel
         board = new Board(new Point(10,getHeight()*2/5 - 240));
         moveHistory = new MoveHistory(new Dimension(getWidth()/3, getHeight()*2/5), board);
         blackTakenPieces = new TakenPieces(board.getBlackPlayer());
         whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
-
         Main.forceSize(new Dimension(getWidth()/3, getHeight()/5), blackTakenPieces, whiteTakenPieces);
 
-        centerDisplay.setOpaque(false);
-        eastDisplay.setOpaque(false);
-
+        // Add components to displays
         centerDisplay.add(board);
         eastDisplay.add(blackTakenPieces);
         eastDisplay.add(moveHistory);
         eastDisplay.add(whiteTakenPieces);
 
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), centerDisplay, eastDisplay);
-
+        // Add all displays to Game
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.SOUTH);
         add(Box.createRigidArea(new Dimension(getWidth()/3, getHeight())), BorderLayout.WEST);
