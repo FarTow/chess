@@ -44,7 +44,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private char pawnPromotionStatus = ' ';
 
     public Board(Point initialTopLeft) {
-        setBackground(new Color(61, 35, 23));
+        setOpaque(false);
 
         topLeft = initialTopLeft;
         squareLength = 60;
@@ -127,7 +127,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void drawIndicators(Graphics g) {
         Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
-        g.setColor(Color.black);
+        g.setColor(Color.white);
 
         for (int row=1; row<=grid.length; row++) {
             String rank = Integer.toString(row);
