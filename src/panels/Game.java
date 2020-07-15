@@ -21,26 +21,27 @@ public class Game extends JPanel implements ActionListener {
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
             super.componentResized(e);
-
-            if (getComponentCount() == 0) return;
-
-            Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
-            Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
-            board.resize(Math.min((getWidth()/24 - 1), 60));
-
+            resize();
             updateUI();
             }
         });
     }
 
+    public void resize() {
+        if (getComponentCount() == 0) return;
+        Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
+        board.resize(Math.min((getWidth()/24 - 1), 60));
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
     public void actionPerformed(ActionEvent ae) {
         board.actionPerformed(ae);
         moveHistory.actionPerformed(ae);
         whiteTakenPieces.actionPerformed(ae);
         blackTakenPieces.actionPerformed(ae);
-    }
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
     }
 
     public void start() {

@@ -1,6 +1,5 @@
 package panels;
 
-import entities.Piece;
 import entities.Player;
 
 import javax.swing.*;
@@ -15,10 +14,6 @@ public class TakenPieces extends JPanel {
         this.player = player;
     }
 
-    public void actionPerformed(ActionEvent ae) {
-        repaint();
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -31,5 +26,8 @@ public class TakenPieces extends JPanel {
                         player.isWhite() ? 0 : getHeight() - player.getDeadPieces().get(i).getImage().getHeight(null), null);
             }
         }
+    }
+    public void actionPerformed(ActionEvent ae) {
+        repaint();
     }
 }
