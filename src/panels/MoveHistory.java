@@ -49,8 +49,12 @@ public class MoveHistory extends JPanel implements ActionListener {
         moveDisplayTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // functional changes
         moveDisplayTable.getTableHeader().setReorderingAllowed(false);
         moveDisplayTable.getTableHeader().setResizingAllowed(false);
-
-        moveDisplayTable.setDefaultRenderer(String.class, moveDisplayCellRenderer); // visual changes
+        for (int i=0; i<moveDisplayTable.getTableHeader().getColumnModel().getColumnCount(); i++) {
+            moveDisplayTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
+        }
+        for (int i=0; i<moveDisplayTable.getColumnModel().getColumnCount(); i++) { // visual changes
+            moveDisplayTable.getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
+        }
         moveDisplayTable.getTableHeader().setBackground(Color.black);
         moveDisplayTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 16));
         moveDisplayTable.setFont(new Font("Serif", Font.PLAIN, 12));
@@ -138,6 +142,9 @@ public class MoveHistory extends JPanel implements ActionListener {
 
             pieceCount = newPieceCount;
             moveDisplayModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
+            for (int i=0; i<moveDisplayTable.getTableHeader().getColumnModel().getColumnCount(); i++) {
+                moveDisplayTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
+            }
             for (int i=0; i<moveDisplayTable.getColumnModel().getColumnCount(); i++) {
                 moveDisplayTable.getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
             }
