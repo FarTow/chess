@@ -75,7 +75,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         char newFile = (char) ((char) 97 + board.getNewSquareCords().y);
         chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
-        // Append taken notation if a piece was taken
+        // Append "taken" notation if a piece was taken
         if (pieceTaken) {
             if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
             chessNotation.append('×'); // captured symbol
@@ -93,6 +93,13 @@ public class MoveHistory extends JPanel implements ActionListener {
         // Notate new file and rank
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
+
+        if (board.getLastPiece() instanceof Pawn) {
+            if (board.getPawnPromotion() != ' ') {
+                chessNotation.append('=');
+                chessNotation.append(board.getPawnPromotion());
+            }
+        }
 
         // Check for win conditions
         if (board.isCheck()) {

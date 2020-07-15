@@ -32,6 +32,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castleState;
+    private char pawnPromotion = ' ';
 
     public Board(Point initialTopLeft) {
         setBackground(new Color(194, 194, 194));
@@ -242,6 +243,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
         currentPlayer.removePiece(promotedPawn, false);
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
+
+        pawnPromotion = currentPlayer.getPieces().get(replacedPieceIndex).getSymbol();
     }
 
     protected void paintComponent(Graphics g) {
@@ -287,6 +290,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece == null) return; // if a piece isn't selected, return
 
         if (castleState != 0) castleState = 0; // not a fan of having to check this every time the mouse is released
+        if (pawnPromotion != ' ') pawnPromotion = ' '; // yuck
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -360,6 +364,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean isStalemate() { return stalemate; }
     public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
     public int getCastleState() { return castleState; }
+    public char getPawnPromotion() { return pawnPromotion; }
     public Piece getLastPiece() { return lastPiece; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
