@@ -179,9 +179,34 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square square : squareRow) {
                 if (selectedPiece.canMove(square)) {
                     g.setColor(new Color(130, 151, 105));
-                    g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
-                            square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
-                            square.getRect().width / 5, square.getRect().height / 5); // draw the square's piece if it exists
+
+                    if (square.getPiece() != null) { // if there's a takeable piece
+                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/5; xDest++) { // topLeftCorner
+                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/5; yDest++) {
+                                g.drawLine(xDest, square.getTopLeft().y, square.getTopLeft().x, yDest);
+                            }
+                        }
+                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/5; xDest--) { // topRightCorner
+                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/5; yDest++) {
+                                g.drawLine(xDest, square.getTopLeft().y, square.getBottomRight().x, yDest);
+                            }
+                        }
+                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/5; xDest++) { // bottomLeftCorner
+                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/5; yDest--) {
+                                g.drawLine(xDest, square.getBottomRight().y, square.getTopLeft().x, yDest);
+                            }
+                        }
+                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/5; xDest--) { // bottomRightCorner
+                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/5; yDest--) {
+                                g.drawLine(xDest, square.getBottomRight().y, square.getBottomRight().x, yDest);
+                            }
+                        }
+                    } else { // if it's a free square
+                        g.fillOval(square.getTopLeft().x + square.getRect().width / 2 - square.getRect().width / 10,
+                                square.getTopLeft().y + square.getRect().height / 2 - square.getRect().width / 10,
+                                square.getRect().width / 5,
+                                square.getRect().height / 5); // draw the square's piece if it exists
+                    }
                 }
             }
         }
