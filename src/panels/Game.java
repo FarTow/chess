@@ -17,7 +17,7 @@ public class Game extends JPanel implements ActionListener {
     private TakenPieces whiteTakenPieces;
 
     public Game() {
-        setBackground(new Color(212, 202, 186));
+        setBackground(Main.BACKGROUND_COLOR);
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
             super.componentResized(e);

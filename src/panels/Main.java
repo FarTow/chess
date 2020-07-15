@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
+    public static final Color BACKGROUND_COLOR = new Color(212, 202, 186);
+
     static final String START_MENU_LABEL = "START MENU";
     static final String GAME_LABEL = "GAME";
 
