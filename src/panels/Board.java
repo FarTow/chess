@@ -255,9 +255,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             case 3:
                 currentPlayer.getPieces().set(replacedPieceIndex, new Knight(currentPlayer.isWhite(), newSquare));
                 break;
-            default:
-                System.out.println("You didn't give me a usable int dummy");
-                break;
         }
 
         currentPlayer.removePiece(promotedPawn, false);
