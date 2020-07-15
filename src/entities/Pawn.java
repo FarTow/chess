@@ -13,6 +13,10 @@ public class Pawn extends Piece {
         setImage("pawn");
     }
 
+    public Pawn(boolean isWhite) {
+        super(isWhite);
+    }
+
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();

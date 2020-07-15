@@ -2,7 +2,7 @@ package panels;
 
 import entities.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -237,10 +237,29 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
-    public void promotePawn(Piece promotedPawn, Square newSquare) {
+    public void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
+        System.out.println("You selected: " + newPiece);
+
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
-        currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
+        switch(newPiece) {
+            case 0:
+                currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
+                break;
+            case 1:
+                currentPlayer.getPieces().set(replacedPieceIndex, new Rook(currentPlayer.isWhite(), newSquare));
+                break;
+            case 2:
+                currentPlayer.getPieces().set(replacedPieceIndex, new Bishop(currentPlayer.isWhite(), newSquare));
+                break;
+            case 3:
+                currentPlayer.getPieces().set(replacedPieceIndex, new Knight(currentPlayer.isWhite(), newSquare));
+                break;
+            default:
+                System.out.println("You didn't give me a usable int dummy");
+                break;
+        }
+
         currentPlayer.removePiece(promotedPawn, false);
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
@@ -321,7 +340,16 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                             if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
                                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
                             } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
-                                promotePawn(selectedPiece, selectedPiece.getSquare());
+                                Object[] promotionDialogIcons = new Object[] {
+                                        new ImageIcon(new Queen(selectedPiece.isWhite()).getImage()),
+                                        new ImageIcon(new Rook(selectedPiece.isWhite()).getImage()),
+                                        new ImageIcon(new Bishop(selectedPiece.isWhite()).getImage()),
+                                        new ImageIcon(new Knight(selectedPiece.isWhite()).getImage()),};
+
+                                promotePawn(selectedPiece, selectedPiece.getSquare(),
+                                        JOptionPane.showOptionDialog(
+                                                this, "Promote Piece", "Congrats!",
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
                             }
                         }
 

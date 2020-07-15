@@ -6,10 +6,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Rook extends Piece {
-
     public Rook(boolean isWhite, Square square) {
         super(isWhite, square);
         setImage("rook");
+    }
+
+    public Rook(boolean isWhite) {
+        super(isWhite);
     }
 
     public void update(Board board) {

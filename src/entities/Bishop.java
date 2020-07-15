@@ -6,10 +6,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Bishop extends Piece {
-
     public Bishop(boolean isWhite, Square square) {
         super(isWhite, square);
         setImage("bishop");
+    }
+
+    public Bishop(boolean isWhite) {
+        super(isWhite);
     }
 
     public void update(Board board) {
