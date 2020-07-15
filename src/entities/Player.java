@@ -10,12 +10,15 @@ public class Player {
     private Player enemyPlayer;
     private ArrayList<Piece> pieces;
     private ArrayList<Piece> deadPieces;
+    private ArrayList<Square> allMoves;
+    private boolean inCheck, inCheckmate, inStalemate;
 
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
         this.board = board;
         defaultResetPieces();
         deadPieces = new ArrayList<>();
+        allMoves = new ArrayList<>();
     }
 
     public void defaultResetPieces() {
@@ -133,7 +136,16 @@ public class Player {
         }
     }
 
-    public void updatePieces() {
+    public void updateAllMoves() {
+        allMoves = new ArrayList<>();
+
+        for (Piece piece : pieces) {
+            allMoves.addAll(piece.getMoveableSquares());
+        }
+    }
+    public void update() {
+        inCheck = false;
+
         // Update pawns
         enPassantUpdate();
 
@@ -150,6 +162,19 @@ public class Player {
         }
 
         getKing().castleCheck(board);
+        updateAllMoves();
+
+        if (isKingInCheck()) {
+            if (allMoves.size() == 0) { // if it's checkmate
+                inCheckmate = true;
+            } else { // if the king is in check
+                inCheck = true;
+            }
+        } else {
+            if (allMoves.size() == 0) { // if it's stalemate
+                inStalemate = true;
+            }
+        }
     }
 
     public boolean mayMove(Piece piece, Square toSquare) {
@@ -216,6 +241,10 @@ public class Player {
 
         return null;
     }
+    public ArrayList<Square> getAllMoves() { return allMoves; }
+    public boolean isInCheck() { return inCheck; }
+    public boolean isInCheckmate() { return inCheckmate; }
+    public boolean isInStalemate() { return inStalemate; }
     public boolean isWhite() { return isWhite; }
 
     public String toString() {

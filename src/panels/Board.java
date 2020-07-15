@@ -77,7 +77,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        currentPlayer.updatePieces();
+        currentPlayer.update();
     }
 
     public void resetBoard() {
@@ -230,40 +230,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
-    public int availableMoves() {
-        int availableMoves = 0;
-
-        for (Piece piece : currentPlayer.getPieces()) {
-            for (Square[] squareRow : grid) {
-                for (Square square : squareRow) {
-                    if (piece.canMove(square)) {
-                        availableMoves++;
-                    }
-                }
-            }
-        }
-
-        return availableMoves;
-    }
 
     public void updateWinCondition() {
-        if (check) {
-            check = false;
-            return;
-        }
-        if (checkmate || stalemate) return;
-
-        if (getCurrentPlayer().isKingInCheck()) {
-            if (availableMoves() == 0) { // if it's checkmate
-                checkmate = true;
-            } else { // if the king is in check
-                check = true;
-            }
-        } else {
-            if (availableMoves() == 0) { // if it's stalemate
-                stalemate = true;
-            }
-        }
+        check = currentPlayer.isInCheck();
+        checkmate = currentPlayer.isInCheckmate();
+        stalemate = currentPlayer.isInStalemate();
     }
     public void updateAmbiguousMove(Square toSquare) {
         if (selectedPiece == null) return;
@@ -392,7 +363,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         whiteTurn = turnCount%2==0;
 
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-                        currentPlayer.updatePieces(); // PIECES UPDATED AT THE START OF THEIR TURN
+                        currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
 
                         updateWinCondition();
                     } else {
