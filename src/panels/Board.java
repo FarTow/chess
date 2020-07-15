@@ -34,8 +34,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
-    // Win Conditions
-    private boolean check, checkmate, stalemate; // objective game ends
     private boolean threeFoldRepetition, fiftyMoveRule; // claimable draws
 
     // MoveHistory Trackers
@@ -231,11 +229,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
 
-    public void updateWinCondition() {
-        check = currentPlayer.isInCheck();
-        checkmate = currentPlayer.isInCheckmate();
-        stalemate = currentPlayer.isInStalemate();
-    }
     public void updateAmbiguousMove(Square toSquare) {
         if (selectedPiece == null) return;
 
@@ -308,8 +301,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mousePressed(MouseEvent me) {
         if (selectedPiece != null) return; // if a piece isn't selected already
 
-        if (checkmate || stalemate) return; // determine a better way to end the gamer soon
-
         for (Piece piece : currentPlayer.getPieces()) {
             if (piece.getSquare() != null) {
                 if (mouseContained(me, piece.getTopLeft(), piece.getSquare().getBottomRight())) {
@@ -365,7 +356,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
                         currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
 
-                        updateWinCondition();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
@@ -392,9 +382,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Player getWhitePlayer() { return whitePlayer; } // Player Getters
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }
-    public boolean isCheck() { return check; } // Win Condition Getters
-    public boolean isCheckmate() { return checkmate; }
-    public boolean isStalemate() { return stalemate; }
     public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
     public int getCastlingStatus() { return castlingStatus; }
     public char getPawnPromotionStatus() { return pawnPromotionStatus; }
