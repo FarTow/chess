@@ -17,9 +17,9 @@ public class MoveHistory extends JPanel implements ActionListener {
     private final Board board;
     private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
-    private final JTable moveDisplayTable;
-    private final DefaultTableModel moveDisplayModel;
-    private final DefaultTableCellRenderer moveDisplayCellRenderer;
+    private JTable moveDisplayTable;
+    private DefaultTableModel moveDisplayModel;
+    private DefaultTableCellRenderer moveDisplayCellRenderer;
     private final ArrayList<Object[]> allMoveData;
 
     private boolean whiteTurn;
@@ -36,32 +36,42 @@ public class MoveHistory extends JPanel implements ActionListener {
         pieceCount = 32;
         allMoveData = new ArrayList<>();
 
+        initMoveDisplay();
+        add(new JScrollPane(moveDisplayTable));
+
+        Main.forceSize(initialSize, this);
+    }
+
+    public void initMoveDisplay() {
+        // Init MoveDisplay Data
         allMoveData.add(new Object[] {moveCount, "", ""});
 
+        // Init MoveDisplay Model
         moveDisplayModel = new DefaultTableModel(readableMoveData(), headers) {
             public boolean isCellEditable(int row, int column) { return false; }
         };
 
+        // Init MoveDisplay Cell Renderer
         moveDisplayCellRenderer = new DefaultTableCellRenderer();
         moveDisplayCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
+        // Init MoveDisplay Table
         moveDisplayTable = new JTable(moveDisplayModel);
-        moveDisplayTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // functional changes
-        moveDisplayTable.getTableHeader().setReorderingAllowed(false);
-        moveDisplayTable.getTableHeader().setResizingAllowed(false);
-        for (int i=0; i<moveDisplayTable.getTableHeader().getColumnModel().getColumnCount(); i++) {
+
+            // Functional Changes
+        // moveDisplayTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        moveDisplayTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
+        moveDisplayTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
+        for (int i=0; i<moveDisplayTable.getTableHeader().getColumnModel().getColumnCount(); i++) { // center table headers
             moveDisplayTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
         }
-        for (int i=0; i<moveDisplayTable.getColumnModel().getColumnCount(); i++) { // visual changes
+        for (int i=0; i<moveDisplayTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
             moveDisplayTable.getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
         }
-        moveDisplayTable.getTableHeader().setBackground(Color.black);
-        moveDisplayTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 16));
-        moveDisplayTable.setFont(new Font("Serif", Font.PLAIN, 12));
-        moveDisplayTable.setRowHeight(25);
-        add(new JScrollPane(moveDisplayTable));
-
-        Main.forceSize(initialSize, this);
+        moveDisplayTable.getTableHeader().setBackground(Color.black); // set header background
+        moveDisplayTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 16)); // set header font
+        moveDisplayTable.setFont(new Font("Serif", Font.PLAIN, 12)); // set cell font
+        moveDisplayTable.setRowHeight(20); // set cell size
     }
 
     public Object[][] readableMoveData() {
