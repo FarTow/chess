@@ -1,6 +1,6 @@
 package panels;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import java.awt.*;
 
@@ -36,6 +36,12 @@ public class Main extends JFrame {
         setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null); // center
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         cards.show(getContentPane(), START_MENU_LABEL);
     }
