@@ -238,8 +238,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     public void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
-        System.out.println("You selected: " + newPiece);
-
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
         switch(newPiece) {
