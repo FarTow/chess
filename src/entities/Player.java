@@ -91,9 +91,9 @@ public class Player {
     }
 
     public void enPassantUpdate() { // credits to Tanvir for this logic
-        for (Piece piece : pieces) {
+        for (Piece piece : pieces) { // player checks if OWN PAWN was captured through en passant
             if (piece instanceof Pawn) {
-                if (piece.getRow() != (isWhite ? 3 : 4)) continue;
+                if (piece.getRow() != (isWhite ? 4 : 3)) continue;
                 int behindRowDirection = isWhite ? 1 : -1;
 
                 if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) continue;
