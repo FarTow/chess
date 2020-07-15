@@ -15,7 +15,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Check
   - [x] En Passant
   - [x] Castling
-  - [ ] Pawn promotion
+  - [x] Pawn promotion
 - [ ] Start menu
 - [ ] Options
   - [ ] Timer settings
