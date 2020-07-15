@@ -9,6 +9,7 @@ public class Main extends JFrame {
     static final String GAME_LABEL = "GAME";
 
     private final CardLayout cards;
+    private final StartMenu startMenu;
     private final Game game;
 
     public static void forceSize(Dimension dim, Component ... components) {
@@ -21,7 +22,7 @@ public class Main extends JFrame {
 
     Main() {
         cards = new CardLayout();
-        StartMenu startMenu = new StartMenu(this);
+        startMenu = new StartMenu();
         game = new Game();
 
         setLayout(cards);
@@ -36,6 +37,8 @@ public class Main extends JFrame {
         setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null); // center
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        startMenu.initUI(this);
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
