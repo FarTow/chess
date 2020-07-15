@@ -4,6 +4,7 @@ import entities.King;
 import entities.Pawn;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
@@ -16,7 +17,9 @@ public class MoveHistory extends JPanel implements ActionListener {
     private final Board board;
     private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
+    private final JTable moveDisplayTable;
     private final DefaultTableModel moveDisplayModel;
+    private final DefaultTableCellRenderer moveDisplayCellRenderer;
     private final ArrayList<Object[]> allMoveData;
 
     private boolean whiteTurn;
@@ -36,17 +39,23 @@ public class MoveHistory extends JPanel implements ActionListener {
         allMoveData.add(new Object[] {moveCount, "", ""});
 
         moveDisplayModel = new DefaultTableModel(readableMoveData(), headers) {
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            public boolean isCellEditable(int row, int column) { return false; }
         };
 
-        JTable moveDisplay = new JTable(moveDisplayModel);
-        moveDisplay.getTableHeader().setBackground(Color.black);
-        moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        moveDisplay.getTableHeader().setReorderingAllowed(false);
-        moveDisplay.getTableHeader().setResizingAllowed(false);
-        add(new JScrollPane(moveDisplay));
+        moveDisplayCellRenderer = new DefaultTableCellRenderer();
+        moveDisplayCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        moveDisplayTable = new JTable(moveDisplayModel);
+        moveDisplayTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // functional changes
+        moveDisplayTable.getTableHeader().setReorderingAllowed(false);
+        moveDisplayTable.getTableHeader().setResizingAllowed(false);
+
+        moveDisplayTable.setDefaultRenderer(String.class, moveDisplayCellRenderer); // visual changes
+        moveDisplayTable.getTableHeader().setBackground(Color.black);
+        moveDisplayTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 16));
+        moveDisplayTable.setFont(new Font("Serif", Font.PLAIN, 12));
+        moveDisplayTable.setRowHeight(25);
+        add(new JScrollPane(moveDisplayTable));
 
         Main.forceSize(initialSize, this);
     }
