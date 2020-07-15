@@ -138,6 +138,9 @@ public class MoveHistory extends JPanel implements ActionListener {
 
             pieceCount = newPieceCount;
             moveDisplayModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
+            for (int i=0; i<moveDisplayTable.getColumnModel().getColumnCount(); i++) {
+                moveDisplayTable.getColumnModel().getColumn(i).setCellRenderer(moveDisplayCellRenderer);
+            }
             whiteTurn = board.getWhiteTurn();
         }
     }
