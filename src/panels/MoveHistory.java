@@ -42,6 +42,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         };
 
         JTable moveDisplay = new JTable(moveDisplayModel);
+        moveDisplay.getTableHeader().setBackground(Color.black);
         moveDisplay.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         moveDisplay.getTableHeader().setReorderingAllowed(false);
         moveDisplay.getTableHeader().setResizingAllowed(false);
