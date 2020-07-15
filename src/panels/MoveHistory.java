@@ -36,13 +36,13 @@ public class MoveHistory extends JPanel implements ActionListener {
         pieceCount = 32;
         allMoveData = new ArrayList<>();
 
-        initMoveDisplay();
+        initUI();
         add(new JScrollPane(moveHistoryTable));
 
         Main.forceSize(initialSize, this);
     }
 
-    public void initMoveDisplay() {
+    public void initUI() {
         // Init MoveDisplay Data
         allMoveData.add(new Object[] {moveCount, "", ""});
 
