@@ -180,7 +180,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 if (selectedPiece.canMove(square)) {
                     g.setColor(new Color(130, 151, 105));
 
-                    if (square.getPiece() != null) { // if there's a capturable piece
+                    if (square.getPiece() != null) { // if there's a capturable piece, fill the four corners
                         int divisor = 4;
 
                         for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/divisor; xDest++) { // topLeftCorner
