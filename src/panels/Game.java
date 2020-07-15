@@ -57,11 +57,10 @@ public class Game extends JPanel implements ActionListener {
         blackTakenPieces = new TakenPieces(board.getBlackPlayer());
         whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
 
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()/10), blackTakenPieces, whiteTakenPieces);
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()/5), blackTakenPieces, whiteTakenPieces);
 
         centerDisplay.add(board);
         eastDisplay.setBackground(new Color(194, 194, 194));
-        eastDisplay.add(Box.createRigidArea(new Dimension(getWidth()/3, getHeight()/10)));
         eastDisplay.add(blackTakenPieces);
         eastDisplay.add(moveHistory);
         eastDisplay.add(whiteTakenPieces);
