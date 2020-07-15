@@ -197,13 +197,13 @@ public class Player {
         }
     }
 
-    public void removePiece(Piece piece, boolean permanent) {
+    public void addPiece(Piece piece) { pieces.add(piece); }
+    public void removePiece(Piece piece, boolean killed) {
         if (piece == null) return;
 
-        if (permanent) deadPieces.add(piece);
+        if (killed) deadPieces.add(piece);
         pieces.remove(piece);
     }
-    public void addPiece(Piece piece) { pieces.add(piece); }
 
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
 

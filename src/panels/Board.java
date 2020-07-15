@@ -236,6 +236,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
+    public void promotePawn(Piece promotedPawn, Square newSquare) {
+        int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
+
+        currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
+        currentPlayer.removePiece(promotedPawn, false);
+        newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
@@ -309,13 +317,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                             if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
                                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
                             } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
-                                Square newSquare = selectedPiece.getSquare();
-                                int replacedPieceIndex = currentPlayer.getPieces().indexOf(selectedPiece);
-
-                                currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
-                                currentPlayer.removePiece(selectedPiece, true);
-                                newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
-                                System.out.println("This pawn is promotable");
+                                promotePawn(selectedPiece, selectedPiece.getSquare());
                             }
                         }
 
