@@ -69,10 +69,10 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         // Initialize chessNotation string and other used variables
         StringBuilder chessNotation = new StringBuilder();
-        int oldRank = (4 + (4 - board.getOldSquare().x));
-        char oldFile = (char) ((char) 97 + board.getOldSquare().y);
-        int newRank = (4 + (4 - board.getNewSquare().x));
-        char newFile = (char) ((char) 97 + board.getNewSquare().y);
+        int oldRank = (4 + (4 - board.getOldSquareCords().x));
+        char oldFile = (char) ((char) 97 + board.getOldSquareCords().y);
+        int newRank = (4 + (4 - board.getNewSquareCords().x));
+        char newFile = (char) ((char) 97 + board.getNewSquareCords().y);
         chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
 
         // Append taken notation if a piece was taken

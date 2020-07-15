@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // MoveHistory Trackers
     private Piece lastPiece;
-    private Point oldSquare, newSquare;
+    private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castleState;
 
@@ -288,8 +288,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         ambiguousMove = ambiguousColumn = false;
                         lastPiece = selectedPiece;
                         Piece takenPiece = square.getPiece();
-                        oldSquare = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
-                        newSquare = new Point(square.getRow(), square.getColumn());
+                        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
+                        newSquareCords = new Point(square.getRow(), square.getColumn());
                         updateAmbiguousMove(square);
 
                         // Physical "Moving" of Pieces
@@ -299,18 +299,22 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                         // Special Pieces (pieces that require special checks)
                         if (selectedPiece instanceof King) { // if the piece was a king
-                            int columnDiff = oldSquare.y - newSquare.y;
+                            int columnDiff = oldSquareCords.y - newSquareCords.y;
 
                             if (Math.abs(columnDiff) == 2) {
                                 currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
                                 castleState = columnDiff < 0 ? 1 : 2; // needs work probably
                             }
                         } else if (selectedPiece instanceof Pawn) {
-                            if (Math.abs(oldSquare.x - newSquare.x) == 2) { // set piece to be en-passant capturable
+                            if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
                                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
-                            } else if (selectedPiece.isWhite() ? newSquare.x == 0 : newSquare.x == 7) { // if the pawn is on the opposite side
-                                ((Pawn) selectedPiece).setPromotable(true);
+                            } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
+                                Square newSquare = selectedPiece.getSquare();
+                                int replacedPieceIndex = currentPlayer.getPieces().indexOf(selectedPiece);
 
+                                currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
+                                currentPlayer.removePiece(selectedPiece, true);
+                                newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
                                 System.out.println("This pawn is promotable");
                             }
                         }
@@ -344,8 +348,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseMoved(MouseEvent me) {}
 
     public Square[][] getGrid() { return grid; } // "Grid" Getters
-    public Point getOldSquare() { return oldSquare; }
-    public Point getNewSquare() { return newSquare; }
+    public Point getOldSquareCords() { return oldSquareCords; }
+    public Point getNewSquareCords() { return newSquareCords; }
     public Player getWhitePlayer() { return whitePlayer; } // Player Getters
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }

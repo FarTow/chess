@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
-    private boolean enPassantCapturable, promotable;
+    private boolean enPassantCapturable;
 
     public Pawn(boolean isWhite, Square square) {
         super(isWhite, square);
@@ -14,8 +14,6 @@ public class Pawn extends Piece {
     }
 
     public void update(Board board) {
-        if (isWhite ? getRow() == 0 : getRow() == 7) promotable = true;
-
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
@@ -62,9 +60,7 @@ public class Pawn extends Piece {
     }
 
     public void setEnPassantCapturable(boolean enPassantCapturable) { this.enPassantCapturable = enPassantCapturable; }
-    public void setPromotable(boolean promotable) { this.promotable = promotable; }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
-    public boolean isPromotable() { return promotable; }
     public char getSymbol() { return isWhite ? '♙' : '♟'; }
 }
