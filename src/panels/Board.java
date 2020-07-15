@@ -42,7 +42,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Piece lastPiece;
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
-    private int castleState;
+    private int castlingStatus;
     private char pawnPromotionStatus = ' ';
 
     public Board(Point initialTopLeft) {
@@ -325,7 +325,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseReleased(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected, return
 
-        if (castleState != 0) castleState = 0; // not a fan of having to check this every time the mouse is released
+        if (castlingStatus != 0) castlingStatus = 0; // not a fan of having to check this every time the mouse is released
         if (pawnPromotionStatus != ' ') pawnPromotionStatus = ' '; // yuck
 
         for (Square[] squareRow : grid) {
@@ -351,7 +351,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
                             if (Math.abs(columnDiff) == 2) {
                                 currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
-                                castleState = columnDiff < 0 ? 1 : 2; // needs work probably
+                                castlingStatus = columnDiff < 0 ? 1 : 2; // needs work probably
                             }
                         } else if (selectedPiece instanceof Pawn) {
                             if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
@@ -399,7 +399,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean isCheckmate() { return checkmate; }
     public boolean isStalemate() { return stalemate; }
     public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
-    public int getCastleState() { return castleState; }
+    public int getCastlingStatus() { return castlingStatus; }
     public char getPawnPromotionStatus() { return pawnPromotionStatus; }
     public Piece getLastPiece() { return lastPiece; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }

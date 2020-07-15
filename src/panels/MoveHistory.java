@@ -87,8 +87,8 @@ public class MoveHistory extends JPanel implements ActionListener {
     }
     public String lastMove(boolean pieceTaken) {
         if (board.getLastPiece() instanceof King) { // castling
-            if (board.getCastleState() == 1) return "O-O";
-            if (board.getCastleState() == 2) return "O-O-O";
+            if (board.getCastlingStatus() == 1) return "O-O";
+            if (board.getCastlingStatus() == 2) return "O-O-O";
         }
 
         // Initialize chessNotation string and other used variables
