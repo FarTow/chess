@@ -95,9 +95,9 @@ public class MoveHistory extends JPanel implements ActionListener {
         chessNotation.append(newRank); // rank
 
         if (board.getLastPiece() instanceof Pawn) {
-            if (board.getPawnPromotion() != ' ') {
+            if (board.getPawnPromotionStatus() != ' ') {
                 chessNotation.append('=');
-                chessNotation.append(board.getPawnPromotion());
+                chessNotation.append(board.getPawnPromotionStatus());
             }
         }
 

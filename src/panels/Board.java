@@ -43,7 +43,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castleState;
-    private char pawnPromotion = ' ';
+    private char pawnPromotionStatus = ' ';
 
     public Board(Point initialTopLeft) {
         setBackground(new Color(194, 194, 194));
@@ -98,9 +98,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void resize(int newSquareSize) {
         this.squareLength = newSquareSize;
-        topLeft.y = getHeight()/2 - squareLength*4;
-        bottomRight.x = topLeft.x+squareLength*8;
-        bottomRight.y = topLeft.y+squareLength*8;
+        topLeft.y = getHeight() / 2 - squareLength * 4;
+        bottomRight.x = topLeft.x + squareLength * 8;
+        bottomRight.y = topLeft.y + squareLength * 8;
 
         whitePlayer.scalePieceImages(newSquareSize);
         blackPlayer.scalePieceImages(newSquareSize);
@@ -108,7 +108,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
                 Square square = grid[row][column];
-                Point pos = new Point(topLeft.x + column*squareLength, topLeft.y + row*squareLength);
+                Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
 
                 square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
 
@@ -272,10 +272,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 break;
         }
 
+        currentPlayer.getPieces().get(replacedPieceIndex).scaleImage(squareLength);
         currentPlayer.removePiece(promotedPawn, false);
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
-        pawnPromotion = currentPlayer.getPieces().get(replacedPieceIndex).getSymbol();
+        pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getSymbol();
     }
 
     protected void paintComponent(Graphics g) {
@@ -321,7 +322,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece == null) return; // if a piece isn't selected, return
 
         if (castleState != 0) castleState = 0; // not a fan of having to check this every time the mouse is released
-        if (pawnPromotion != ' ') pawnPromotion = ' '; // yuck
+        if (pawnPromotionStatus != ' ') pawnPromotionStatus = ' '; // yuck
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -399,7 +400,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean isStalemate() { return stalemate; }
     public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
     public int getCastleState() { return castleState; }
-    public char getPawnPromotion() { return pawnPromotion; }
+    public char getPawnPromotionStatus() { return pawnPromotionStatus; }
     public Piece getLastPiece() { return lastPiece; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
