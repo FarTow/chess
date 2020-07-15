@@ -181,23 +181,25 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     g.setColor(new Color(130, 151, 105));
 
                     if (square.getPiece() != null) { // if there's a capturable piece
-                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/5; xDest++) { // topLeftCorner
-                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/5; yDest++) {
+                        int divisor = 4;
+
+                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/divisor; xDest++) { // topLeftCorner
+                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/divisor; yDest++) {
                                 g.drawLine(xDest, square.getTopLeft().y, square.getTopLeft().x, yDest);
                             }
                         }
-                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/5; xDest--) { // topRightCorner
-                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/5; yDest++) {
+                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/divisor; xDest--) { // topRightCorner
+                            for (int yDest=square.getTopLeft().y; yDest<square.getTopLeft().y+square.getRect().height/divisor; yDest++) {
                                 g.drawLine(xDest, square.getTopLeft().y, square.getBottomRight().x, yDest);
                             }
                         }
-                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/5; xDest++) { // bottomLeftCorner
-                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/5; yDest--) {
+                        for (int xDest=square.getTopLeft().x; xDest<square.getTopLeft().x+square.getRect().width/divisor; xDest++) { // bottomLeftCorner
+                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/divisor; yDest--) {
                                 g.drawLine(xDest, square.getBottomRight().y, square.getTopLeft().x, yDest);
                             }
                         }
-                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/5; xDest--) { // bottomRightCorner
-                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/5; yDest--) {
+                        for (int xDest=square.getBottomRight().x; xDest>square.getBottomRight().x-square.getRect().width/divisor; xDest--) { // bottomRightCorner
+                            for (int yDest=square.getBottomRight().y; yDest>square.getBottomRight().y-square.getRect().height/divisor; yDest--) {
                                 g.drawLine(xDest, square.getBottomRight().y, square.getBottomRight().x, yDest);
                             }
                         }
