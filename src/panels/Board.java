@@ -13,6 +13,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private final Point bottomRight;
     private int squareLength;
 
+    private final Object[] whitePromotionDialogIcons = new Object[] {
+            new ImageIcon(new Queen(true).getImage()),
+            new ImageIcon(new Rook(true).getImage()),
+            new ImageIcon(new Bishop(true).getImage()),
+            new ImageIcon(new Knight(true).getImage()),};
+    private final Object[] blackPromotionDialogIcons = new Object[] {
+            new ImageIcon(new Queen(false).getImage()),
+            new ImageIcon(new Rook(false).getImage()),
+            new ImageIcon(new Bishop(false).getImage()),
+            new ImageIcon(new Knight(false).getImage()),};
+
     // Players
     private final Player whitePlayer;
     private final Player blackPlayer;
@@ -26,17 +37,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     // Win Conditions
     private boolean check, checkmate, stalemate; // objective game ends
     private boolean threeFoldRepetition, fiftyMoveRule; // claimable draws
-
-    private final Object[] whitePromotionDialogIcons = new Object[] {
-            new ImageIcon(new Queen(true).getImage()),
-            new ImageIcon(new Rook(true).getImage()),
-            new ImageIcon(new Bishop(true).getImage()),
-            new ImageIcon(new Knight(true).getImage()),};
-    private final Object[] blackPromotionDialogIcons = new Object[] {
-            new ImageIcon(new Queen(false).getImage()),
-            new ImageIcon(new Rook(false).getImage()),
-            new ImageIcon(new Bishop(false).getImage()),
-            new ImageIcon(new Knight(false).getImage()),};
 
     // MoveHistory Trackers
     private Piece lastPiece;
@@ -357,7 +357,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                                         JOptionPane.showOptionDialog(
                                                 this, "Promote Piece", "Congrats!",
                                                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-                                                selectedPiece.isWhite() ? whitePromotionDialogIcons : blackPromotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
+                                                selectedPiece.isWhite() ? whitePromotionDialogIcons : blackPromotionDialogIcons,
+                                                JOptionPane.UNINITIALIZED_VALUE));
                             }
                         }
 
