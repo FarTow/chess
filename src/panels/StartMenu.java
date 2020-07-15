@@ -14,6 +14,7 @@ public class StartMenu extends JPanel {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
             main.getGame().start();
         });
+        startButton.setFocusable(false);
 
         add(startButton);
     }
