@@ -241,6 +241,16 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
         switch(newPiece) {
+            case -1:
+                Object[] promotionDialogIcons = new Object[] {
+                        new ImageIcon(new Queen(selectedPiece.isWhite()).getImage()),
+                        new ImageIcon(new Rook(selectedPiece.isWhite()).getImage()),
+                        new ImageIcon(new Bishop(selectedPiece.isWhite()).getImage()),
+                        new ImageIcon(new Knight(selectedPiece.isWhite()).getImage()),};
+                promotePawn(promotedPawn, newSquare, JOptionPane.showOptionDialog(
+                        this, "Promote Piece", "Congrats!",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE));
+                break;
             case 0:
                 currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
                 break;
