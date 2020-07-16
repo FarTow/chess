@@ -45,7 +45,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private char pawnPromotionStatus = ' ';
 
     public Board() {
-        setBackground(Color.pink);
+        setOpaque(false);
 
         topLeft = new Point(0, 0);
         squareLength = 60;

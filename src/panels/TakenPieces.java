@@ -10,7 +10,7 @@ public class TakenPieces extends JPanel {
     private final Player player;
 
     public TakenPieces(Player player) {
-        setBackground(Color.blue);
+        setOpaque(false);
         this.player = player;
     }
 
