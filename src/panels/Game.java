@@ -59,6 +59,7 @@ public class Game extends JPanel implements ActionListener {
         blackInfoBox.setLayout(new BoxLayout(blackInfoBox, BoxLayout.Y_AXIS));
 
         whiteInfoBox.add(new JLabel("White Information", JLabel.CENTER)); // add components to holders
+        //whiteInfoBox.add()
         whiteInfoBox.add(whiteTimer);
         whiteInfoBox.add(whiteTakenPieces);
 
@@ -68,7 +69,8 @@ public class Game extends JPanel implements ActionListener {
 
         whiteInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20)); // configure settings
         blackInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20));
-
+        ((JComponent) whiteInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
+        ((JComponent) blackInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Forcing sizes
         Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);
