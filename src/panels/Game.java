@@ -18,15 +18,16 @@ public class Game extends JPanel implements ActionListener {
     public Game() {
         setBackground(Main.BACKGROUND_COLOR);
 
-        /*
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
             super.componentResized(e);
+            if (getComponentCount() == 0) return;
+
+            board.resize(Math.min((getWidth()/24 - 1), 60));
             updateUI();
             }
         });
 
-         */
     }
 
     protected void paintComponent(Graphics g) {
