@@ -81,26 +81,27 @@ public class Game extends JPanel implements ActionListener {
          */
 
         // Add whiteInfoBox
-        setGridBagLayoutConstraints(c, 0, 0, 1, 2, 0.25, 0.1, GridBagConstraints.CENTER);
+        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.1, GridBagConstraints.LAST_LINE_END);
         add(whiteInfoBox, c);
 
         // Add blackInfoBox
-        setGridBagLayoutConstraints(c, 0, 2, 1, 2, 0.25, 0.1, GridBagConstraints.CENTER);
+        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.1, GridBagConstraints.FIRST_LINE_END);
         add(blackInfoBox, c);
 
         // Add board
-        setGridBagLayoutConstraints(c, 1, 1, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER);
+        setGridBagLayoutConstraints(c, GridBagConstraints.CENTER, 1, 0, 1, 4, 1.0, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
         // Add moveHistory
-        setGridBagLayoutConstraints(c, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.CENTER);
+        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
         add(moveHistory, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();
     }
 
-    private void setGridBagLayoutConstraints(GridBagConstraints c, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
+    private void setGridBagLayoutConstraints(GridBagConstraints c, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
+        c.fill = fill;
         c.gridx = gridx;
         c.gridy = gridy;
         c.gridwidth = gridwidth;
