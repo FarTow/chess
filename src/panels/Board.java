@@ -12,7 +12,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private final Square[][] grid;
     private final Point bottomRight;
     private int squareLength;
-
     private boolean initialCenter;
 
     private final Object[] whitePromotionDialogIcons = new Object[] {

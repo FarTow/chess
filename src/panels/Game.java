@@ -27,7 +27,6 @@ public class Game extends JPanel implements ActionListener {
             updateUI();
             }
         });
-
     }
 
     protected void paintComponent(Graphics g) {
