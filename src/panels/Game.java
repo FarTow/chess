@@ -64,70 +64,37 @@ public class Game extends JPanel implements ActionListener {
         blackInfoBox.add(blackTimer);
         blackInfoBox.add(blackTakenPieces);
 
-        //Main.forceSize(new Dimension(getWidth()*3/5, getHeight()*2/3), board);
-        //Main.forceSize(new Dimension(getWidth()/5, getHeight()/4), moveHistory);
+        // Forcing sizes
+        Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);
+        Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
+
 
         // Add components to grid
 
+        // Add empty containers
+        /*
+        setGridBagLayoutConstraints(c, 1, 0, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER);
+        add(Box.createGlue(), c);
+
+        setGridBagLayoutConstraints(c, 1, 3, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER);
+        add(Box.createGlue(), c);
+         */
+
         // Add whiteInfoBox
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.CENTER;
+        setGridBagLayoutConstraints(c, 0, 0, 1, 2, 0.25, 0.1, GridBagConstraints.CENTER);
         add(whiteInfoBox, c);
 
         // Add blackInfoBox
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.gridheight = 2;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.PAGE_END;
-        add(blackTakenPieces, c);
+        setGridBagLayoutConstraints(c, 0, 2, 1, 2, 0.25, 0.1, GridBagConstraints.CENTER);
+        add(blackInfoBox, c);
 
         // Add board
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 3;
-        c.gridheight = 4;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.CENTER;
+        setGridBagLayoutConstraints(c, 1, 1, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
-        // Add whiteTimer
-        c.gridx = 1;
-        c.gridy = 5;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.PAGE_START;
-        add(whiteTimer, c);
-
         // Add moveHistory
-        c.gridx = 3;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        c.gridheight = 2;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.CENTER;
+        setGridBagLayoutConstraints(c, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.CENTER);
         add(moveHistory, c);
-
-        // Add whiteTakenPieces
-        c.gridx = 3;
-        c.gridy = 4;
-        c.gridwidth = 2;
-        c.gridheight = 2;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.anchor = GridBagConstraints.PAGE_START;
-        add(whiteTakenPieces, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();
