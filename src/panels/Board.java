@@ -42,7 +42,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castlingStatus;
-    private char pawnPromotionStatus = ' ';
+    private char pawnPromotionStatus;
 
     public Board() {
         setOpaque(false);
@@ -50,6 +50,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         topLeft = new Point(0, 0);
         squareLength = 60;
         bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
+        pawnPromotionStatus = ' ';
 
         grid = new Square[8][8];
 
