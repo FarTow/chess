@@ -59,7 +59,6 @@ public class Game extends JPanel implements ActionListener {
         blackInfoBox.setLayout(new BoxLayout(blackInfoBox, BoxLayout.Y_AXIS));
 
         whiteInfoBox.add(new JLabel("White Information", JLabel.CENTER)); // add components to holders
-        //whiteInfoBox.add()
         whiteInfoBox.add(whiteTimer);
         whiteInfoBox.add(whiteTakenPieces);
 
