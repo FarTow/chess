@@ -81,15 +81,15 @@ public class Game extends JPanel implements ActionListener {
          */
 
         // Add whiteInfoBox
-        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.1, GridBagConstraints.LAST_LINE_END);
+        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
         add(whiteInfoBox, c);
 
         // Add blackInfoBox
-        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.1, GridBagConstraints.FIRST_LINE_END);
+        setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
         add(blackInfoBox, c);
 
         // Add board
-        setGridBagLayoutConstraints(c, GridBagConstraints.CENTER, 1, 0, 1, 4, 1.0, 1.0, GridBagConstraints.CENTER);
+        setGridBagLayoutConstraints(c, GridBagConstraints.BOTH, 1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
         // Add moveHistory
