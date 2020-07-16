@@ -140,33 +140,33 @@ public class MoveHistory extends JPanel implements ActionListener {
         return chessNotation.toString();
     }
     public void updateAllMoveData() {
-        if (whiteTurn != board.getWhiteTurn()) { // essentially "if a move took place"
-            int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
-            boolean pieceTaken = pieceCount == newPieceCount+1;
+        if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move took place"
 
-            if (moveCount == 1) {
-                if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                    allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
-                    moveCount++; // go to next move
-                } else { // if white was the one to move
-                    allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
-                }
-            } else {
-                if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                    allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
-                    moveCount++; // go to next move
-                } else { // if white was the one to move
-                    allMoveData.add(new Object[]{moveCount, "", ""}); // new row of data
+        int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
+        boolean pieceTaken = pieceCount == newPieceCount+1;
 
-                    allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
-                }
+        if (moveCount == 1) {
+            if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
+                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                moveCount++; // go to next move
+            } else { // if white was the one to move
+                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
             }
+        } else {
+            if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
+                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                moveCount++; // go to next move
+            } else { // if white was the one to move
+                allMoveData.add(new Object[]{moveCount, "", ""}); // new row of data
 
-            pieceCount = newPieceCount;
-            moveHistoryModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
-            centerTable();
-            whiteTurn = board.getWhiteTurn();
+                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+            }
         }
+
+        pieceCount = newPieceCount;
+        moveHistoryModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
+        centerTable();
+        whiteTurn = board.getWhiteTurn();
     }
 
     public void actionPerformed(ActionEvent ae) {
