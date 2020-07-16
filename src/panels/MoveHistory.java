@@ -67,8 +67,8 @@ public class MoveHistory extends JPanel implements ActionListener {
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
         moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
-        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT); // set header font
-        moveHistoryTable.setFont(Main.MULISH_LIGHT); // set cell font
+        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // set header font
+        moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(10.0f));
         moveHistoryTable.setRowHeight(20); // set cell size
     }
 

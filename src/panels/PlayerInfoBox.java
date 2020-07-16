@@ -30,12 +30,13 @@ public class PlayerInfoBox extends JPanel {
         add(timer);
         add(takenPieces);
 
-        getComponent(0).setFont(Main.MULISH_LIGHT); // configure settings
+        getComponent(0).setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // configure settings
         ((JComponent) getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setColor(Color.black);
     }
 
     public void actionPerformed(ActionEvent ae) {
