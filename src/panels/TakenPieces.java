@@ -21,8 +21,7 @@ public class TakenPieces extends JPanel {
         for (int i=0; i<player.getDeadPieces().size(); i++) {
             if (player.getDeadPieces().get(i) != null) {
                 g.drawImage(player.getDeadPieces().get(i).getImage(),
-                        i * player.getDeadPieces().get(i).getImage().getWidth(null),
-                        player.isWhite() ? 0 : getHeight() - player.getDeadPieces().get(i).getImage().getHeight(null), null);
+                        i * player.getDeadPieces().get(i).getImage().getWidth(null), 0, null);
             }
         }
     }
