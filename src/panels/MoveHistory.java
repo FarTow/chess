@@ -60,16 +60,21 @@ public class MoveHistory extends JPanel implements ActionListener {
         moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
         moveHistoryTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
         moveHistoryTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
+        moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
+        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // set header font
+        moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(10.0f));
+        moveHistoryTable.setRowHeight(20); // set cell size
+
+        centerTable();
+    }
+
+    public void centerTable() {
         for (int i=0; i<moveHistoryTable.getTableHeader().getColumnModel().getColumnCount(); i++) { // center table headers
             moveHistoryTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
         for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
-        moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
-        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // set header font
-        moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(10.0f));
-        moveHistoryTable.setRowHeight(20); // set cell size
     }
 
     public Object[][] readableMoveData() {
@@ -159,12 +164,7 @@ public class MoveHistory extends JPanel implements ActionListener {
 
             pieceCount = newPieceCount;
             moveHistoryModel.setDataVector(readableMoveData(), headers); // reset data vector to accommodate for new data
-            for (int i=0; i<moveHistoryTable.getTableHeader().getColumnModel().getColumnCount(); i++) {
-                moveHistoryTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
-            }
-            for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) {
-                moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
-            }
+            centerTable();
             whiteTurn = board.getWhiteTurn();
         }
     }
