@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -60,11 +61,11 @@ public class Game extends JPanel implements ActionListener {
         whiteInfoBox.setLayout(new BoxLayout(whiteInfoBox, BoxLayout.Y_AXIS));
         blackInfoBox.setLayout(new BoxLayout(blackInfoBox, BoxLayout.Y_AXIS));
 
-        whiteInfoBox.add(new JLabel("White Information", JLabel.CENTER)); // add components to holders
+        whiteInfoBox.add(new JLabel("White Stats", JLabel.CENTER)); // add components to holders
         whiteInfoBox.add(whiteTimer);
         whiteInfoBox.add(whiteTakenPieces);
 
-        blackInfoBox.add(new JLabel("Black Information", JLabel.CENTER));
+        blackInfoBox.add(new JLabel("Black Stats", JLabel.CENTER));
         blackInfoBox.add(blackTimer);
         blackInfoBox.add(blackTakenPieces);
 
@@ -75,19 +76,24 @@ public class Game extends JPanel implements ActionListener {
 
         Main.forceSize(new Dimension(getWidth()/4, getHeight()/10), whiteTimer, blackTimer); // force the size of info box components
 
+        for (int i=1; i<whiteInfoBox.getComponentCount(); i++) {
+            ((JComponent) whiteInfoBox.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+            ((JComponent) blackInfoBox.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        }
+
         // Forcing sizes
-        Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);
+        Main.forceSize(new Dimension(getWidth()*2/5, getHeight()/2), board);
         Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
 
         // Add components to grid
 
-        c.insets = new Insets(20, 20, 20, 10);
+        c.insets = new Insets(20, 20, 20, 20);
 
         // Add whiteInfoBox
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
         add(whiteInfoBox, c);
 
-        c.insets = new Insets(20, 20, 20, 10);
+        c.insets = new Insets(20, 20, 20, 20);
 
         // Add blackInfoBox
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
@@ -99,7 +105,7 @@ public class Game extends JPanel implements ActionListener {
         setGridBagLayoutConstraints(c, GridBagConstraints.BOTH, 1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
-        c.insets = new Insets(20, 20, 20, 20);
+        c.insets = new Insets(20, 10, 20, 20);
 
         // Add moveHistory
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
