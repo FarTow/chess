@@ -58,11 +58,17 @@ public class Game extends JPanel implements ActionListener {
         whiteInfoBox.setLayout(new BoxLayout(whiteInfoBox, BoxLayout.Y_AXIS));
         blackInfoBox.setLayout(new BoxLayout(blackInfoBox, BoxLayout.Y_AXIS));
 
+        whiteInfoBox.add(new JLabel("White Information", JLabel.CENTER)); // add components to holders
         whiteInfoBox.add(whiteTimer);
         whiteInfoBox.add(whiteTakenPieces);
 
+        blackInfoBox.add(new JLabel("Black Information", JLabel.CENTER));
         blackInfoBox.add(blackTimer);
         blackInfoBox.add(blackTakenPieces);
+
+        whiteInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20)); // configure settings
+        blackInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20));
+
 
         // Forcing sizes
         Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);

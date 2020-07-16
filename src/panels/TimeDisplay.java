@@ -10,9 +10,8 @@ public class TimeDisplay extends JPanel {
     private final Player player;
 
     public TimeDisplay(Player player) {
-        //setOpaque(false);
+        setOpaque(false);
         this.player = player;
-        setBackground(player.isWhite() ? Color.gray : Color.darkGray);
     }
 
     protected void paintComponent(Graphics g) {
