@@ -3,9 +3,11 @@ package panels;
 import javax.swing.*;
 
 import java.awt.*;
+import java.io.File;
 
 public class Main extends JFrame {
     public static final Color BACKGROUND_COLOR = new Color(212, 202, 186);
+    public static Font MULISH_LIGHT;
 
     static final String START_MENU_LABEL = "START MENU";
     static final String GAME_LABEL = "GAME";
@@ -23,6 +25,14 @@ public class Main extends JFrame {
     }
 
     Main() {
+        try {
+            MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(MULISH_LIGHT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         cards = new CardLayout();
         startMenu = new StartMenu();
         game = new Game();
