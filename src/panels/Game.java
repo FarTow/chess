@@ -15,6 +15,8 @@ public class Game extends JPanel implements ActionListener {
     private MoveHistory moveHistory;
     private TakenPieces blackTakenPieces;
     private TakenPieces whiteTakenPieces;
+    private TimeDisplay blackTimer;
+    private TimeDisplay whiteTimer;
 
     public Game() {
         setBackground(Main.BACKGROUND_COLOR);
@@ -56,15 +58,20 @@ public class Game extends JPanel implements ActionListener {
         centerDisplay.setOpaque(false); // background color
         eastDisplay.setOpaque(false);
 
-        // Create specific panels that will be arranged around the Game panel
+        // Create specific components that will enter the displays
         board = new Board(new Point(10,getHeight()*2/5 - 240));
         moveHistory = new MoveHistory(new Dimension(getWidth()/3, getHeight()*2/5), board);
         blackTakenPieces = new TakenPieces(board.getBlackPlayer());
         whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
         Main.forceSize(new Dimension(getWidth()/3, getHeight()/5), blackTakenPieces, whiteTakenPieces);
+        blackTimer = new TimeDisplay(board.getBlackPlayer());
+        whiteTimer = new TimeDisplay(board.getWhitePlayer());
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()/20), blackTimer, whiteTimer);
 
         // Add components to displays
+        centerDisplay.add(blackTimer);
         centerDisplay.add(board);
+        centerDisplay.add(whiteTimer);
         eastDisplay.add(blackTakenPieces);
         eastDisplay.add(moveHistory);
         eastDisplay.add(whiteTakenPieces);
