@@ -30,7 +30,7 @@ public class PlayerInfoBox extends JPanel {
         add(timer);
         add(takenPieces);
 
-        getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20)); // configure settings
+        getComponent(0).setFont(Main.MULISH_LIGHT); // configure settings
         ((JComponent) getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 

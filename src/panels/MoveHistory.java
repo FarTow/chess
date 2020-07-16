@@ -40,7 +40,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         add(new JScrollPane(moveHistoryTable));
     }
 
-    public void initUI() {
+    public void initUI() { // CLEAN THIS UP
         // Init MoveDisplay Data
         allMoveData.add(new Object[] {moveCount, "", ""});
 
@@ -67,8 +67,8 @@ public class MoveHistory extends JPanel implements ActionListener {
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
         moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
-        moveHistoryTable.getTableHeader().setFont(new Font("Serif", Font.PLAIN, 16)); // set header font
-        moveHistoryTable.setFont(new Font("Serif", Font.PLAIN, 12)); // set cell font
+        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT); // set header font
+        moveHistoryTable.setFont(Main.MULISH_LIGHT); // set cell font
         moveHistoryTable.setRowHeight(20); // set cell size
     }
 
