@@ -11,7 +11,6 @@ public class TimeDisplay extends JPanel {
 
     public TimeDisplay(Player player) {
         setBackground(Color.red);
-        //setOpaque(false);
         this.player = player;
     }
 
