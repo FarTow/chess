@@ -81,13 +81,13 @@ public class Game extends JPanel implements ActionListener {
 
         // Add components to grid
 
-        c.insets = new Insets(10, 10, 10, 10);
+        c.insets = new Insets(20, 20, 20, 10);
 
         // Add whiteInfoBox
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
         add(whiteInfoBox, c);
 
-        c.insets = new Insets(10, 10, 10, 10);
+        c.insets = new Insets(20, 20, 20, 10);
 
         // Add blackInfoBox
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
@@ -99,7 +99,7 @@ public class Game extends JPanel implements ActionListener {
         setGridBagLayoutConstraints(c, GridBagConstraints.BOTH, 1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
-        c.insets = new Insets(10, 10, 10, 10);
+        c.insets = new Insets(20, 20, 20, 20);
 
         // Add moveHistory
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
