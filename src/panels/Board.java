@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener { // Weird lag
     // Board Properties
     private final Point topLeft;
     private final Square[][] grid;

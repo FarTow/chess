@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class StartMenu extends JPanel {
+public class StartMenu extends JPanel { // Weird lag?
     public StartMenu() {
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
