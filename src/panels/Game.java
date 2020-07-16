@@ -68,17 +68,7 @@ public class Game extends JPanel implements ActionListener {
         Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);
         Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
 
-
         // Add components to grid
-
-        // Add empty containers
-        /*
-        setGridBagLayoutConstraints(c, 1, 0, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER);
-        add(Box.createGlue(), c);
-
-        setGridBagLayoutConstraints(c, 1, 3, 1, 1, 0.0, 0.1, GridBagConstraints.CENTER);
-        add(Box.createGlue(), c);
-         */
 
         // Add whiteInfoBox
         setGridBagLayoutConstraints(c, GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
