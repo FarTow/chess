@@ -26,7 +26,8 @@ public class Main extends JFrame {
 
     Main() {
         try {
-            MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(MULISH_LIGHT);
         } catch (Exception e) {
             e.printStackTrace();
