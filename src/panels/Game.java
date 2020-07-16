@@ -60,7 +60,7 @@ public class Game extends JPanel implements ActionListener {
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.PAGE_END;
         c.weightx = 0.33;
-        c.weighty = 0.2;
+        c.weighty = 0.25;
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 1;
@@ -69,7 +69,7 @@ public class Game extends JPanel implements ActionListener {
         // Add board
         c.anchor = GridBagConstraints.CENTER;
         c.weightx = 0.67;
-        c.weighty = 0.6;
+        c.weighty = 0.5;
         c.gridy = 1;
         c.gridwidth = 2;
         add(board, c);
@@ -77,7 +77,7 @@ public class Game extends JPanel implements ActionListener {
         // Add whiteTimer
         c.anchor = GridBagConstraints.PAGE_START;
         c.weightx = 0.33;
-        c.weighty = 0.2;
+        c.weighty = 0.25;
         c.gridy = 2;
         c.gridwidth = 1;
         add(whiteTimer, c);
@@ -103,7 +103,7 @@ public class Game extends JPanel implements ActionListener {
         c.weightx = 0.33;
         c.weighty = 0.2;
         c.gridy = 2;
-        add(whiteTakenPieces);
+        add(whiteTakenPieces, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();

@@ -10,13 +10,14 @@ public class TakenPieces extends JPanel {
     private final Player player;
 
     public TakenPieces(Player player) {
-        setOpaque(false);
+        //setOpaque(false);
         this.player = player;
+
+        setBackground(player.isWhite() ? Color.red : Color.blue);
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         if (player.getDeadPieces().size() == 0) return;
 
         for (int i=0; i<player.getDeadPieces().size(); i++) {
