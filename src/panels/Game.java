@@ -64,14 +64,14 @@ public class Game extends JPanel implements ActionListener {
         blackTakenPieces = new TakenPieces(board.getBlackPlayer());
         whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
         Main.forceSize(new Dimension(getWidth()/3, getHeight()/5), blackTakenPieces, whiteTakenPieces);
-        blackTimer = new TimeDisplay(board.getBlackPlayer());
-        whiteTimer = new TimeDisplay(board.getWhitePlayer());
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()/20), blackTimer, whiteTimer);
+        //blackTimer = new TimeDisplay(board.getBlackPlayer());
+        //whiteTimer = new TimeDisplay(board.getWhitePlayer());
+        //Main.forceSize(new Dimension(getWidth()/3, getHeight()/20), blackTimer, whiteTimer);
 
         // Add components to displays
-        centerDisplay.add(blackTimer);
+        //centerDisplay.add(blackTimer);
         centerDisplay.add(board);
-        centerDisplay.add(whiteTimer);
+        //centerDisplay.add(whiteTimer);
         eastDisplay.add(blackTakenPieces);
         eastDisplay.add(moveHistory);
         eastDisplay.add(whiteTakenPieces);
