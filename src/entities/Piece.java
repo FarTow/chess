@@ -95,7 +95,7 @@ public abstract class Piece {
     protected void setImage(String name) {
         // getClass().getName().substring(getClass().getName().indexOf('.')+1)
         try {
-            image = defaultImage = ImageIO.read(new File("res/" + (isWhite ? "white" : "black") + "-" + name + ".png"));
+            image = defaultImage = ImageIO.read(new File("res/pieces/" + (isWhite ? "white" : "black") + "-" + name + ".png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
