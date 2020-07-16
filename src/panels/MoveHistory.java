@@ -26,7 +26,7 @@ public class MoveHistory extends JPanel implements ActionListener {
     private int moveCount;
     private int pieceCount;
 
-    public MoveHistory(Dimension initialSize, Board board) {
+    public MoveHistory(Board board) {
         setOpaque(false);
         setLayout(new BorderLayout(0, 0));
 
@@ -38,8 +38,6 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         initUI();
         add(new JScrollPane(moveHistoryTable));
-
-        Main.forceSize(initialSize, this);
     }
 
     public void initUI() {

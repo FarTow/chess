@@ -13,6 +13,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private final Point bottomRight;
     private int squareLength;
 
+    private boolean initialCenter;
+
     private final Object[] whitePromotionDialogIcons = new Object[] {
             new ImageIcon(new Queen(true).getImage()),
             new ImageIcon(new Rook(true).getImage()),
@@ -43,10 +45,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int castlingStatus;
     private char pawnPromotionStatus = ' ';
 
-    public Board(Point initialTopLeft) {
-        setOpaque(false);
+    public Board() {
+        setBackground(Color.pink);
 
-        topLeft = initialTopLeft;
+        topLeft = new Point(0, 0);
         squareLength = 60;
         bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
 
@@ -96,6 +98,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void resize(int newSquareSize) {
         this.squareLength = newSquareSize;
+        topLeft.x = getWidth() / 2 - squareLength * 4;
         topLeft.y = getHeight() / 2 - squareLength * 4;
         bottomRight.x = topLeft.x + squareLength * 8;
         bottomRight.y = topLeft.y + squareLength * 8;
@@ -129,14 +132,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
         g.setColor(Color.black);
 
-        for (int row=1; row<=grid.length; row++) {
+        for (int row=1; row<=grid.length; row++) { // draw files
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
             g.drawString(rank, topLeft.x-stringSize.width, (bottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
         }
 
-        for (int column=0; column<grid[0].length; column++) {
+        for (int column=0; column<grid[0].length; column++) { // draw ranks
             String file = String.valueOf((char) ((char) 97+column));
             Dimension stringSize = new Dimension(g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
@@ -285,6 +288,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
+        if (!initialCenter) {
+            resize(squareLength);
+            initialCenter = true;
+        }
+
         repaint();
     }
 

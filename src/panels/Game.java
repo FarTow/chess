@@ -8,9 +8,6 @@ import java.awt.event.*;
 public class Game extends JPanel implements ActionListener {
     public static final int FRAME_RATE = 60;
 
-    private JPanel centerDisplay;
-    private JPanel eastDisplay;
-
     private Board board;
     private MoveHistory moveHistory;
     private TakenPieces blackTakenPieces;
@@ -20,20 +17,16 @@ public class Game extends JPanel implements ActionListener {
 
     public Game() {
         setBackground(Main.BACKGROUND_COLOR);
+
+        /*
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
             super.componentResized(e);
-            resize();
             updateUI();
             }
         });
-    }
 
-    public void resize() {
-        if (getComponentCount() == 0) return;
-        Main.forceSize(new Dimension(getWidth(), getHeight()/10), getComponent(0), getComponent(1));
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), getComponent(2), centerDisplay, eastDisplay);
-        board.resize(Math.min((getWidth()/24 - 1), 60));
+         */
     }
 
     protected void paintComponent(Graphics g) {
@@ -47,41 +40,70 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void start() {
-        setLayout(new BorderLayout(getWidth()/500, 0));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        // Initialize displays to be used by border layout
-        centerDisplay = new JPanel();
-        eastDisplay = new JPanel();
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()*4/5), centerDisplay, eastDisplay); // set size
-        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS)); // layout
-        eastDisplay.setLayout(new BoxLayout(eastDisplay, BoxLayout.Y_AXIS));
-        centerDisplay.setOpaque(false); // background color
-        eastDisplay.setOpaque(false);
-
-        // Create specific components that will enter the displays
-        board = new Board(new Point(10,getHeight()*2/5 - 240));
-        moveHistory = new MoveHistory(new Dimension(getWidth()/3, getHeight()*2/5), board);
+        // Create all the components to be shown in Game
+        board = new Board();
+        moveHistory = new MoveHistory(board);
         blackTakenPieces = new TakenPieces(board.getBlackPlayer());
         whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
-        Main.forceSize(new Dimension(getWidth()/3, getHeight()/5), blackTakenPieces, whiteTakenPieces);
-        //blackTimer = new TimeDisplay(board.getBlackPlayer());
-        //whiteTimer = new TimeDisplay(board.getWhitePlayer());
-        //Main.forceSize(new Dimension(getWidth()/3, getHeight()/20), blackTimer, whiteTimer);
+        blackTimer = new TimeDisplay(board.getBlackPlayer());
+        whiteTimer = new TimeDisplay(board.getWhitePlayer());
 
-        // Add components to displays
-        //centerDisplay.add(blackTimer);
-        centerDisplay.add(board);
-        //centerDisplay.add(whiteTimer);
-        eastDisplay.add(blackTakenPieces);
-        eastDisplay.add(moveHistory);
-        eastDisplay.add(whiteTakenPieces);
+        Main.forceSize(new Dimension(getWidth()*2/3, getHeight()*3/5), board);
+        Main.forceSize(new Dimension(getWidth()/3, getHeight()*3/5), moveHistory);
 
-        // Add all displays to Game
-        add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.NORTH);
-        add(Box.createRigidArea(new Dimension(getWidth(), getHeight()/10)), BorderLayout.SOUTH);
-        add(Box.createRigidArea(new Dimension(getWidth()/3, getHeight())), BorderLayout.WEST);
-        add(centerDisplay, BorderLayout.CENTER);
-        add(eastDisplay, BorderLayout.EAST);
+        // Add components to grid
+
+        // Add blackTimer
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.PAGE_END;
+        c.weightx = 0.33;
+        c.weighty = 0.2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        add(blackTimer, c);
+
+        // Add board
+        c.anchor = GridBagConstraints.CENTER;
+        c.weightx = 0.67;
+        c.weighty = 0.6;
+        c.gridy = 1;
+        c.gridwidth = 2;
+        add(board, c);
+
+        // Add whiteTimer
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.33;
+        c.weighty = 0.2;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        add(whiteTimer, c);
+
+        // Add blackTakenPieces
+        c.anchor = GridBagConstraints.PAGE_END;
+        c.weightx = 0.33;
+        c.weighty = 0.2;
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        add(blackTakenPieces, c);
+
+        // Add moveHistory
+        c.anchor = GridBagConstraints.CENTER;
+        c.weightx = 0.33;
+        c.weighty = 0.6;
+        c.gridy = 1;
+        add(moveHistory, c);
+
+        // Add whiteTakenPieces
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.weightx = 0.33;
+        c.weighty = 0.2;
+        c.gridy = 2;
+        add(whiteTakenPieces);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();

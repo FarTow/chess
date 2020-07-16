@@ -10,13 +10,11 @@ public class TimeDisplay extends JPanel {
     private final Player player;
 
     public TimeDisplay(Player player) {
-        setOpaque(false);
+        setBackground(Color.blue);
         this.player = player;
     }
 
     protected void paintComponent(Graphics g) {
-        g.setColor(Color.red);
-        g.fillOval(10, 10, 10, 10);
         super.paintComponent(g);
     }
     public void actionPerformed(ActionEvent ae) {
