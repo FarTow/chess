@@ -1,7 +1,6 @@
 package panels;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,10 +10,8 @@ public class Game extends JPanel implements ActionListener {
 
     private Board board;
     private MoveHistory moveHistory;
-    private TakenPieces blackTakenPieces;
-    private TakenPieces whiteTakenPieces;
-    private TimeDisplay blackTimer;
-    private TimeDisplay whiteTimer;
+    private PlayerInfoBox whiteInfoBox;
+    private PlayerInfoBox blackInfoBox;
 
     public Game() {
         setBackground(Main.BACKGROUND_COLOR);
@@ -36,10 +33,8 @@ public class Game extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         board.actionPerformed(ae);
         moveHistory.actionPerformed(ae);
-        whiteTakenPieces.actionPerformed(ae);
-        blackTakenPieces.actionPerformed(ae);
-        whiteTimer.actionPerformed(ae);
-        blackTimer.actionPerformed(ae);
+        whiteInfoBox.actionPerformed(ae);
+        blackInfoBox.actionPerformed(ae);
     }
 
     public void start() {
@@ -49,37 +44,8 @@ public class Game extends JPanel implements ActionListener {
         // Create all the components to be shown in Game
         board = new Board();
         moveHistory = new MoveHistory(board);
-        blackTakenPieces = new TakenPieces(board.getBlackPlayer());
-        whiteTakenPieces = new TakenPieces(board.getWhitePlayer());
-        blackTimer = new TimeDisplay(board.getBlackPlayer());
-        whiteTimer = new TimeDisplay(board.getWhitePlayer());
-
-        // Create and initialize any necessary holders
-        JPanel whiteInfoBox = new JPanel();
-        JPanel blackInfoBox = new JPanel();
-
-        whiteInfoBox.setLayout(new BoxLayout(whiteInfoBox, BoxLayout.Y_AXIS));
-        blackInfoBox.setLayout(new BoxLayout(blackInfoBox, BoxLayout.Y_AXIS));
-
-        whiteInfoBox.add(new JLabel("White Stats", JLabel.CENTER)); // add components to holders
-        whiteInfoBox.add(whiteTimer);
-        whiteInfoBox.add(whiteTakenPieces);
-
-        blackInfoBox.add(new JLabel("Black Stats", JLabel.CENTER));
-        blackInfoBox.add(blackTimer);
-        blackInfoBox.add(blackTakenPieces);
-
-        whiteInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20)); // configure settings
-        blackInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20));
-        ((JComponent) whiteInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
-        ((JComponent) blackInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        Main.forceSize(new Dimension(getWidth()/4, getHeight()/10), whiteTimer, blackTimer); // force the size of info box components
-
-        for (int i=1; i<whiteInfoBox.getComponentCount(); i++) {
-            ((JComponent) whiteInfoBox.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-            ((JComponent) blackInfoBox.getComponent(i)).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        }
+        whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());
+        blackInfoBox = new PlayerInfoBox(board.getBlackPlayer());
 
         // Forcing sizes
         Main.forceSize(new Dimension(getWidth()*2/5, getHeight()/2), board);
