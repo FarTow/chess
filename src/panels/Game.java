@@ -37,6 +37,8 @@ public class Game extends JPanel implements ActionListener {
         moveHistory.actionPerformed(ae);
         whiteTakenPieces.actionPerformed(ae);
         blackTakenPieces.actionPerformed(ae);
+        whiteTimer.actionPerformed(ae);
+        blackTimer.actionPerformed(ae);
     }
 
     public void start() {
@@ -70,6 +72,8 @@ public class Game extends JPanel implements ActionListener {
         blackInfoBox.getComponent(0).setFont(new Font("Serif", Font.PLAIN, 20));
         ((JComponent) whiteInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
         ((JComponent) blackInfoBox.getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        Main.forceSize(new Dimension(getWidth()/4, getHeight()/10), whiteTimer, blackTimer);
 
         // Forcing sizes
         Main.forceSize(new Dimension(getWidth()/2, getHeight()/2), board);
