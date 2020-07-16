@@ -13,6 +13,8 @@ public class PlayerInfoBox extends JPanel {
     private TakenPieces takenPieces;
 
     public PlayerInfoBox(Player player) {
+        setBackground(new Color(255, 255, 255));
+
         this.player = player;
 
         timer = new TimeDisplay(player);

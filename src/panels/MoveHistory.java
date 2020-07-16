@@ -40,7 +40,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         add(new JScrollPane(moveHistoryTable));
     }
 
-    public void initUI() { // CLEAN THIS UP
+    public void initUI() {
         // Init MoveDisplay Data
         allMoveData.add(new Object[] {moveCount, "", ""});
 
