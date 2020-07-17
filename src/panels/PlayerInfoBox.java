@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PlayerInfoBox extends JPanel {
-    private Player player;
+    private final Player player;
 
-    private TimeDisplay timer;
-    private TakenPieces takenPieces;
+    private final TimeDisplay timer;
+    private final TakenPieces takenPieces;
 
     public PlayerInfoBox(Player player) {
         setBackground(new Color(255, 255, 255));

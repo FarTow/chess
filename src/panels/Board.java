@@ -386,7 +386,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void start() {
         updatePositions();
 
-        for (int row=0; row<grid.length; row++) {
+        for (int row=0; row<grid.length; row++) { // initialize empty grid
             for (int column=0; column<grid[row].length; column++) {
                 Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
 
