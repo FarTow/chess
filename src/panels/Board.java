@@ -8,10 +8,10 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener { // Weird lag
     // Board Properties
-    private Point topLeft;
-    private Point bottomRight;
-    private int squareLength;
     private final Square[][] grid;
+    private final Point topLeft;
+    private final Point bottomRight;
+    private int squareLength;
     private boolean initialCenter;
 
     private final Object[] whitePromotionDialogIcons = new Object[] {
@@ -26,8 +26,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             new ImageIcon(new Knight(false).getImage()),};
 
     // Players
-    private Player whitePlayer;
-    private Player blackPlayer;
+    private final Player whitePlayer;
+    private final Player blackPlayer;
     private Player currentPlayer;
 
     // "Game" Properties
