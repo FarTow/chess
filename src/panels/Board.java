@@ -129,15 +129,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
     public void drawIndicators(Graphics g) {
-        Font indicatorsFont = new Font("Helvetica", Font.PLAIN, 18);
+        Font indicatorsFont = Main.MULISH_LIGHT.deriveFont(12.0f);
+        g.setFont(indicatorsFont);
         g.setColor(Color.black);
+
+        int offset = 5;
 
         for (int row=1; row<=grid.length; row++) { // draw files
             String rank = Integer.toString(row);
             Dimension stringSize = new Dimension(
                     g.getFontMetrics(indicatorsFont).stringWidth(rank),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(rank, topLeft.x-stringSize.width, (bottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
+            g.drawString(rank, topLeft.x-stringSize.width-offset, (bottomRight.y-squareLength/2+stringSize.height/4)-(squareLength * (row-1)));
         }
 
         for (int column=0; column<grid[0].length; column++) { // draw ranks
@@ -145,7 +148,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             Dimension stringSize = new Dimension(
                     g.getFontMetrics(indicatorsFont).stringWidth(file),
                     g.getFontMetrics(indicatorsFont).getHeight());
-            g.drawString(file, topLeft.x+(squareLength/2-stringSize.width/4)+(squareLength * column), bottomRight.y+stringSize.height/2);
+            g.drawString(file, topLeft.x+(squareLength/2-stringSize.width/4)+(squareLength * column), bottomRight.y+stringSize.height/2+offset);
         }
     }
     public void drawSelectedSquare(Graphics g) {
