@@ -125,7 +125,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
     public void drawIndicators(Graphics g) {
-        Font indicatorsFont = Main.MULISH_LIGHT.deriveFont(12.0f);
+        Font indicatorsFont = Main.MULISH_LIGHT.deriveFont((float) getWidth()/60);
         g.setFont(indicatorsFont);
         g.setColor(Color.black);
 
