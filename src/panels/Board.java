@@ -8,10 +8,10 @@ import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener { // Weird lag
     // Board Properties
-    private final Point topLeft;
-    private final Square[][] grid;
-    private final Point bottomRight;
+    private Point topLeft;
+    private Point bottomRight;
     private int squareLength;
+    private final Square[][] grid;
     private boolean initialCenter;
 
     private final Object[] whitePromotionDialogIcons = new Object[] {
@@ -26,16 +26,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             new ImageIcon(new Knight(false).getImage()),};
 
     // Players
-    private final Player whitePlayer;
-    private final Player blackPlayer;
+    private Player whitePlayer;
+    private Player blackPlayer;
     private Player currentPlayer;
 
     // "Game" Properties
     private Piece selectedPiece;
     private int turnCount;
     private boolean whiteTurn;
-
-    private boolean threeFoldRepetition, fiftyMoveRule; // claimable draws
 
     // MoveHistory Trackers
     private Piece lastPiece;
@@ -47,37 +45,21 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Board() {
         setOpaque(false);
 
+        // Properties
+        grid = new Square[8][8];
         topLeft = new Point(0, 0);
+        bottomRight = new Point(0, 0);
         squareLength = 60;
-        bottomRight = new Point(10+(squareLength*8), topLeft.y+(squareLength*8));
         pawnPromotionStatus = ' ';
 
-        grid = new Square[8][8];
-
-        for (int row=0; row<grid.length; row++) {
-            for (int column=0; column<grid[row].length; column++) {
-                Point pos = new Point(topLeft.x+(column*squareLength), topLeft.y+(row*squareLength));
-
-                grid[row][column] = new Square(row, column, pos, squareLength, null);
-            }
-        }
-
-        whitePlayer = new Player(true, this);
-        blackPlayer = new Player (false, this);
-
-        whitePlayer.setEnemyPlayer(blackPlayer);
-        blackPlayer.setEnemyPlayer(whitePlayer);
-
-        currentPlayer = whitePlayer;
+        whitePlayer = null;
+        blackPlayer = null;
 
         turnCount = 0;
         whiteTurn = true;
-        resetBoard();
 
         addMouseListener(this);
         addMouseMotionListener(this);
-
-        currentPlayer.update();
     }
 
     public void resetBoard() {
@@ -98,24 +80,38 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void resize(int newSquareSize) {
         this.squareLength = newSquareSize;
+
+        updatePositions();
+        updatePieceImages();
+        updateSquarePositions();
+        updatePiecePositions();
+    }
+    public void updatePositions() {
         topLeft.x = getWidth() / 2 - squareLength * 4;
         topLeft.y = getHeight() / 2 - squareLength * 4;
         bottomRight.x = topLeft.x + squareLength * 8;
         bottomRight.y = topLeft.y + squareLength * 8;
-
-        whitePlayer.scalePieceImages(newSquareSize);
-        blackPlayer.scalePieceImages(newSquareSize);
-
+    }
+    public void updateSquarePositions() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
                 Square square = grid[row][column];
                 Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
 
                 square.setRect(new Rectangle(pos.x, pos.y, squareLength, squareLength));
-
-                if (square.getPiece() != null) square.getPiece().setTopLeft(pos);
             }
         }
+    }
+    public void updatePiecePositions() {
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (square.getPiece() != null) square.getPiece().setTopLeft(square.getTopLeft());
+            }
+        }
+    }
+    public void updatePieceImages() {
+        whitePlayer.scalePieceImages(squareLength);
+        blackPlayer.scalePieceImages(squareLength);
     }
 
     // Graphics
@@ -219,6 +215,21 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
+    public void updateAmbiguousMove(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Piece piece : currentPlayer.getPieces()) {
+                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
+                    if (piece.canMove(toSquare)) {
+                        ambiguousMove = true;
+
+                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                    }
+                }
+            }
+        }
+    }
     public int createPromotionPrompt(boolean forWhite) {
         return JOptionPane.showOptionDialog(
                 this, null, "Promote Piece",
@@ -236,23 +247,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
-
-    public void updateAmbiguousMove(Square toSquare) {
-        if (selectedPiece == null) return;
-
-        if (!(selectedPiece instanceof Pawn)) {
-            for (Piece piece : currentPlayer.getPieces()) {
-                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
-                    if (piece.canMove(toSquare)) {
-                        ambiguousMove = true;
-
-                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
-                    }
-                }
-            }
-        }
-    }
-
     public void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
@@ -388,6 +382,31 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (mouseContained(me, topLeft, bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
+
+    public void start() {
+        updatePositions();
+
+        for (int row=0; row<grid.length; row++) {
+            for (int column=0; column<grid[row].length; column++) {
+                Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
+
+                grid[row][column] = new Square(row, column, pos, squareLength, null);
+            }
+        }
+
+        whitePlayer = new Player(true, this);
+        blackPlayer = new Player (false, this);
+
+        resetBoard();
+        updatePiecePositions();
+        updatePieceImages();
+
+        whitePlayer.setEnemyPlayer(blackPlayer);
+        blackPlayer.setEnemyPlayer(whitePlayer);
+
+        currentPlayer = whitePlayer;
+        currentPlayer.update();
+    }
 
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }

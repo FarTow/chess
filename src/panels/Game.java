@@ -27,6 +27,17 @@ public class Game extends JPanel implements ActionListener {
         });
     }
 
+    private void setGridBagLayoutConstraints(GridBagConstraints c, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
+        c.fill = fill;
+        c.gridx = gridx;
+        c.gridy = gridy;
+        c.gridwidth = gridwidth;
+        c.gridheight = gridheight;
+        c.weightx = weightx;
+        c.weighty = weighty;
+        c.anchor = anchor;
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
@@ -43,6 +54,8 @@ public class Game extends JPanel implements ActionListener {
 
         // Create all the components to be shown in Game
         board = new Board();
+        board.start();
+
         moveHistory = new MoveHistory(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer());
@@ -80,16 +93,4 @@ public class Game extends JPanel implements ActionListener {
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();
     }
-
-    private void setGridBagLayoutConstraints(GridBagConstraints c, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
-        c.fill = fill;
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.gridwidth = gridwidth;
-        c.gridheight = gridheight;
-        c.weightx = weightx;
-        c.weighty = weighty;
-        c.anchor = anchor;
-    }
-
 }
