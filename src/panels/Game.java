@@ -54,7 +54,6 @@ public class Game extends JPanel implements ActionListener {
 
         // Create all the components to be shown in Game
         board = new Board();
-        board.start();
 
         moveHistory = new MoveHistory(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());

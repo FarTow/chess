@@ -51,12 +51,29 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         bottomRight = new Point(0, 0);
         squareLength = 60;
         pawnPromotionStatus = ' ';
-
-        whitePlayer = null;
-        blackPlayer = null;
-
         turnCount = 0;
         whiteTurn = true;
+
+        for (int row=0; row<grid.length; row++) { // initialize empty grid
+            for (int column=0; column<grid[row].length; column++) {
+                Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
+
+                grid[row][column] = new Square(row, column, pos, squareLength, null);
+            }
+        }
+
+        whitePlayer = new Player(true, this);
+        blackPlayer = new Player (false, this);
+
+        resetBoard();
+        updatePiecePositions();
+        updatePieceImages();
+
+        whitePlayer.setEnemyPlayer(blackPlayer);
+        blackPlayer.setEnemyPlayer(whitePlayer);
+
+        currentPlayer = whitePlayer;
+        currentPlayer.update();
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -382,31 +399,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (mouseContained(me, topLeft, bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
     }
     public void mouseMoved(MouseEvent me) {}
-
-    public void start() {
-        updatePositions();
-
-        for (int row=0; row<grid.length; row++) { // initialize empty grid
-            for (int column=0; column<grid[row].length; column++) {
-                Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
-
-                grid[row][column] = new Square(row, column, pos, squareLength, null);
-            }
-        }
-
-        whitePlayer = new Player(true, this);
-        blackPlayer = new Player (false, this);
-
-        resetBoard();
-        updatePiecePositions();
-        updatePieceImages();
-
-        whitePlayer.setEnemyPlayer(blackPlayer);
-        blackPlayer.setEnemyPlayer(whitePlayer);
-
-        currentPlayer = whitePlayer;
-        currentPlayer.update();
-    }
 
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
