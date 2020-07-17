@@ -3,18 +3,18 @@ package panels;
 import entities.Player;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class PlayerInfoBox extends JPanel {
     private final Player player;
 
+    private JLabel label;
     private final TimeDisplay timer;
     private final TakenPieces takenPieces;
 
     public PlayerInfoBox(Player player) {
-        setBackground(new Color(255, 255, 255));
-
         this.player = player;
 
         timer = new TimeDisplay(player);
@@ -24,16 +24,45 @@ public class PlayerInfoBox extends JPanel {
     }
 
     public void initUI() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(new Color(234, 229, 221));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        Main.forceSize(new Dimension(getWidth()/4, getHeight()/10), timer); // force the size of info box components
+        /*
+        label = new JLabel((player.isWhite() ? "White" : "Black") + " Stats", JLabel.CENTER) {
+            public void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.rotate(-Math.PI/2,(getX() + getWidth()/2.0f), (getY() + getHeight()/2.0f));
 
-        add(new JLabel((player.isWhite() ? "White" : "Black") + " Stats", JLabel.CENTER)); // add components to holders
-        add(timer);
-        add(takenPieces);
+                super.paintComponent(g);
 
-        getComponent(0).setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // configure settings
-        ((JComponent) getComponent(0)).setAlignmentX(Component.CENTER_ALIGNMENT);
+                g2d.dispose();
+            }
+        };
+         */
+
+        String labelText = player.isWhite() ? "<html>W<br>H<br>I<br>T<br>E<br>" : "<html>B<br>L<br>A<br>C<br>K<br>";
+
+        label = new JLabel("<html><br>" + labelText + " <html><br>S<br>T<br>A<br>T<br>S");
+        label.setFont((Main.MULISH_LIGHT.deriveFont(20.0f))); // configure settings
+        label.setVerticalAlignment(JLabel.TOP);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setBorder(BorderFactory.createLineBorder(Color.black, 10));
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
+                0, 0, 1, 2, 0.0, 1.0, GridBagConstraints.PAGE_START);
+        add(label, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
+                1, 0, 1, 1, 1.0, 0.2, GridBagConstraints.CENTER);
+        add(timer, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
+                1, 1, 1, 1, 1.0, 0.8, GridBagConstraints.LINE_END);
+        add(takenPieces, c);
     }
 
     protected void paintComponent(Graphics g) {
@@ -47,4 +76,6 @@ public class PlayerInfoBox extends JPanel {
 
         repaint();
     }
+
+    public JLabel getLabel() { return label; }
 }

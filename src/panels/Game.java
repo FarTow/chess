@@ -27,18 +27,6 @@ public class Game extends JPanel implements ActionListener {
         });
     }
 
-    private void setGridBagLayoutConstraints(GridBagConstraints c, Insets insets, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
-        c.insets = insets;
-        c.fill = fill;
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.gridwidth = gridwidth;
-        c.gridheight = gridheight;
-        c.weightx = weightx;
-        c.weighty = weighty;
-        c.anchor = anchor;
-    }
-
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
@@ -98,26 +86,37 @@ public class Game extends JPanel implements ActionListener {
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer());
 
-        // Forcing sizes
         Main.forceSize(new Dimension(getWidth()*9/20, getHeight()/2), board);
         Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
+
+        Main.forceSize(new Dimension(getWidth()/20, getHeight()), whiteInfoBox.getLabel(), blackInfoBox.getLabel());
+        //Main.forceSize(new Dimension(getWidth()/10, getHeight()/10), whiteInfoBox.getTimer(), blackInfoBox.getTimer());
+        //Main.forceSize(new Dimension(getWidth()/10, getHeight()*3/10), whiteInfoBox.getTakenPieces(), blackInfoBox.getTakenPieces());
 
         // Add components to grid
 
         // Add whiteInfoBox
-        setGridBagLayoutConstraints(c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL, 0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
+                0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
         add(whiteInfoBox, c);
 
         // Add blackInfoBox
-        setGridBagLayoutConstraints(c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL, 0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
+                0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
         add(blackInfoBox, c);
 
         // Add board
-        setGridBagLayoutConstraints(c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH, 1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
+                1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
         add(board, c);
 
         // Add moveHistory
-        setGridBagLayoutConstraints(c, new Insets(20, 10, 20, 20), GridBagConstraints.VERTICAL, 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(20, 10, 20, 20), GridBagConstraints.VERTICAL,
+                2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
         add(moveHistory, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);

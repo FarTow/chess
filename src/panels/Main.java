@@ -24,6 +24,19 @@ public class Main extends JFrame {
         }
     }
 
+    public static void setGridBagLayoutConstraints(GridBagConstraints c, Insets insets, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
+        c.insets = insets;
+        c.fill = fill;
+        c.gridx = gridx;
+        c.gridy = gridy;
+        c.gridwidth = gridwidth;
+        c.gridheight = gridheight;
+        c.weightx = weightx;
+        c.weighty = weighty;
+        c.anchor = anchor;
+    }
+
+
     Main() {
         try {
             MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));
