@@ -56,18 +56,23 @@ public class MoveHistory extends JPanel implements ActionListener {
         // Init MoveDisplay Table
         moveHistoryTable = new JTable(moveHistoryModel);
 
-            // Functional Changes
-        moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
+        // Functional Changes
+
+        // Initialize Table Header
         moveHistoryTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
         moveHistoryTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
         moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
         moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // set header font
+
+        // Initialize Misc. Properties of Table
+        moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
         moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(10.0f));
         moveHistoryTable.setRowHeight(20); // set cell size
 
         centerTable();
     }
 
+    // Visual Update
     public void centerTable() {
         for (int i=0; i<moveHistoryTable.getTableHeader().getColumnModel().getColumnCount(); i++) { // center table headers
             moveHistoryTable.getTableHeader().getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
@@ -77,6 +82,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         }
     }
 
+    // Data Update
     public Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 
@@ -169,12 +175,12 @@ public class MoveHistory extends JPanel implements ActionListener {
         whiteTurn = board.getWhiteTurn();
     }
 
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
     public void actionPerformed(ActionEvent ae) {
         updateAllMoveData();
         repaint();
-    }
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
     }
 
 }
