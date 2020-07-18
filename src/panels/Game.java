@@ -38,45 +38,6 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void start() {
-        /*
-        // === BOX LAYOUT === //
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
-        // Create all the components to be shown in Game
-        board = new Board();
-        moveHistory = new MoveHistory(board);
-        whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());
-        blackInfoBox = new PlayerInfoBox(board.getBlackPlayer());
-
-        // Create and containers for components
-        Box leftContainer = new Box(BoxLayout.Y_AXIS);
-        Box middleContainer = new Box(BoxLayout.Y_AXIS);
-        Box rightContainer = new Box(BoxLayout.Y_AXIS);
-
-        // Force the size on containers and components
-        Main.forceSize(new Dimension(getWidth()*3/10, getHeight()), leftContainer, rightContainer); // force the size on the containers
-        Main.forceSize(new Dimension(getWidth()*4/10, getHeight()), middleContainer);
-
-        Main.forceSize(new Dimension(getWidth()*3/10, getHeight()/2), whiteInfoBox, blackInfoBox);
-        Main.forceSize(new Dimension(getWidth()*4/10, getHeight()), board);
-        Main.forceSize(new Dimension(getWidth()*3/10, getHeight()*3/5), moveHistory);
-
-        // Add components to containers
-        leftContainer.add(whiteInfoBox);
-        leftContainer.add(blackInfoBox);
-
-        middleContainer.add(board);
-
-        rightContainer.add(moveHistory);
-
-        // Add containers to this box
-        add(leftContainer);
-        add(middleContainer);
-        add(rightContainer);
-         */
-
-
-        // === GRID BAG LAYOUT === //
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
