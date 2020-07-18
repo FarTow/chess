@@ -106,6 +106,7 @@ public abstract class Piece {
     public void setMoveableSquares(ArrayList<Square> moveableSquares) { this.moveableSquares = moveableSquares; }
 
     public abstract char getSymbol();
+    public abstract char getNotation();
     public Square getSquare() { return square; }
     public Image getImage() { return image; }
     public Point getTopLeft() { return topLeft; }

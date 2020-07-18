@@ -51,7 +51,7 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         // Init MoveDisplay Cell Renderer
         moveHistoryCellRenderer = new DefaultTableCellRenderer();
-        moveHistoryCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        moveHistoryCellRenderer.setHorizontalAlignment(SwingConstants.CENTER); // might be possible to conserve piece symbols...
 
         // Init MoveDisplay Table
         moveHistoryTable = new JTable(moveHistoryModel);
@@ -106,7 +106,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         char oldFile = (char) ((char) 97 + board.getOldSquareCords().y);
         int newRank = (4 + (4 - board.getNewSquareCords().x));
         char newFile = (char) ((char) 97 + board.getNewSquareCords().y);
-        chessNotation.append(board.getLastPiece().getSymbol()); // symbol of the piece that moved
+        chessNotation.append(board.getLastPiece().getNotation()); // symbol of the piece that moved
 
         // Append "taken" notation if a piece was taken
         if (pieceTaken) {

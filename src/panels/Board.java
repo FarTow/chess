@@ -289,7 +289,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         currentPlayer.removePiece(promotedPawn, false);
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
-        pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getSymbol();
+        pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getNotation();
     }
 
     protected void paintComponent(Graphics g) {
