@@ -28,7 +28,6 @@ public class PlayerInfoBox extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        /*
         label = new JLabel((player.isWhite() ? "White" : "Black") + " Stats", JLabel.CENTER) {
             public void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
@@ -39,14 +38,13 @@ public class PlayerInfoBox extends JPanel {
                 g2d.dispose();
             }
         };
-         */
-
-        String labelText = player.isWhite() ? "<html>W<br>H<br>I<br>T<br>E<br>" : "<html>B<br>L<br>A<br>C<br>K<br>";
-
-        label = new JLabel("<html><br>" + labelText + " <html><br>S<br>T<br>A<br>T<br>S");
         label.setFont((Main.MULISH_LIGHT.deriveFont(20.0f))); // configure settings
-        label.setVerticalAlignment(JLabel.TOP);
-        label.setHorizontalAlignment(JLabel.CENTER);
+
+        //String labelText = player.isWhite() ? "<html>W<br>H<br>I<br>T<br>E<br>" : "<html>B<br>L<br>A<br>C<br>K<br>";
+
+        //label = new JLabel("<html><br>" + labelText + " <html><br>S<br>T<br>A<br>T<br>S");
+        //label.setVerticalAlignment(JLabel.TOP);
+        //label.setHorizontalAlignment(JLabel.CENTER);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
