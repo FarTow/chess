@@ -89,7 +89,7 @@ public class Game extends JPanel implements ActionListener {
         Main.forceSize(new Dimension(getWidth()*9/20, getHeight()/2), board);
         Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
 
-        Main.forceSize(new Dimension(getWidth()/20, getHeight()), whiteInfoBox.getLabel(), blackInfoBox.getLabel());
+        //Main.forceSize(new Dimension(getWidth()/20, getHeight()), whiteInfoBox.getLabel(), blackInfoBox.getLabel());
 
         // Add components to grid
 

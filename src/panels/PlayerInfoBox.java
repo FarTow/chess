@@ -49,7 +49,7 @@ public class PlayerInfoBox extends JPanel {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
-                0, 0, 1, 2, 0.16, 6.0, GridBagConstraints.PAGE_START);
+                0, 0, 1, 2, 0.0, .8, GridBagConstraints.PAGE_START);
         add(label, c);
 
         Main.setGridBagLayoutConstraints(
@@ -74,6 +74,4 @@ public class PlayerInfoBox extends JPanel {
 
         repaint();
     }
-
-    public JLabel getLabel() { return label; }
 }
