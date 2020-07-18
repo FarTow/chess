@@ -14,8 +14,6 @@ public class PlayerInfoBox extends JPanel {
     private final TimeDisplay timer;
     private final TakenPieces takenPieces;
 
-    private boolean labelInitialized;
-
     public PlayerInfoBox(Player player) {
         this.player = player;
 
