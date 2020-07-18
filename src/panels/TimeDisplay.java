@@ -16,6 +16,10 @@ public class TimeDisplay extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Sharpen text
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
     public void actionPerformed(ActionEvent ae) {
         repaint();
