@@ -295,6 +295,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // clear screen
 
+        // Sharper text
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         drawBoard(g);
         drawIndicators(g);
         drawSelectedSquare(g);
