@@ -6,11 +6,12 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Rectangle2D;
 
 public class PlayerInfoBox extends JPanel {
     private final Player player;
 
-    private JLabel label;
+    private JPanel labelPanel;
     private final TimeDisplay timer;
     private final TakenPieces takenPieces;
 
@@ -28,30 +29,32 @@ public class PlayerInfoBox extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        label = new JLabel((player.isWhite() ? "White" : "Black") + " Stats", JLabel.CENTER) {
-            public void paintComponent(Graphics g) {
+        labelPanel = new JPanel() {
+            public void paintComponent(Graphics g) { // Tanvier carrying me once again
+                super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.translate(-getWidth()/4, 0);
+
+                // Initialize g2d properties
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(Color.black);
+                g2d.setFont(Main.MULISH_LIGHT.deriveFont(25.0f));
+
+                // Create text
+                String label = (player.isWhite() ? "White" : "Black") + " Stats";
+
+                // Rotate panel
                 g2d.rotate(-Math.PI/2,(getX() + getWidth()/2.0f), (getY() + getHeight()/2.0f));
 
-                super.paintComponent(g);
-
+                // Draw String
+                g2d.drawString(label, 0, getHeight() / 2);
                 g2d.dispose();
             }
         };
-        label.setFont((Main.MULISH_LIGHT.deriveFont(20.0f))); // configure settings
-        label.setOpaque(true);
-
-        // === SCUFFED VERTICAL === //
-        //String labelText = player.isWhite() ? "<html>W<br>H<br>I<br>T<br>E<br>" : "<html>B<br>L<br>A<br>C<br>K<br>";
-        //label = new JLabel("<html><br>" + labelText + " <html><br>S<br>T<br>A<br>T<br>S");
-        //label.setVerticalAlignment(JLabel.TOP);
-        //label.setHorizontalAlignment(JLabel.CENTER);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
-                0, 0, 1, 2, 0.0, .8, GridBagConstraints.PAGE_START);
-        add(label, c);
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.VERTICAL,
+                0, 0, 1, 2, 0.0, .8, GridBagConstraints.CENTER);
+        add(labelPanel, c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
@@ -66,13 +69,15 @@ public class PlayerInfoBox extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.black);
     }
 
     public void actionPerformed(ActionEvent ae) {
         timer.actionPerformed(ae);
         takenPieces.actionPerformed(ae);
 
+        labelPanel.repaint();
         repaint();
     }
+
+    public JPanel getLabelPanel() { return labelPanel; }
 }
