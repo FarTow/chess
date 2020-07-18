@@ -14,6 +14,8 @@ public class PlayerInfoBox extends JPanel {
     private final TimeDisplay timer;
     private final TakenPieces takenPieces;
 
+    private boolean labelInitialized;
+
     public PlayerInfoBox(Player player) {
         this.player = player;
 
@@ -39,16 +41,17 @@ public class PlayerInfoBox extends JPanel {
             }
         };
         label.setFont((Main.MULISH_LIGHT.deriveFont(20.0f))); // configure settings
+        label.setOpaque(true);
 
+        // === SCUFFED VERTICAL === //
         //String labelText = player.isWhite() ? "<html>W<br>H<br>I<br>T<br>E<br>" : "<html>B<br>L<br>A<br>C<br>K<br>";
-
         //label = new JLabel("<html><br>" + labelText + " <html><br>S<br>T<br>A<br>T<br>S");
         //label.setVerticalAlignment(JLabel.TOP);
         //label.setHorizontalAlignment(JLabel.CENTER);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
-                0, 0, 1, 2, 0.0, 1.0, GridBagConstraints.PAGE_START);
+                0, 0, 1, 2, 0.16, 6.0, GridBagConstraints.PAGE_START);
         add(label, c);
 
         Main.setGridBagLayoutConstraints(
