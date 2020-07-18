@@ -15,6 +15,7 @@ public class Game extends JPanel implements ActionListener {
 
     public Game() {
         setBackground(Main.BACKGROUND_COLOR);
+        setLayout(new GridBagLayout());
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
@@ -39,7 +40,6 @@ public class Game extends JPanel implements ActionListener {
     }
 
     public void start() {
-        setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         // Create all the components to be shown in Game
