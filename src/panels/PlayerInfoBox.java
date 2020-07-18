@@ -47,7 +47,6 @@ public class PlayerInfoBox extends JPanel {
         label.setFont((Main.MULISH_LIGHT.deriveFont(20.0f))); // configure settings
         label.setVerticalAlignment(JLabel.TOP);
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBorder(BorderFactory.createLineBorder(Color.black, 10));
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
