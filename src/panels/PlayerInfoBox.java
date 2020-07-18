@@ -31,6 +31,7 @@ public class PlayerInfoBox extends JPanel {
         label = new JLabel((player.isWhite() ? "White" : "Black") + " Stats", JLabel.CENTER) {
             public void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
+                g2d.translate(-getWidth()/4, 0);
                 g2d.rotate(-Math.PI/2,(getX() + getWidth()/2.0f), (getY() + getHeight()/2.0f));
 
                 super.paintComponent(g);
