@@ -32,19 +32,20 @@ public class PlayerInfoBox extends JPanel {
         labelPanel = new JPanel() {
             public void paintComponent(Graphics g) { // Tanvir carrying me once again
                 super.paintComponent(g);
+
                 Graphics2D g2d = (Graphics2D) g;
 
                 // Initialize g2d properties
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setColor(Color.black);
                 g2d.setFont(Main.MULISH_LIGHT.deriveFont((float) getHeight()/15));
-                System.out.println(getWidth() + ", " + getHeight());
 
                 // Create and draw text
                 String label = (player.isWhite() ? "White" : "Black") + " Stats";
                 Dimension labelDimensions = new Dimension(g2d.getFontMetrics(g2d.getFont()).stringWidth(label), g2d.getFontMetrics(g2d.getFont()).getHeight());
+
                 g2d.rotate(-Math.PI/2,(getX() + getWidth()/2.0f), (getY() + getHeight()/2.0f)); // rotate -90 degrees
-                g2d.drawString(label, -(getWidth()/2 + labelDimensions.width), getHeight()/2 + labelDimensions.height/2); // draw the string (x and y reversed since we rotated)
+                g2d.drawString(label, -getWidth()/2, getHeight()/2 + labelDimensions.height/3); // draw the string (x and y reversed since we rotated)
                 g2d.dispose();
             }
         };
