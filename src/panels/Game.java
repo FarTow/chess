@@ -22,6 +22,7 @@ public class Game extends JPanel implements ActionListener {
             if (getComponentCount() == 0) return;
 
             board.resize(Math.min((getWidth()/24 - 1), 60));
+            moveHistory.resize();
             updateUI();
             }
         });

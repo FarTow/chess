@@ -21,6 +21,7 @@ public class MoveHistory extends JPanel implements ActionListener {
     private DefaultTableModel moveHistoryModel;
     private DefaultTableCellRenderer moveHistoryCellRenderer;
     private final ArrayList<Object[]> allMoveData;
+    private boolean initialResize;
 
     private boolean whiteTurn;
     private int moveCount;
@@ -62,11 +63,9 @@ public class MoveHistory extends JPanel implements ActionListener {
         moveHistoryTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
         moveHistoryTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
         moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
-        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(20.0f)); // set header font
 
         // Initialize Misc. Properties of Table
-        moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
-        moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(10.0f));
+        //moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
         moveHistoryTable.setRowHeight(20); // set cell size
 
         centerTable();
@@ -81,19 +80,13 @@ public class MoveHistory extends JPanel implements ActionListener {
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
     }
+    public void resize() {
+        moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/15, (float) getHeight()/20))); // set header font
+        moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/25, (float) getHeight()/35)));
+        moveHistoryTable.setRowHeight(Math.min(getWidth()/10, getHeight()/18)); // set cell size
+    }
 
     // Data Update
-    public Object[][] readableMoveData() {
-        Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
-
-        for (int i=0; i<allMoveData.size(); i++) {
-            Object[] moveDataRow = new Object[readableMoveData[0].length];
-            System.arraycopy(allMoveData.get(i), 0, moveDataRow, 0, allMoveData.get(i).length);
-            readableMoveData[i] = moveDataRow;
-        }
-
-        return readableMoveData;
-    }
     public String lastMove(boolean pieceTaken) {
         if (board.getLastPiece() instanceof King) { // castling
             if (board.getCastlingStatus() == 1) return "O-O";
@@ -145,6 +138,17 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         return chessNotation.toString();
     }
+    public Object[][] readableMoveData() {
+        Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
+
+        for (int i=0; i<allMoveData.size(); i++) {
+            Object[] moveDataRow = new Object[readableMoveData[0].length];
+            System.arraycopy(allMoveData.get(i), 0, moveDataRow, 0, allMoveData.get(i).length);
+            readableMoveData[i] = moveDataRow;
+        }
+
+        return readableMoveData;
+    }
     public void updateAllMoveData() {
         if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move took place"
 
@@ -179,6 +183,11 @@ public class MoveHistory extends JPanel implements ActionListener {
         super.paintComponent(g);
     }
     public void actionPerformed(ActionEvent ae) {
+        if (!initialResize) { // please god tell me there's a way
+            resize();
+            initialResize = true;
+        }
+
         updateAllMoveData();
         repaint();
     }
