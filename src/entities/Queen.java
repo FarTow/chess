@@ -32,6 +32,5 @@ public class Queen extends Piece {
         }
     }
 
-    public char getSymbol() { return isWhite ? '♕' : '♛'; }
-    public char getNotation() { return 'B'; }
+    public char getNotation() { return 'Q'; }
 }

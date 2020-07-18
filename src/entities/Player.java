@@ -6,12 +6,17 @@ import java.util.ArrayList;
 
 public class Player {
     private final Board board;
+
     private final boolean isWhite;
-    private Player enemyPlayer;
+    private int timeLeft;
     private ArrayList<Piece> pieces;
     private ArrayList<Piece> deadPieces;
     private ArrayList<Square> allMoves;
+
+    private Player enemyPlayer;
+
     private boolean inCheck, inCheckmate, inStalemate;
+    private boolean runTimer;
 
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
@@ -252,7 +257,7 @@ public class Player {
         returnString.append(isWhite ? "White: " : "Black: ");
 
         for (Piece piece : pieces) {
-            returnString.append(piece.getSymbol());
+            returnString.append(piece.getNotation());
             returnString.append(" ");
         }
 

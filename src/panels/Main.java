@@ -1,5 +1,7 @@
 package panels;
 
+import entities.*;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -9,8 +11,32 @@ public class Main extends JFrame {
     public static final Color BACKGROUND_COLOR = new Color(212, 202, 186);
     public static Font MULISH_LIGHT;
 
-    static final String START_MENU_LABEL = "START MENU";
-    static final String GAME_LABEL = "GAME";
+    public static int BISHOP_IMAGE_INDEX = 0;
+    public static int KING_IMAGE_INDEX = 1;
+    public static int KNIGHT_IMAGE_INDEX = 2;
+    public static int QUEEN_IMAGE_INDEX = 3;
+    public static int PAWN_IMAGE_INDEX = 4;
+    public static int ROOK_IMAGE_INDEX = 5;
+
+    public static final Object[] whitePieceIcons = new Object[] {
+            new ImageIcon(new Bishop(true).getImage()),
+            new ImageIcon(new King(true).getImage()),
+            new ImageIcon(new Knight(true).getImage()),
+            new ImageIcon(new Queen(true).getImage()),
+            new ImageIcon(new Pawn(true).getImage()),
+            new ImageIcon(new Rook(true).getImage())
+    };
+    public static final Object[] blackPieceIcons = new Object[] {
+            new ImageIcon(new Bishop(false).getImage()),
+            new ImageIcon(new King(false).getImage()),
+            new ImageIcon(new Knight(false).getImage()),
+            new ImageIcon(new Queen(false).getImage()),
+            new ImageIcon(new Pawn(false).getImage()),
+            new ImageIcon(new Rook(false).getImage())
+    };
+
+    public static final String START_MENU_LABEL = "START MENU";
+    public static final String GAME_LABEL = "GAME";
 
     private final CardLayout cards;
     private final StartMenu startMenu;

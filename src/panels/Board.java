@@ -14,17 +14,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private final Object[] whitePromotionDialogIcons = new Object[] {
-            new ImageIcon(new Queen(true).getImage()),
-            new ImageIcon(new Rook(true).getImage()),
-            new ImageIcon(new Bishop(true).getImage()),
-            new ImageIcon(new Knight(true).getImage()),};
-    private final Object[] blackPromotionDialogIcons = new Object[] {
-            new ImageIcon(new Queen(false).getImage()),
-            new ImageIcon(new Rook(false).getImage()),
-            new ImageIcon(new Bishop(false).getImage()),
-            new ImageIcon(new Knight(false).getImage()),};
-
     // Players
     private final Player whitePlayer;
     private final Player blackPlayer;
@@ -247,11 +236,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public int createPromotionPrompt(boolean forWhite) {
+    public int createPromotionPrompt(boolean isWhite) {
+        Object[] promotionDialogIcons = new Object[] {
+                isWhite ? Main.whitePieceIcons[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceIcons[Main.QUEEN_IMAGE_INDEX],
+                isWhite ? Main.whitePieceIcons[Main.ROOK_IMAGE_INDEX] : Main.blackPieceIcons[Main.ROOK_IMAGE_INDEX],
+                isWhite ? Main.whitePieceIcons[Main.BISHOP_IMAGE_INDEX] : Main.blackPieceIcons[Main.BISHOP_IMAGE_INDEX],
+                isWhite ? Main.whitePieceIcons[Main.KNIGHT_IMAGE_INDEX] : Main.blackPieceIcons[Main.KNIGHT_IMAGE_INDEX]
+        };
+
         return JOptionPane.showOptionDialog(
                 this, null, "Promote Piece",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-                forWhite ? whitePromotionDialogIcons : blackPromotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
+                promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
     }
 
     // Logic Methods

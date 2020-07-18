@@ -66,6 +66,5 @@ public class Pawn extends Piece {
     public void setEnPassantCapturable(boolean enPassantCapturable) { this.enPassantCapturable = enPassantCapturable; }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
-    public char getSymbol() { return isWhite ? '♙' : '♟'; }
     public char getNotation() { return (char) 0; }
 }

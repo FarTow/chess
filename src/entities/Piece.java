@@ -105,7 +105,6 @@ public abstract class Piece {
     public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
     public void setMoveableSquares(ArrayList<Square> moveableSquares) { this.moveableSquares = moveableSquares; }
 
-    public abstract char getSymbol();
     public abstract char getNotation();
     public Square getSquare() { return square; }
     public Image getImage() { return image; }

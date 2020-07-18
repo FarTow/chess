@@ -31,6 +31,5 @@ public class Rook extends Piece {
         }
     }
 
-    public char getSymbol() { return isWhite ? '♖' : '♜'; }
     public char getNotation() { return 'R'; }
 }
