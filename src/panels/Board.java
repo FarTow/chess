@@ -236,19 +236,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public int createPromotionPrompt(boolean isWhite) {
-        Object[] promotionDialogIcons = new Object[] {
-                isWhite ? Main.whitePieceIcons[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceIcons[Main.QUEEN_IMAGE_INDEX],
-                isWhite ? Main.whitePieceIcons[Main.ROOK_IMAGE_INDEX] : Main.blackPieceIcons[Main.ROOK_IMAGE_INDEX],
-                isWhite ? Main.whitePieceIcons[Main.BISHOP_IMAGE_INDEX] : Main.blackPieceIcons[Main.BISHOP_IMAGE_INDEX],
-                isWhite ? Main.whitePieceIcons[Main.KNIGHT_IMAGE_INDEX] : Main.blackPieceIcons[Main.KNIGHT_IMAGE_INDEX]
-        };
-
-        return JOptionPane.showOptionDialog(
-                this, null, "Promote Piece",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-                promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
-    }
 
     // Logic Methods
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
@@ -259,6 +246,19 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         piece.setSquare(toSquare);
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
+    }
+    public int createPromotionPrompt(boolean isWhite) {
+        Object[] promotionDialogIcons = new Object[] {
+                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceIcons[Main.QUEEN_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.ROOK_IMAGE_INDEX] : Main.blackPieceIcons[Main.ROOK_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.BISHOP_IMAGE_INDEX] : Main.blackPieceIcons[Main.BISHOP_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.KNIGHT_IMAGE_INDEX] : Main.blackPieceIcons[Main.KNIGHT_IMAGE_INDEX])
+        };
+
+        return JOptionPane.showOptionDialog(
+                this, null, "Promote Piece",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+                promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
     }
     public void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);

@@ -18,21 +18,21 @@ public class Main extends JFrame {
     public static int PAWN_IMAGE_INDEX = 4;
     public static int ROOK_IMAGE_INDEX = 5;
 
-    public static final Object[] whitePieceIcons = new Object[] {
-            new ImageIcon(new Bishop(true).getImage()),
-            new ImageIcon(new King(true).getImage()),
-            new ImageIcon(new Knight(true).getImage()),
-            new ImageIcon(new Queen(true).getImage()),
-            new ImageIcon(new Pawn(true).getImage()),
-            new ImageIcon(new Rook(true).getImage())
+    public static final Image[] whitePieceIcons = new Image[] {
+            new Bishop(true).getImage(),
+            new King(true).getImage(),
+            new Knight(true).getImage(),
+            new Queen(true).getImage(),
+            new Pawn(true).getImage(),
+            new Rook(true).getImage()
     };
-    public static final Object[] blackPieceIcons = new Object[] {
-            new ImageIcon(new Bishop(false).getImage()),
-            new ImageIcon(new King(false).getImage()),
-            new ImageIcon(new Knight(false).getImage()),
-            new ImageIcon(new Queen(false).getImage()),
-            new ImageIcon(new Pawn(false).getImage()),
-            new ImageIcon(new Rook(false).getImage())
+    public static final Image[] blackPieceIcons = new Image[] {
+            new Bishop(false).getImage(),
+            new King(false).getImage(),
+            new Knight(false).getImage(),
+            new Queen(false).getImage(),
+            new Pawn(false).getImage(),
+            new Rook(false).getImage()
     };
 
     public static final String START_MENU_LABEL = "START MENU";
