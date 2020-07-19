@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 
 public class TakenPieces extends JPanel {
     private final Image[] pieceImages;
-    private int[] deadPieceCount;
+    private final int[] deadPieceCount;
     private final boolean isWhite;
 
     private final Board board;
