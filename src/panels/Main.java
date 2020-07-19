@@ -62,7 +62,6 @@ public class Main extends JFrame {
         c.anchor = anchor;
     }
 
-
     Main() {
         try {
             MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));

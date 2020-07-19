@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 
 public class PlayerInfoBox extends JPanel {
     private final Player player;
@@ -24,7 +23,7 @@ public class PlayerInfoBox extends JPanel {
         initUI();
     }
 
-    public void initUI() {
+    protected void initUI() {
         setBackground(new Color(234, 229, 221));
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -69,7 +68,6 @@ public class PlayerInfoBox extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
-
     public void actionPerformed(ActionEvent ae) {
         timer.actionPerformed(ae);
         takenPieces.actionPerformed(ae);

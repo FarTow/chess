@@ -92,13 +92,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updateSquarePositions();
         updatePiecePositions();
     }
-    public void updatePositions() {
+
+    protected void updatePositions() {
         topLeft.x = getWidth() / 2 - squareLength * 4;
         topLeft.y = getHeight() / 2 - squareLength * 4;
         bottomRight.x = topLeft.x + squareLength * 8;
         bottomRight.y = topLeft.y + squareLength * 8;
     }
-    public void updateSquarePositions() {
+    protected void updateSquarePositions() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
                 Square square = grid[row][column];
@@ -108,20 +109,20 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public void updatePiecePositions() {
+    protected void updatePiecePositions() {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (square.getPiece() != null) square.getPiece().setTopLeft(square.getTopLeft());
             }
         }
     }
-    public void updatePieceImages() {
+    protected void updatePieceImages() {
         whitePlayer.scalePieceImages(squareLength);
         blackPlayer.scalePieceImages(squareLength);
     }
 
     // Graphics
-    public void drawBoard(Graphics g) {
+    protected void drawBoard(Graphics g) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 g.setColor(square.getRow()%2 == square.getColumn()%2 ?
@@ -130,7 +131,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public void drawIndicators(Graphics g) {
+    protected void drawIndicators(Graphics g) {
         Font indicatorsFont = Main.MULISH_LIGHT.deriveFont((float) getWidth()/60);
         g.setFont(indicatorsFont);
         g.setColor(Color.black);
@@ -153,7 +154,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             g.drawString(file, topLeft.x+(squareLength/2-stringSize.width/4)+(squareLength * column), bottomRight.y+stringSize.height/2+offset);
         }
     }
-    public void drawSelectedSquare(Graphics g) {
+    protected void drawSelectedSquare(Graphics g) {
         if (selectedPiece == null) return;
 
         for (Square[] squareRow : grid) {
@@ -172,7 +173,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-    public void drawPieces(Graphics g) {
+    protected void drawPieces(Graphics g) {
         for (Piece piece : whitePlayer.getPieces()) {
             g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
         }
@@ -180,7 +181,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
         }
     }
-    public void drawAvailableSquares(Graphics g) {
+    protected void drawAvailableSquares(Graphics g) {
         if (selectedPiece == null) return;
 
         for (Square[] squareRow : grid) {
@@ -221,7 +222,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
-    public void updateAmbiguousMove(Square toSquare) {
+    // Logic Methods
+    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
+        int oldRow = piece.getRow();
+        int oldColumn = piece.getColumn();
+
+        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
+        piece.setSquare(toSquare);
+        toSquare.setPiece(piece); // set the square's piece to the selected piece
+        grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
+    }
+    protected void updateAmbiguousMove(Square toSquare) {
         if (selectedPiece == null) return;
 
         if (!(selectedPiece instanceof Pawn)) {
@@ -236,18 +247,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
-
-    // Logic Methods
-    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
-        int oldRow = piece.getRow();
-        int oldColumn = piece.getColumn();
-
-        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
-        piece.setSquare(toSquare);
-        toSquare.setPiece(piece); // set the square's piece to the selected piece
-        grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
-    }
-    public int createPromotionPrompt(boolean isWhite) {
+    protected int createPromotionPrompt(boolean isWhite) {
         Object[] promotionDialogIcons = new Object[] {
                 new ImageIcon(isWhite ? Main.whitePieceIcons[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceIcons[Main.QUEEN_IMAGE_INDEX]),
                 new ImageIcon(isWhite ? Main.whitePieceIcons[Main.ROOK_IMAGE_INDEX] : Main.blackPieceIcons[Main.ROOK_IMAGE_INDEX]),
@@ -260,7 +260,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
                 promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
     }
-    public void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
+    protected void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
         switch(newPiece) {

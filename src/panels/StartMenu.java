@@ -34,7 +34,7 @@ public class StartMenu extends JPanel { // Weird lag?
         });
     }
 
-    public void initUI(Main main) {
+    protected void initUI(Main main) {
         setBackground(Main.BACKGROUND_COLOR);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
