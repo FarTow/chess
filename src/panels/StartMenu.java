@@ -17,14 +17,14 @@ public class StartMenu extends JPanel { // Weird lag?
                 for (int i=0; i<getComponentCount(); i++) {
                     switch(i) {
                         case 0: // top rigid body
-                            Main.forceSize(new Dimension(getWidth(), getHeight() / 3), getComponent(i));
+                            Main.forceSize(new Dimension(getWidth(), getHeight()/3), getComponent(i));
                             break;
                         case 2: // middle rigid body
-                            Main.forceSize(new Dimension(getWidth(), getHeight() / 20), getComponent(i));
+                            Main.forceSize(new Dimension(getWidth(), getHeight()/20), getComponent(i));
                             break;
                         default: // buttons
-                            getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/40, getWidth()/60)));
-                            Main.forceSize(new Dimension(getWidth()/6, getHeight()/20), getComponent(i));
+                            getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/55)));
+                            Main.forceSize(new Dimension(getWidth()/6, getHeight()/15), getComponent(i));
                             break;
                     }
                 }
@@ -52,12 +52,10 @@ public class StartMenu extends JPanel { // Weird lag?
         add(new JButton("Set Time Mode"));
 
         for (int i=0; i<getComponentCount(); i++) {
-            if (!(getComponent(i) instanceof JButton)) {
-                continue;
-            }
+            if (!(getComponent(i) instanceof JButton)) continue;
 
-            Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/20), getComponent(i));
-            getComponent(i).setFont(Main.MULISH_LIGHT);
+            Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/15), getComponent(i));
+            getComponent(i).setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
 
             ((JButton) getComponent(i)).setAlignmentX(Component.CENTER_ALIGNMENT);
             getComponent(i).setFocusable(false);
