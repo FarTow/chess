@@ -248,17 +248,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
     protected int createPromotionPrompt(boolean isWhite) {
-        Object[] promotionDialogIcons = new Object[] {
-                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceIcons[Main.QUEEN_IMAGE_INDEX]),
-                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.ROOK_IMAGE_INDEX] : Main.blackPieceIcons[Main.ROOK_IMAGE_INDEX]),
-                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.BISHOP_IMAGE_INDEX] : Main.blackPieceIcons[Main.BISHOP_IMAGE_INDEX]),
-                new ImageIcon(isWhite ? Main.whitePieceIcons[Main.KNIGHT_IMAGE_INDEX] : Main.blackPieceIcons[Main.KNIGHT_IMAGE_INDEX])
+        Object[] promotionDialogImages = new Object[] {
+                new ImageIcon(isWhite ? Main.whitePieceImages[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceImages[Main.QUEEN_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceImages[Main.ROOK_IMAGE_INDEX] : Main.blackPieceImages[Main.ROOK_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceImages[Main.BISHOP_IMAGE_INDEX] : Main.blackPieceImages[Main.BISHOP_IMAGE_INDEX]),
+                new ImageIcon(isWhite ? Main.whitePieceImages[Main.KNIGHT_IMAGE_INDEX] : Main.blackPieceImages[Main.KNIGHT_IMAGE_INDEX])
         };
 
         return JOptionPane.showOptionDialog(
                 this, null, "Promote Piece",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-                promotionDialogIcons, JOptionPane.UNINITIALIZED_VALUE);
+                promotionDialogImages, JOptionPane.UNINITIALIZED_VALUE);
     }
     protected void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);

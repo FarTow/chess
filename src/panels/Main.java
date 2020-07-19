@@ -19,23 +19,9 @@ public class Main extends JFrame {
     public static int PAWN_IMAGE_INDEX = 4;
     public static int ROOK_IMAGE_INDEX = 5;
 
-    public static final Image[] whitePieceIcons = new Image[] { // consider making "piece icon" class
-            new Bishop(true).getImage(),
-            new King(true).getImage(),
-            new Knight(true).getImage(),
-            new Queen(true).getImage(),
-            new Pawn(true).getImage(),
-            new Rook(true).getImage()
-    };
-    public static final Image[] blackPieceIcons = new Image[] {
-            new Bishop(false).getImage(),
-            new King(false).getImage(),
-            new Knight(false).getImage(),
-            new Queen(false).getImage(),
-            new Pawn(false).getImage(),
-            new Rook(false).getImage()
-    };
-    public static Image[] greyPieceIcons;
+    public static Image[] greyPieceImages;
+    public static Image[] whitePieceImages;
+    public static Image[] blackPieceImages;
 
     public static final String START_MENU_LABEL = "START MENU";
     public static final String GAME_LABEL = "GAME";
@@ -64,10 +50,14 @@ public class Main extends JFrame {
     }
 
     Main() {
-        greyPieceIcons = new Image[6];
+        greyPieceImages = new Image[6];
+        whitePieceImages = new Image[6];
+        blackPieceImages = new Image[6];
 
         initFonts();
-        initGreyPieces();
+        initPieceImages(greyPieceImages, "grey");
+        initPieceImages(whitePieceImages, "white");
+        initPieceImages(blackPieceImages, "white");
 
         cards = new CardLayout();
         startMenu = new StartMenu();
@@ -87,11 +77,11 @@ public class Main extends JFrame {
             e.printStackTrace();
         }
     }
-    private void initGreyPieces() {
-        String greyPiecePathStart = "res/pieces/grey-";
-        String greyPiecePathEnd = ".png";
+    private void initPieceImages(Image[] pieceImages, String color) {
+        String piecePathStart = "res/pieces/";
+        String piecePathEnd = ".png";
 
-        for (int i=0; i<greyPieceIcons.length; i++) {
+        for (int i=0; i<pieceImages.length; i++) {
             String pieceName;
 
             switch (i) {
@@ -119,12 +109,13 @@ public class Main extends JFrame {
             }
 
             try {
-                greyPieceIcons[i] = ImageIO.read(new File(greyPiecePathStart+pieceName+greyPiecePathEnd));
+                pieceImages[i] = ImageIO.read(new File(piecePathStart+color+"-"+pieceName+piecePathEnd));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
     private void initUI() {
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
