@@ -14,6 +14,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
+    private int timeIncrement;
+
     // Players
     private final Player whitePlayer;
     private final Player blackPlayer;
@@ -42,6 +44,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
+        timeIncrement = 2;
 
         for (int row=0; row<grid.length; row++) { // initialize empty grid
             for (int column=0; column<grid[row].length; column++) {
@@ -381,7 +384,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         whiteTurn = turnCount%2==0;
 
                         currentPlayer.shouldRunTimer(false);
-                        currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+5);
+                        currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
                         currentPlayer.shouldRunTimer(true);
                         currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
