@@ -57,7 +57,7 @@ public class Main extends JFrame {
         initFonts();
         initPieceImages(greyPieceImages, "grey");
         initPieceImages(whitePieceImages, "white");
-        initPieceImages(blackPieceImages, "white");
+        initPieceImages(blackPieceImages, "black");
 
         cards = new CardLayout();
         startMenu = new StartMenu();

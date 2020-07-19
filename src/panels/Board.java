@@ -14,8 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private int minutesLeft, secondsLeft;
-    private int timeIncrement;
+    private int minutesLeft, secondsLeft, timeIncrement;
 
     // Players
     private final Player whitePlayer;
@@ -372,7 +371,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         return me.getX() >= topLeft.x && me.getX() <= bottomRight.x && me.getY() >= topLeft.y && me.getY() <= bottomRight.y;
     }
 
-        // MouseListener Methods
+    // MouseListener Methods
     public void mouseClicked(MouseEvent me) {}
     public void mousePressed(MouseEvent me) {
         if (selectedPiece != null) return; // if a piece isn't selected already
@@ -421,7 +420,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseEntered(MouseEvent me) {}
     public void mouseExited(MouseEvent me) {}
 
-        // MouseMotionListener Methods
+    // MouseMotionListener Methods
     public void mouseDragged(MouseEvent me) {
         if (selectedPiece == null) return; // if a piece isn't selected return
 
@@ -429,7 +428,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
-    public int getMinutesLeft() { return minutesLeft; }
+    public int getMinutesLeft() { return minutesLeft; } // Time Getters
     public int getSecondsLeft() { return secondsLeft; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
