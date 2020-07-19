@@ -282,7 +282,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
         currentPlayer.getPieces().get(replacedPieceIndex).scaleImage(squareLength);
-        currentPlayer.removePiece(promotedPawn, false);
+        currentPlayer.removePiece(promotedPawn);
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
         pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getNotation();
@@ -353,7 +353,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         updateAmbiguousMove(square);
 
                         // Physical "Moving" of Pieces
-                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(lastPieceTaken, true);
+                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(lastPieceTaken);
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
