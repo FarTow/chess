@@ -9,6 +9,7 @@ public class Player {
 
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
+    private int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
     private Player enemyPlayer;
@@ -19,8 +20,12 @@ public class Player {
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
         this.board = board;
-        defaultResetPieces();
+        pieceCount = new int[5];
         allMoves = new ArrayList<>();
+
+        defaultResetPieces();
+        updatePieceCount();
+
     }
 
     public void defaultResetPieces() {
@@ -143,6 +148,50 @@ public class Player {
             allMoves.addAll(piece.getMoveableSquares());
         }
     }
+    public void updatePieceCount() {
+        int pawnCount, knightCount, bishopCount, rookCount, queenCount;
+        pawnCount = knightCount = bishopCount = rookCount = queenCount = 0;
+
+        for (Piece piece : pieces) {
+            switch(piece.getNotation()) {
+                case (char) 0:
+                    pawnCount += 1;
+                    break;
+                case 'N':
+                    knightCount += 1;
+                    break;
+                case 'B':
+                    bishopCount += 1;
+                    break;
+                case 'R':
+                    rookCount += 1;
+                    break;
+                case 'Q':
+                    queenCount += 1;
+                    break;
+            }
+        }
+
+        for (int i=0; i<pieceCount.length; i++) {
+            switch(i) {
+                case 0:
+                    pieceCount[i] = pawnCount;
+                    break;
+                case 1:
+                    pieceCount[i] = knightCount;
+                    break;
+                case 2:
+                    pieceCount[i] = bishopCount;
+                    break;
+                case 3:
+                    pieceCount[i] = rookCount;
+                    break;
+                case 4:
+                    pieceCount[i] = queenCount;
+                    break;
+            }
+        }
+    }
     public void update() {
         inCheck = false;
 
@@ -175,6 +224,8 @@ public class Player {
                 inStalemate = true;
             }
         }
+
+        updatePieceCount();
     }
 
     public boolean mayMove(Piece piece, Square toSquare) {
@@ -228,6 +279,7 @@ public class Player {
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
 
     public ArrayList<Piece> getPieces() { return pieces; }
+    public int[] getPieceCount() { return pieceCount; }
     public King getKing() {
         for (Piece piece : pieces) {
             if (piece instanceof King) return (King) piece;
