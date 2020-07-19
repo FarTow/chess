@@ -41,16 +41,19 @@ public class TakenPieces extends JPanel {
                     null
             );
 
-            g.setColor(Color.black);
-            g.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/30, (float) getHeight()/20)));
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2d.setColor(Color.black);
+            g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/30, (float) getHeight()/20)));
 
             String count = Integer.toString(deadPieceCount[i]);
             Dimension countDimensions = new Dimension(
-                    g.getFontMetrics(g.getFont()).stringWidth(count),
-                    g.getFontMetrics(g.getFont()).getHeight()
+                    g2d.getFontMetrics(g.getFont()).stringWidth(count),
+                    g2d.getFontMetrics(g.getFont()).getHeight()
             );
 
-            g.drawString(
+            g2d.drawString(
                     count,
                     (getWidth()/2 - pieceImages[i].getWidth(null)/2 + countDimensions.width*7/2) + pieceSpacingOffset,
                     pieceImages[i].getHeight(null)+countDimensions.height
