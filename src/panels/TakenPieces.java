@@ -11,10 +11,14 @@ public class TakenPieces extends JPanel {
     private int[] deadPieceCount;
     private final boolean isWhite;
 
+    private final Board board;
+    private boolean whiteTurn;
+
     public TakenPieces(boolean isWhite, Board board) {
         setBackground(new Color(229, 228, 228));
-
         this.isWhite = isWhite;
+        this.board = board;
+        whiteTurn = true;
         pieceImages = new Image[5];
         deadPieceCount = new int[] {0, 0, 0, 0, 0};
 
@@ -25,6 +29,34 @@ public class TakenPieces extends JPanel {
         pieceImages[2] = referencePictures[Main.BISHOP_IMAGE_INDEX];
         pieceImages[3] = referencePictures[Main.ROOK_IMAGE_INDEX];
         pieceImages[4] = referencePictures[Main.QUEEN_IMAGE_INDEX];
+    }
+
+    protected void updateDeadCount() {
+        if (whiteTurn == board.getWhiteTurn()) return;
+
+        if (board.getLastPieceTaken() != null) {
+            if (board.getLastPieceTaken().isWhite() == isWhite) {
+                switch(board.getLastPieceTaken().getNotation()) {
+                    case (char) 0:
+                        deadPieceCount[0]++;
+                        break;
+                    case 'N':
+                        deadPieceCount[1]++;
+                        break;
+                    case 'B':
+                        deadPieceCount[2]++;
+                        break;
+                    case 'R':
+                        deadPieceCount[3]++;
+                        break;
+                    case 'Q':
+                        deadPieceCount[4]++;
+                        break;
+                }
+            }
+        }
+
+        whiteTurn = board.getWhiteTurn();
     }
 
     protected void paintComponent(Graphics g) {
@@ -61,6 +93,7 @@ public class TakenPieces extends JPanel {
         }
     }
     public void actionPerformed(ActionEvent ae) {
+        updateDeadCount();
         repaint();
     }
 }
