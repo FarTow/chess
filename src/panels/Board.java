@@ -292,6 +292,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
         pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getNotation();
+        currentPlayer.updatePieceCount();
+        currentPlayer.getEnemyPlayer().updatePieceCount();
     }
     protected void checkSpecialPieceMoved() {
         if (selectedPiece == null) return;

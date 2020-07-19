@@ -183,7 +183,7 @@ public class Player {
             allMoves.addAll(piece.getMoveableSquares());
         }
     }
-    protected void updatePieceCount() {
+    public void updatePieceCount() {
         int pawnCount, knightCount, bishopCount, rookCount, queenCount;
         pawnCount = knightCount = bishopCount = rookCount = queenCount = 0;
 

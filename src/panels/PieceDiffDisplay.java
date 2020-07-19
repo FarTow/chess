@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class PieceDiffDisplay extends JPanel { // pawn promotion lags
+public class PieceDiffDisplay extends JPanel {
     private final Image[] pieceImages;
     private final Player player;
 
