@@ -13,16 +13,14 @@ public class Player {
     // Personal Properties ("Human")
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
-    private int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
+    private final int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
-    // Interactive Properties (Win Conditions)
-    private boolean inCheck, inCheckmate, inStalemate; // classic
-
-    private boolean runTimer; // time
-    private final Timer timer;
+    private boolean runTimer;
     private int minutesLeft, secondsLeft;
 
+    // Interactive Properties (Win Conditions)
+    private boolean inCheck, inCheckmate, inStalemate, timeOut;
     //Other
     private Player enemyPlayer;
 
@@ -32,24 +30,27 @@ public class Player {
 
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
-        minutesLeft = 2;
-        secondsLeft = 0;
+        timeOut = false;
+        minutesLeft = 0;
+        secondsLeft = 10;
 
         ActionListener timerCountDown = ae -> {
             if (!runTimer) return;
 
+            if (minutesLeft == 0 && secondsLeft == 0) {
+                timeOut = true;
+                return;
+            }
+
             if (secondsLeft == 0) {
                 minutesLeft--;
                 secondsLeft = 59;
-            } else if (secondsLeft >= 60) {
-                minutesLeft++;
-                secondsLeft-=60;
             } else {
                 secondsLeft--;
             }
         };
 
-        timer = new Timer(1000, timerCountDown);
+        Timer timer = new Timer(1000, timerCountDown);
         timer.start();
 
         defaultResetPieces();
@@ -220,6 +221,7 @@ public class Player {
             }
         }
     }
+
     public void update() {
         inCheck = false;
 
@@ -323,6 +325,7 @@ public class Player {
     public boolean isInCheck() { return inCheck; }
     public boolean isInCheckmate() { return inCheckmate; }
     public boolean isInStalemate() { return inStalemate; }
+    public boolean isInTimeout() { return timeOut; }
     public boolean isWhite() { return isWhite; }
 
     public String toString() {

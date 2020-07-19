@@ -305,6 +305,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
+        if (currentPlayer.isInTimeout()) System.out.println((currentPlayer.isWhite() ? "White" : "Black") + " is in timeout");
+
         if (!initialCenter) { // please god tell me there's a way
             resize(squareLength);
             initialCenter = true;
