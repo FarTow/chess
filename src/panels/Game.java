@@ -58,25 +58,29 @@ public class Game extends JPanel implements ActionListener {
         // Add blackInfoBox
         Main.setGridBagLayoutConstraints(
                 c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
-                0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
+                0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END
+        );
         add(blackInfoBox, c);
 
         // Add whiteInfoBox
         Main.setGridBagLayoutConstraints(
                 c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
-                0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
+                0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END
+        );
         add(whiteInfoBox, c);
 
         // Add board
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
-                1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER);
+                1, 0, 1, 4, 0.5, 1.0, GridBagConstraints.CENTER
+        );
         add(board, c);
 
         // Add moveHistory
         Main.setGridBagLayoutConstraints(
                 c, new Insets(20, 10, 20, 20), GridBagConstraints.VERTICAL,
-                2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
+                2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START
+        );
         add(moveHistoryDisplay, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
