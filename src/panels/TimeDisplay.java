@@ -32,7 +32,7 @@ public class TimeDisplay extends JPanel {
                 g2d.getFontMetrics(g2d.getFont()).getHeight()
         );
         g2d.setColor(Color.black);
-        g2d.drawString("2:30", getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
+        g2d.drawString(Integer.toString(player.getSecondsLeft()), getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
     }
     public void actionPerformed(ActionEvent ae) {
         repaint();

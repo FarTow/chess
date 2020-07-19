@@ -2,30 +2,43 @@ package entities;
 
 import panels.Board;
 
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Player {
     private final Board board;
 
+    // Personal Properties ("Human")
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
     private int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
-    private Player enemyPlayer;
-
+    // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate;
-    private boolean runTimer;
+    private Timer timer;
+    private int secondsLeft;
+
+    //Other
+    private Player enemyPlayer;
 
     public Player(boolean isWhite, Board board) {
         this.isWhite = isWhite;
         this.board = board;
+
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
+        secondsLeft = 60;
+
+        ActionListener timerAction = ae -> secondsLeft--; // what.
+
+        timer = new Timer(1000, timerAction);
+        timer.start();
 
         defaultResetPieces();
         updatePieceCount();
-
     }
 
     public void defaultResetPieces() {
@@ -278,15 +291,16 @@ public class Player {
 
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
 
-    public ArrayList<Piece> getPieces() { return pieces; }
-    public int[] getPieceCount() { return pieceCount; }
-    public King getKing() {
+    protected King getKing() {
         for (Piece piece : pieces) {
             if (piece instanceof King) return (King) piece;
         }
 
         return null;
     }
+    public ArrayList<Piece> getPieces() { return pieces; }
+    public int[] getPieceCount() { return pieceCount; }
+    public int getSecondsLeft() { return secondsLeft; }
     public Player getEnemyPlayer() { return enemyPlayer; }
     public boolean isInCheck() { return inCheck; }
     public boolean isInCheckmate() { return inCheckmate; }
