@@ -68,7 +68,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         blackPlayer.setEnemyPlayer(whitePlayer);
 
         currentPlayer = whitePlayer;
-        currentPlayer.shouldRunTimer(true);
         currentPlayer.update();
 
         addMouseListener(this);
@@ -386,11 +385,19 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         turnCount++;
                         whiteTurn = turnCount%2==0;
 
-                        currentPlayer.shouldRunTimer(false);
-                        currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
+                        if (currentPlayer.getFirstTurn()) {
+                            currentPlayer.setFirstTurn(false);
+                        } else {
+                            currentPlayer.shouldRunTimer(false);
+                            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
+                        }
+
                         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-                        currentPlayer.shouldRunTimer(true);
                         currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
+
+                        if (!currentPlayer.getFirstTurn()) {
+                            currentPlayer.shouldRunTimer(true);
+                        }
 
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there

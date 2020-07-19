@@ -16,11 +16,13 @@ public class Player {
     private final int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
+    private boolean firstTurn;
     private boolean runTimer;
     private int minutesLeft, secondsLeft;
 
     // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate, timeOut;
+
     //Other
     private Player enemyPlayer;
 
@@ -28,6 +30,7 @@ public class Player {
         this.isWhite = isWhite;
         this.board = board;
 
+        firstTurn = true;
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
         timeOut = false;
@@ -221,7 +224,6 @@ public class Player {
             }
         }
     }
-
     public void update() {
         inCheck = false;
 
@@ -306,6 +308,7 @@ public class Player {
         pieces.remove(piece);
     }
 
+    public void setFirstTurn(boolean firstTurn) { this.firstTurn = firstTurn; }
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
     public void setSecondsLeft(int secondsLeft) { this.secondsLeft = secondsLeft; }
     public void shouldRunTimer(boolean runTimer) { this.runTimer = runTimer; }
@@ -317,6 +320,7 @@ public class Player {
 
         return null;
     }
+    public boolean getFirstTurn() { return firstTurn; }
     public ArrayList<Piece> getPieces() { return pieces; }
     public int[] getPieceCount() { return pieceCount; }
     public int getMinutesLeft() { return minutesLeft; }
