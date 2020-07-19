@@ -19,7 +19,7 @@ public class PlayerInfoBox extends JPanel {
         this.player = player;
 
         timer = new TimeDisplay(player);
-        takenPieces = new TakenPieces(player);
+        takenPieces = new TakenPieces(player.isWhite());
 
         initUI();
     }
@@ -45,7 +45,7 @@ public class PlayerInfoBox extends JPanel {
                 Dimension labelDimensions = new Dimension(g2d.getFontMetrics(g2d.getFont()).stringWidth(label), g2d.getFontMetrics(g2d.getFont()).getHeight());
 
                 g2d.rotate(-Math.PI/2,(getX() + getWidth()/2.0f), (getY() + getHeight()/2.0f)); // rotate -90 degrees
-                g2d.drawString(label, -getWidth()/2, getHeight()/2 + labelDimensions.height/3); // draw the string (x and y reversed since we rotated)
+                g2d.drawString(label, -(getWidth()/2 + labelDimensions.width/4), getHeight()/2 + labelDimensions.height/3); // draw the string (x and y reversed since we rotated)
                 g2d.dispose();
             }
         };
