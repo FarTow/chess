@@ -328,7 +328,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
-    protected void movePiece(Piece piece, Square toSquare, boolean permanent) {
+    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
