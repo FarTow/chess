@@ -24,8 +24,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int turnCount;
     private boolean whiteTurn;
 
-    // MoveHistory Trackers
-    private Piece lastPiece;
+    // External Trackers
+    private Piece lastPieceMoved, lastPieceTaken;
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castlingStatus;
@@ -346,14 +346,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     if (selectedPiece.canMove(square)) { // if the piece can move to that location
                         // MoveHistory Interaction
                         ambiguousMove = ambiguousColumn = false;
-                        lastPiece = selectedPiece;
-                        Piece takenPiece = square.getPiece();
+                        lastPieceMoved = selectedPiece;
+                        lastPieceTaken = square.getPiece();
                         oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquareCords = new Point(square.getRow(), square.getColumn());
                         updateAmbiguousMove(square);
 
                         // Physical "Moving" of Pieces
-                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(takenPiece, true);
+                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(lastPieceTaken, true);
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
@@ -409,7 +409,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
     public int getCastlingStatus() { return castlingStatus; }
     public char getPawnPromotionStatus() { return pawnPromotionStatus; }
-    public Piece getLastPiece() { return lastPiece; }
+    public Piece getLastPieceMoved() { return lastPieceMoved; }
+    public Piece getLastPieceTaken() { return lastPieceTaken; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 

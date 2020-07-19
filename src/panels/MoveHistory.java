@@ -87,8 +87,8 @@ public class MoveHistory extends JPanel implements ActionListener {
     }
 
     // Data Update
-    public String lastMove(boolean pieceTaken) {
-        if (board.getLastPiece() instanceof King) { // castling
+    protected String createNotation(boolean pieceTaken) {
+        if (board.getLastPieceMoved() instanceof King) { // castling
             if (board.getCastlingStatus() == 1) return "O-O";
             if (board.getCastlingStatus() == 2) return "O-O-O";
         }
@@ -99,11 +99,11 @@ public class MoveHistory extends JPanel implements ActionListener {
         char oldFile = (char) ((char) 97 + board.getOldSquareCords().y);
         int newRank = (4 + (4 - board.getNewSquareCords().x));
         char newFile = (char) ((char) 97 + board.getNewSquareCords().y);
-        chessNotation.append(board.getLastPiece().getNotation()); // symbol of the piece that moved
+        chessNotation.append(board.getLastPieceMoved().getNotation()); // symbol of the piece that moved
 
         // Append "taken" notation if a piece was taken
         if (pieceTaken) {
-            if (board.getLastPiece() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
+            if (board.getLastPieceMoved() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
             chessNotation.append('×'); // captured symbol
         }
 
@@ -120,7 +120,7 @@ public class MoveHistory extends JPanel implements ActionListener {
         chessNotation.append(newFile); // file
         chessNotation.append(newRank); // rank
 
-        if (board.getLastPiece() instanceof Pawn) {
+        if (board.getLastPieceMoved() instanceof Pawn) {
             if (board.getPawnPromotionStatus() != ' ') {
                 chessNotation.append('=');
                 chessNotation.append(board.getPawnPromotionStatus());
@@ -138,7 +138,7 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         return chessNotation.toString();
     }
-    public Object[][] readableMoveData() {
+    protected Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 
         for (int i=0; i<allMoveData.size(); i++) {
@@ -149,7 +149,7 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         return readableMoveData;
     }
-    public void updateAllMoveData() {
+    protected void updateAllMoveData() {
         if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move took place"
 
         int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
@@ -157,19 +157,19 @@ public class MoveHistory extends JPanel implements ActionListener {
 
         if (moveCount == 1) {
             if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                allMoveData.get(moveCount-1)[2] = createNotation(pieceTaken); // update black's move
                 moveCount++; // go to next move
             } else { // if white was the one to move
-                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+                allMoveData.get(moveCount-1)[1] = createNotation(pieceTaken); // update white's move
             }
         } else {
             if (board.getWhiteTurn()) { // if black was the one to move (as it's white's turn now)
-                allMoveData.get(moveCount-1)[2] = lastMove(pieceTaken); // update black's move
+                allMoveData.get(moveCount-1)[2] = createNotation(pieceTaken); // update black's move
                 moveCount++; // go to next move
             } else { // if white was the one to move
                 allMoveData.add(new Object[]{moveCount, "", ""}); // new row of data
 
-                allMoveData.get(moveCount-1)[1] = lastMove(pieceTaken); // update white's move
+                allMoveData.get(moveCount-1)[1] = createNotation(pieceTaken); // update white's move
             }
         }
 
