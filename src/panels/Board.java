@@ -285,6 +285,33 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+    protected void updateMoveHistoryInteractors(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        ambiguousMove = ambiguousColumn = false;
+        lastPieceMoved = selectedPiece;
+        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
+        newSquareCords = new Point(toSquare.getRow(), toSquare.getColumn());
+        updateAmbiguousMove(toSquare);
+    }
+    protected void checkSpecialPieceMoved() {
+        if (selectedPiece == null) return;
+
+        if (selectedPiece instanceof King) { // if the piece was a king
+            int columnDiff = oldSquareCords.y - newSquareCords.y;
+
+            if (Math.abs(columnDiff) == 2) {
+                currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
+                castlingStatus = columnDiff < 0 ? 1 : 2; // needs work probably
+            }
+        } else if (selectedPiece instanceof Pawn) {
+            if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
+                ((Pawn) selectedPiece).setEnPassantCapturable(true);
+            } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
+                promotePawn(selectedPiece, selectedPiece.getSquare(), createPromotionPrompt(selectedPiece.isWhite()));
+            }
+        }
+    }
     protected void swapPlayer() {
         if (currentPlayer.getFirstTurn()) {
             currentPlayer.setFirstTurn(false);
@@ -301,7 +328,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
-    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
+    protected void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.getRow();
         int oldColumn = piece.getColumn();
 
@@ -369,34 +396,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
                     if (selectedPiece.canMove(square)) { // if the piece can move to that location
-                        // MoveHistory Interaction
-                        ambiguousMove = ambiguousColumn = false;
-                        lastPieceMoved = selectedPiece;
-                        Piece lastPieceTaken = square.getPiece();
-                        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
-                        newSquareCords = new Point(square.getRow(), square.getColumn());
-                        updateAmbiguousMove(square);
+                        updateMoveHistoryInteractors(square);
 
                         // Physical "Moving" of Pieces
-                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(lastPieceTaken);
+                        (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(square.getPiece());
                         movePiece(selectedPiece, square, true);
                         if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
 
-                        // Special Pieces (pieces that require special checks)
-                        if (selectedPiece instanceof King) { // if the piece was a king
-                            int columnDiff = oldSquareCords.y - newSquareCords.y;
-
-                            if (Math.abs(columnDiff) == 2) {
-                                currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
-                                castlingStatus = columnDiff < 0 ? 1 : 2; // needs work probably
-                            }
-                        } else if (selectedPiece instanceof Pawn) {
-                            if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
-                                ((Pawn) selectedPiece).setEnPassantCapturable(true);
-                            } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
-                                promotePawn(selectedPiece, selectedPiece.getSquare(), createPromotionPrompt(selectedPiece.isWhite()));
-                            }
-                        }
+                        checkSpecialPieceMoved();
 
                         // Update Board / Players
                         turnCount++;
