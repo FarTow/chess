@@ -17,14 +17,16 @@ public class TimeDisplay extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Sharpen text
+        // Initialize graphics
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/2, (float) getHeight()/2)));
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // sharper text
+        g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/2, (float) getHeight()/2))); // font
 
+        // Draw separation line
         g2d.setColor(Color.gray);
         g2d.drawLine(getWidth()/25, getHeight()*9/10, getWidth()*24/25, getHeight()*9/10);
 
+        // Draw time
         Dimension timeDimensions = new Dimension(
                 g2d.getFontMetrics(g2d.getFont()).stringWidth("2:30"),
                 g2d.getFontMetrics(g2d.getFont()).getHeight()
