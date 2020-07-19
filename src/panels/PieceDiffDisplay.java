@@ -57,8 +57,10 @@ public class PieceDiffDisplay extends JPanel { // pawn promotion lags
             String count;
             if (diffCount[i] == 0) {
                 count = "-";
+            } else if (diffCount[i] < 0) {
+                count = diffCount[i] + " ";
             } else {
-                count = Integer.toString(diffCount[i]);
+                count = "+" + diffCount[i] + " ";
             }
 
             Dimension countDimensions = new Dimension(
