@@ -22,13 +22,11 @@ public class TakenPieces extends JPanel {
         pieceImages = new Image[5];
         deadPieceCount = new int[] {0, 0, 0, 0, 0};
 
-        Image[] referencePictures = Main.greyPieceImages;
-
-        pieceImages[0] = referencePictures[Main.PAWN_IMAGE_INDEX];
-        pieceImages[1] = referencePictures[Main.KNIGHT_IMAGE_INDEX];
-        pieceImages[2] = referencePictures[Main.BISHOP_IMAGE_INDEX];
-        pieceImages[3] = referencePictures[Main.ROOK_IMAGE_INDEX];
-        pieceImages[4] = referencePictures[Main.QUEEN_IMAGE_INDEX];
+        pieceImages[0] = Main.greyPieceImages[Main.PAWN_IMAGE_INDEX];
+        pieceImages[1] = Main.greyPieceImages[Main.KNIGHT_IMAGE_INDEX];
+        pieceImages[2] = Main.greyPieceImages[Main.BISHOP_IMAGE_INDEX];
+        pieceImages[3] = Main.greyPieceImages[Main.ROOK_IMAGE_INDEX];
+        pieceImages[4] = Main.greyPieceImages[Main.QUEEN_IMAGE_INDEX];
     }
 
     protected void updateDeadCount() {
