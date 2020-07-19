@@ -27,12 +27,13 @@ public class TimeDisplay extends JPanel {
         g2d.drawLine(getWidth()/25, getHeight()*9/10, getWidth()*24/25, getHeight()*9/10);
 
         // Draw time
+        String timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
         Dimension timeDimensions = new Dimension(
-                g2d.getFontMetrics(g2d.getFont()).stringWidth("2:30"),
+                g2d.getFontMetrics(g2d.getFont()).stringWidth(timeLeftString),
                 g2d.getFontMetrics(g2d.getFont()).getHeight()
         );
         g2d.setColor(Color.black);
-        g2d.drawString(Integer.toString(player.getSecondsLeft()), getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
+        g2d.drawString(timeLeftString, getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
     }
     public void actionPerformed(ActionEvent ae) {
         repaint();

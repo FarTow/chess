@@ -17,9 +17,11 @@ public class Player {
     private ArrayList<Square> allMoves;
 
     // Interactive Properties (Win Conditions)
-    private boolean inCheck, inCheckmate, inStalemate;
-    private Timer timer;
-    private int secondsLeft;
+    private boolean inCheck, inCheckmate, inStalemate; // classic
+
+    private boolean runTimer; // time
+    private final Timer timer;
+    private int minutesLeft, secondsLeft;
 
     //Other
     private Player enemyPlayer;
@@ -30,11 +32,24 @@ public class Player {
 
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
-        secondsLeft = 60;
+        minutesLeft = 2;
+        secondsLeft = 0;
 
-        ActionListener timerAction = ae -> secondsLeft--; // what.
+        ActionListener timerCountDown = ae -> {
+            if (!runTimer) return;
 
-        timer = new Timer(1000, timerAction);
+            if (secondsLeft == 0) {
+                minutesLeft--;
+                secondsLeft = 59;
+            } else if (secondsLeft >= 60) {
+                minutesLeft++;
+                secondsLeft-=60;
+            } else {
+                secondsLeft--;
+            }
+        };
+
+        timer = new Timer(1000, timerCountDown);
         timer.start();
 
         defaultResetPieces();
@@ -290,6 +305,8 @@ public class Player {
     }
 
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
+    public void setSecondsLeft(int secondsLeft) { this.secondsLeft = secondsLeft; }
+    public void shouldRunTimer(boolean runTimer) { this.runTimer = runTimer; }
 
     protected King getKing() {
         for (Piece piece : pieces) {
@@ -300,6 +317,7 @@ public class Player {
     }
     public ArrayList<Piece> getPieces() { return pieces; }
     public int[] getPieceCount() { return pieceCount; }
+    public int getMinutesLeft() { return minutesLeft; }
     public int getSecondsLeft() { return secondsLeft; }
     public Player getEnemyPlayer() { return enemyPlayer; }
     public boolean isInCheck() { return inCheck; }
