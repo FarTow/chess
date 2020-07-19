@@ -31,8 +31,8 @@ public class Player {
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
         timeOut = false;
-        minutesLeft = 1;
-        secondsLeft = 59;
+        minutesLeft = board.getMinutesLeft();
+        secondsLeft = board.getSecondsLeft();
 
         ActionListener timerCountDown = ae -> {
             if (!runTimer) return;

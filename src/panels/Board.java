@@ -14,6 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
+    private int minutesLeft, secondsLeft;
     private int timeIncrement;
 
     // Players
@@ -27,7 +28,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean whiteTurn;
 
     // External Trackers
-    private Piece lastPieceMoved, lastPieceTaken;
+    private Piece lastPieceMoved;
     private Point oldSquareCords, newSquareCords;
     private boolean ambiguousMove, ambiguousColumn;
     private int castlingStatus;
@@ -44,6 +45,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
+        minutesLeft = 1;
+        secondsLeft = 59;
         timeIncrement = 2;
 
         for (int row=0; row<grid.length; row++) { // initialize empty grid
@@ -353,7 +356,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         // MoveHistory Interaction
                         ambiguousMove = ambiguousColumn = false;
                         lastPieceMoved = selectedPiece;
-                        lastPieceTaken = square.getPiece();
+                        Piece lastPieceTaken = square.getPiece();
                         oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
                         newSquareCords = new Point(square.getRow(), square.getColumn());
                         updateAmbiguousMove(square);
@@ -409,6 +412,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
+    public int getMinutesLeft() { return minutesLeft; }
+    public int getSecondsLeft() { return secondsLeft; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }
@@ -419,7 +424,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public int getCastlingStatus() { return castlingStatus; }
     public char getPawnPromotionStatus() { return pawnPromotionStatus; }
     public Piece getLastPieceMoved() { return lastPieceMoved; }
-    public Piece getLastPieceTaken() { return lastPieceTaken; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
     public boolean isColumnAmbiguous() { return ambiguousColumn; }
 
