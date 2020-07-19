@@ -49,7 +49,6 @@ public class Main extends JFrame {
             component.setMaximumSize(dim);
         }
     }
-
     public static void setGridBagLayoutConstraints(GridBagConstraints c, Insets insets, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
         c.insets = insets;
         c.fill = fill;
