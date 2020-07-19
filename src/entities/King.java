@@ -9,10 +9,6 @@ public class King extends Piece {
         setImage("king");
     }
 
-    public King(boolean isWhite) {
-        super(isWhite);
-    }
-
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();

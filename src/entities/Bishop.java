@@ -11,10 +11,6 @@ public class Bishop extends Piece {
         setImage("bishop");
     }
 
-    public Bishop(boolean isWhite) {
-        super(isWhite);
-    }
-
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();

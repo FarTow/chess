@@ -2,17 +2,12 @@ package entities;
 
 import panels.Board;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 public class Knight extends Piece {
     public Knight(boolean isWhite, Square square) {
         super(isWhite, square);
         setImage("knight");
-    }
-
-    public Knight(boolean isWhite) {
-        super(isWhite);
     }
 
     public void update(Board board) {

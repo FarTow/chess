@@ -11,10 +11,6 @@ public class Rook extends Piece {
         setImage("rook");
     }
 
-    public Rook(boolean isWhite) {
-        super(isWhite);
-    }
-
     public void update(Board board) {
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();

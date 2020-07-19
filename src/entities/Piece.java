@@ -23,11 +23,6 @@ public abstract class Piece {
         moveableSquares = new ArrayList<>();
     }
 
-    public Piece(boolean isWhite) {
-        this.isWhite = isWhite;
-        setImage(getClass().getName().substring(getClass().getName().indexOf('.')+1).toLowerCase());
-    }
-
     public boolean canMove(Square toSquare) {
         return moveableSquares.contains(toSquare);
     }
