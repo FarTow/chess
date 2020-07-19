@@ -55,17 +55,17 @@ public class Game extends JPanel implements ActionListener {
 
         // Add components to grid
 
-        // Add whiteInfoBox
-        Main.setGridBagLayoutConstraints(
-                c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
-                0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
-        add(whiteInfoBox, c);
-
         // Add blackInfoBox
         Main.setGridBagLayoutConstraints(
                 c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
-                0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
+                0, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_END);
         add(blackInfoBox, c);
+
+        // Add whiteInfoBox
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(20, 20, 20, 20), GridBagConstraints.VERTICAL,
+                0, 2, 1, 2, 0.25, 0.5, GridBagConstraints.LAST_LINE_END);
+        add(whiteInfoBox, c);
 
         // Add board
         Main.setGridBagLayoutConstraints(
