@@ -16,14 +16,14 @@ public class Player {
     private final int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
-    private boolean firstTurn;
+    private boolean firstTurn; // Time
     private boolean runTimer;
     private int minutesLeft, secondsLeft;
 
     // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate, timeOut;
 
-    //Other
+    // Other
     private Player enemyPlayer;
 
     public Player(boolean isWhite, Board board) {
@@ -60,6 +60,7 @@ public class Player {
         updatePieceCount();
     }
 
+    // Piece Arrangement
     public void defaultResetPieces() {
         pieces = new ArrayList<>();
         Square[][] grid = board.getGrid();
@@ -130,6 +131,7 @@ public class Player {
         }
     }
 
+    // Special Case Updates
     public void enPassantUpdate() { // credits to Tanvir for this logic
         for (Piece piece : pieces) { // player checks if OWN PAWN was captured through en passant
             if (piece instanceof Pawn) {
@@ -173,6 +175,7 @@ public class Player {
         }
     }
 
+    // Personal Updates
     protected void updateAllMoves() {
         allMoves = new ArrayList<>();
 
@@ -260,6 +263,7 @@ public class Player {
         updatePieceCount();
     }
 
+    // "Changers"
     protected boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
 
@@ -283,29 +287,24 @@ public class Player {
 
         return mayMove;
     }
-    public boolean isKingInCheck() {
-        int checkCount = 0;
-
-        for (Piece piece : enemyPlayer.getPieces() ) {
-            piece.update(board);
-
-            if (piece.canMove(getKing().getSquare())) { checkCount++; }
-        }
-
-        return checkCount > 0;
-    }
-
-    public void scalePieceImages(int newSize) {
-        for (Piece piece : pieces) {
-            piece.scaleImage(newSize);
-        }
-    }
-
     public void addPiece(Piece piece) { pieces.add(piece); }
     public void removePiece(Piece piece) {
         if (piece == null) return;
 
         pieces.remove(piece);
+    }
+
+    // Misc
+    public void formatTime() {
+        if (secondsLeft >= 60) {
+            minutesLeft++;
+            secondsLeft -= 60;
+        }
+    }
+    public void scalePieceImages(int newSize) {
+        for (Piece piece : pieces) {
+            piece.scaleImage(newSize);
+        }
     }
 
     public void setFirstTurn(boolean firstTurn) { this.firstTurn = firstTurn; }
@@ -326,6 +325,17 @@ public class Player {
     public int getMinutesLeft() { return minutesLeft; }
     public int getSecondsLeft() { return secondsLeft; }
     public Player getEnemyPlayer() { return enemyPlayer; }
+    public boolean isKingInCheck() {
+        int checkCount = 0;
+
+        for (Piece piece : enemyPlayer.getPieces() ) {
+            piece.update(board);
+
+            if (piece.canMove(getKing().getSquare())) { checkCount++; }
+        }
+
+        return checkCount > 0;
+    } // probably combine this method and the latter
     public boolean isInCheck() { return inCheck; }
     public boolean isInCheckmate() { return inCheckmate; }
     public boolean isInStalemate() { return inStalemate; }

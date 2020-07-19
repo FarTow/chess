@@ -44,8 +44,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
-        minutesLeft = 1;
-        secondsLeft = 59;
+        minutesLeft = 2;
+        secondsLeft = 0;
         timeIncrement = 2;
 
         for (int row=0; row<grid.length; row++) { // initialize empty grid
@@ -228,6 +228,31 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     // Logic Methods
+    protected void updateAmbiguousMove(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Piece piece : currentPlayer.getPieces()) {
+                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
+                    if (piece.canMove(toSquare)) {
+                        ambiguousMove = true;
+
+                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                    }
+                }
+            }
+        }
+    }
+    protected void updateMoveHistoryInteractors(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        ambiguousMove = ambiguousColumn = false;
+        lastPieceMoved = selectedPiece;
+        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
+        newSquareCords = new Point(toSquare.getRow(), toSquare.getColumn());
+        updateAmbiguousMove(toSquare);
+    }
+
     protected int createPromotionPrompt(boolean isWhite) {
         Object[] promotionDialogImages = new Object[] {
                 new ImageIcon(isWhite ? Main.whitePieceImages[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceImages[Main.QUEEN_IMAGE_INDEX]),
@@ -267,31 +292,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
         pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getNotation();
-    }
-
-    protected void updateAmbiguousMove(Square toSquare) {
-        if (selectedPiece == null) return;
-
-        if (!(selectedPiece instanceof Pawn)) {
-            for (Piece piece : currentPlayer.getPieces()) {
-                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
-                    if (piece.canMove(toSquare)) {
-                        ambiguousMove = true;
-
-                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
-                    }
-                }
-            }
-        }
-    }
-    protected void updateMoveHistoryInteractors(Square toSquare) {
-        if (selectedPiece == null) return;
-
-        ambiguousMove = ambiguousColumn = false;
-        lastPieceMoved = selectedPiece;
-        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
-        newSquareCords = new Point(toSquare.getRow(), toSquare.getColumn());
-        updateAmbiguousMove(toSquare);
     }
     protected void checkSpecialPieceMoved() {
         if (selectedPiece == null) return;
@@ -353,12 +353,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
     }
     public void actionPerformed(ActionEvent ae) {
-        if (currentPlayer.isInTimeout()) System.out.println((currentPlayer.isWhite() ? "White" : "Black") + " is in timeout");
-
         if (!initialCenter) { // please god tell me there's a way
             resize(squareLength);
             initialCenter = true;
         }
+
+        whitePlayer.formatTime(); // ugh
+        blackPlayer.formatTime();
 
         repaint();
     }
