@@ -8,9 +8,7 @@ public class Player {
     private final Board board;
 
     private final boolean isWhite;
-    private int timeLeft;
     private ArrayList<Piece> pieces;
-    private ArrayList<Piece> deadPieces;
     private ArrayList<Square> allMoves;
 
     private Player enemyPlayer;
@@ -22,13 +20,11 @@ public class Player {
         this.isWhite = isWhite;
         this.board = board;
         defaultResetPieces();
-        deadPieces = new ArrayList<>();
         allMoves = new ArrayList<>();
     }
 
     public void defaultResetPieces() {
         pieces = new ArrayList<>();
-        deadPieces = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
         int startRow = isWhite ? 7 : 0;
@@ -65,7 +61,6 @@ public class Player {
     }
     public void randomResetPieces() {
         pieces = new ArrayList<>();
-        deadPieces = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
         int startRow = isWhite ? 7 : 0;
@@ -190,7 +185,7 @@ public class Player {
         if (takenPiece != null) { // check if they're the same color
             if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
 
-            enemyPlayer.removePiece(takenPiece, false);
+            enemyPlayer.removePiece(takenPiece);
         }
 
         boolean mayMove;
@@ -221,24 +216,18 @@ public class Player {
         for (Piece piece : pieces) {
             piece.scaleImage(newSize);
         }
-
-        for (Piece deadPiece : deadPieces) {
-            deadPiece.scaleImage(newSize);
-        }
     }
 
     public void addPiece(Piece piece) { pieces.add(piece); }
-    public void removePiece(Piece piece, boolean killed) {
+    public void removePiece(Piece piece) {
         if (piece == null) return;
 
-        if (killed) deadPieces.add(piece);
         pieces.remove(piece);
     }
 
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
 
     public ArrayList<Piece> getPieces() { return pieces; }
-    public ArrayList<Piece> getDeadPieces() { return deadPieces; }
     public King getKing() {
         for (Piece piece : pieces) {
             if (piece instanceof King) return (King) piece;
@@ -246,7 +235,6 @@ public class Player {
 
         return null;
     }
-    public ArrayList<Square> getAllMoves() { return allMoves; }
     public boolean isInCheck() { return inCheck; }
     public boolean isInCheckmate() { return inCheckmate; }
     public boolean isInStalemate() { return inStalemate; }
