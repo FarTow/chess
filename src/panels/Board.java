@@ -229,30 +229,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     // Logic Methods
-    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
-        int oldRow = piece.getRow();
-        int oldColumn = piece.getColumn();
-
-        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
-        piece.setSquare(toSquare);
-        toSquare.setPiece(piece); // set the square's piece to the selected piece
-        grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
-    }
-    protected void updateAmbiguousMove(Square toSquare) {
-        if (selectedPiece == null) return;
-
-        if (!(selectedPiece instanceof Pawn)) {
-            for (Piece piece : currentPlayer.getPieces()) {
-                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
-                    if (piece.canMove(toSquare)) {
-                        ambiguousMove = true;
-
-                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
-                    }
-                }
-            }
-        }
-    }
     protected int createPromotionPrompt(boolean isWhite) {
         Object[] promotionDialogImages = new Object[] {
                 new ImageIcon(isWhite ? Main.whitePieceImages[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceImages[Main.QUEEN_IMAGE_INDEX]),
@@ -292,6 +268,47 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         newSquare.setPiece(currentPlayer.getPieces().get(replacedPieceIndex));
 
         pawnPromotionStatus = currentPlayer.getPieces().get(replacedPieceIndex).getNotation();
+    }
+
+    protected void updateAmbiguousMove(Square toSquare) {
+        if (selectedPiece == null) return;
+
+        if (!(selectedPiece instanceof Pawn)) {
+            for (Piece piece : currentPlayer.getPieces()) {
+                if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
+                    if (piece.canMove(toSquare)) {
+                        ambiguousMove = true;
+
+                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                    }
+                }
+            }
+        }
+    }
+    protected void swapPlayer() {
+        if (currentPlayer.getFirstTurn()) {
+            currentPlayer.setFirstTurn(false);
+        } else {
+            currentPlayer.shouldRunTimer(false);
+            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
+        }
+
+        currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
+        currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
+
+        if (!currentPlayer.getFirstTurn()) {
+            currentPlayer.shouldRunTimer(true);
+        }
+    }
+
+    public void movePiece(Piece piece, Square toSquare, boolean permanent) {
+        int oldRow = piece.getRow();
+        int oldColumn = piece.getColumn();
+
+        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
+        piece.setSquare(toSquare);
+        toSquare.setPiece(piece); // set the square's piece to the selected piece
+        grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
     }
 
     protected void paintComponent(Graphics g) {
@@ -384,21 +401,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         // Update Board / Players
                         turnCount++;
                         whiteTurn = turnCount%2==0;
-
-                        if (currentPlayer.getFirstTurn()) {
-                            currentPlayer.setFirstTurn(false);
-                        } else {
-                            currentPlayer.shouldRunTimer(false);
-                            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
-                        }
-
-                        currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-                        currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
-
-                        if (!currentPlayer.getFirstTurn()) {
-                            currentPlayer.shouldRunTimer(true);
-                        }
-
+                        swapPlayer();
                     } else {
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
