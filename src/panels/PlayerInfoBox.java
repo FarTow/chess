@@ -12,13 +12,13 @@ public class PlayerInfoBox extends JPanel {
 
     private JPanel labelPanel;
     private final TimeDisplay timer;
-    private final TakenPieces takenPieces;
+    private final PieceDiffDisplay pieceDiffDisplay;
 
     public PlayerInfoBox(Player player, Board board) {
         this.player = player;
 
         timer = new TimeDisplay(player);
-        takenPieces = new TakenPieces(player);
+        pieceDiffDisplay = new PieceDiffDisplay(player);
 
         initUI();
     }
@@ -62,7 +62,7 @@ public class PlayerInfoBox extends JPanel {
         Main.setGridBagLayoutConstraints(
                 c, new Insets(0, 0, 0, 0), GridBagConstraints.BOTH,
                 1, 1, 1, 1, 1.0, 0.8, GridBagConstraints.LINE_END);
-        add(takenPieces, c);
+        add(pieceDiffDisplay, c);
     }
 
     protected void paintComponent(Graphics g) {
@@ -70,7 +70,7 @@ public class PlayerInfoBox extends JPanel {
     }
     public void actionPerformed(ActionEvent ae) {
         timer.actionPerformed(ae);
-        takenPieces.actionPerformed(ae);
+        pieceDiffDisplay.actionPerformed(ae);
 
         labelPanel.repaint();
         repaint();

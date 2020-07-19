@@ -9,7 +9,7 @@ public class Game extends JPanel implements ActionListener {
     public static final int FRAME_RATE = 60;
 
     private Board board;
-    private MoveHistory moveHistory;
+    private MoveHistoryDisplay moveHistoryDisplay;
     private PlayerInfoBox whiteInfoBox;
     private PlayerInfoBox blackInfoBox;
 
@@ -23,7 +23,7 @@ public class Game extends JPanel implements ActionListener {
             if (getComponentCount() == 0) return;
 
             board.resize(Math.min((getWidth()/24 - 1), 60));
-            moveHistory.resize();
+            moveHistoryDisplay.resize();
             updateUI();
             }
         });
@@ -34,7 +34,7 @@ public class Game extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent ae) {
         board.actionPerformed(ae);
-        moveHistory.actionPerformed(ae);
+        moveHistoryDisplay.actionPerformed(ae);
         whiteInfoBox.actionPerformed(ae);
         blackInfoBox.actionPerformed(ae);
     }
@@ -44,12 +44,12 @@ public class Game extends JPanel implements ActionListener {
 
         // Create all the components to be shown in Game
         board = new Board();
-        moveHistory = new MoveHistory(board);
+        moveHistoryDisplay = new MoveHistoryDisplay(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer(), board);
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer(), board);
 
         Main.forceSize(new Dimension(getWidth()*9/20, getHeight()/2), board);
-        Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistory, whiteInfoBox, blackInfoBox);
+        Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistoryDisplay, whiteInfoBox, blackInfoBox);
 
         Main.forceSize(new Dimension(getWidth()/40, getHeight()), whiteInfoBox.getLabelPanel(), blackInfoBox.getLabelPanel());
 
@@ -77,7 +77,7 @@ public class Game extends JPanel implements ActionListener {
         Main.setGridBagLayoutConstraints(
                 c, new Insets(20, 10, 20, 20), GridBagConstraints.VERTICAL,
                 2, 0, 1, 2, 0.25, 0.5, GridBagConstraints.FIRST_LINE_START);
-        add(moveHistory, c);
+        add(moveHistoryDisplay, c);
 
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();

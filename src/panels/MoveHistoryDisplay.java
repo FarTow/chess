@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
-public class MoveHistory extends JPanel implements ActionListener {
+public class MoveHistoryDisplay extends JPanel implements ActionListener {
     private final Board board;
     private final Object[] headers = new Object[] {"Turn", "White", "Black"};
 
@@ -27,7 +27,7 @@ public class MoveHistory extends JPanel implements ActionListener {
     private int moveCount;
     private int pieceCount;
 
-    public MoveHistory(Board board) {
+    public MoveHistoryDisplay(Board board) {
         setOpaque(false);
         setLayout(new BorderLayout(0, 0));
 

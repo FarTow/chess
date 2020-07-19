@@ -6,14 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class TakenPieces extends JPanel {
+public class PieceDiffDisplay extends JPanel {
     private final Image[] pieceImages;
     private final Player player;
 
     private int[] advantageCount;
     private final boolean isWhite;
 
-    public TakenPieces(Player player) {
+    public PieceDiffDisplay(Player player) {
         setBackground(new Color(229, 228, 228));
         this.player = player;
         this.isWhite = player.isWhite();
