@@ -22,7 +22,7 @@ public class TakenPieces extends JPanel {
         pieceImages = new Image[5];
         deadPieceCount = new int[] {0, 0, 0, 0, 0};
 
-        Image[] referencePictures = isWhite ? Main.whitePieceIcons : Main.blackPieceIcons;
+        Image[] referencePictures = Main.greyPieceIcons;
 
         pieceImages[0] = referencePictures[Main.PAWN_IMAGE_INDEX];
         pieceImages[1] = referencePictures[Main.KNIGHT_IMAGE_INDEX];

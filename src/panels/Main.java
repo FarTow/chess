@@ -2,6 +2,7 @@ package panels;
 
 import entities.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
@@ -18,7 +19,7 @@ public class Main extends JFrame {
     public static int PAWN_IMAGE_INDEX = 4;
     public static int ROOK_IMAGE_INDEX = 5;
 
-    public static final Image[] whitePieceIcons = new Image[] {
+    public static final Image[] whitePieceIcons = new Image[] { // consider making "piece icon" class
             new Bishop(true).getImage(),
             new King(true).getImage(),
             new Knight(true).getImage(),
@@ -34,6 +35,7 @@ public class Main extends JFrame {
             new Pawn(false).getImage(),
             new Rook(false).getImage()
     };
+    public static Image[] greyPieceIcons;
 
     public static final String START_MENU_LABEL = "START MENU";
     public static final String GAME_LABEL = "GAME";
@@ -62,13 +64,10 @@ public class Main extends JFrame {
     }
 
     Main() {
-        try {
-            MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(MULISH_LIGHT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        greyPieceIcons = new Image[6];
+
+        initFonts();
+        initGreyPieces();
 
         cards = new CardLayout();
         startMenu = new StartMenu();
@@ -79,6 +78,53 @@ public class Main extends JFrame {
         add(game, GAME_LABEL);
     }
 
+    private void initFonts() {
+        try {
+            MULISH_LIGHT = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/static/Mulish-Light.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(MULISH_LIGHT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void initGreyPieces() {
+        String greyPiecePathStart = "res/pieces/grey-";
+        String greyPiecePathEnd = ".png";
+
+        for (int i=0; i<greyPieceIcons.length; i++) {
+            String pieceName;
+
+            switch (i) {
+                case 0:
+                    pieceName = "bishop";
+                    break;
+                case 1:
+                    pieceName = "king";
+                    break;
+                case 2:
+                    pieceName = "knight";
+                    break;
+                case 3:
+                    pieceName = "queen";
+                    break;
+                case 4:
+                    pieceName = "pawn";
+                    break;
+                case 5:
+                    pieceName = "rook";
+                    break;
+                default:
+                    pieceName = "";
+                    break;
+            }
+
+            try {
+                greyPieceIcons[i] = ImageIO.read(new File(greyPiecePathStart+pieceName+greyPiecePathEnd));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private void initUI() {
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
