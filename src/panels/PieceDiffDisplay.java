@@ -30,14 +30,11 @@ public class PieceDiffDisplay extends JPanel {
     }
 
     protected void updateDiffCount() {
-        if (player.getPieces().size() == player.getEnemyPlayer().getPieces().size()) return;
-
         diffCount[0] = player.getPieceCount()[0]-player.getEnemyPlayer().getPieceCount()[0];
         diffCount[1] = player.getPieceCount()[1]-player.getEnemyPlayer().getPieceCount()[1];
         diffCount[2] = player.getPieceCount()[2]-player.getEnemyPlayer().getPieceCount()[2];
         diffCount[3] = player.getPieceCount()[3]-player.getEnemyPlayer().getPieceCount()[3];
         diffCount[4] = player.getPieceCount()[4]-player.getEnemyPlayer().getPieceCount()[4];
-
     }
 
     protected void paintComponent(Graphics g) {
