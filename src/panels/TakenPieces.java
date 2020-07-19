@@ -8,10 +8,15 @@ import java.awt.event.ActionEvent;
 
 public class TakenPieces extends JPanel {
     private final Image[] pieceImages;
+    private int[] deadPieceCount;
+    private final boolean isWhite;
 
-    public TakenPieces(boolean isWhite) {
+    public TakenPieces(boolean isWhite, Board board) {
         setBackground(new Color(229, 228, 228));
+
+        this.isWhite = isWhite;
         pieceImages = new Image[5];
+        deadPieceCount = new int[] {0, 0, 0, 0, 0};
 
         Image[] referencePictures = isWhite ? Main.whitePieceIcons : Main.blackPieceIcons;
 
@@ -27,7 +32,23 @@ public class TakenPieces extends JPanel {
 
         int rowModifier = -2;
         for (int i=0; i<pieceImages.length; i++, rowModifier++) {
-            g.drawImage(pieceImages[i], (getWidth()/2 - pieceImages[i].getWidth(null)/2) + (rowModifier*pieceImages[i].getWidth(null)), 0, null);
+            int pieceSpacingOffset = + rowModifier*pieceImages[i].getWidth(null);
+
+            g.drawImage(pieceImages[i], (getWidth()/2 - pieceImages[i].getWidth(null)/2) + pieceSpacingOffset, 0, null);
+
+            g.setColor(Color.black);
+            g.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/30, (float) getHeight()/20)));
+
+            String count = Integer.toString(deadPieceCount[i]);
+            Dimension countDimensions = new Dimension(
+                    g.getFontMetrics(g.getFont()).stringWidth(count),
+                    g.getFontMetrics(g.getFont()).getHeight());
+
+            g.drawString(
+                    count,
+                    (getWidth()/2 - pieceImages[i].getWidth(null)/2 + countDimensions.width*7/2) + pieceSpacingOffset,
+                    pieceImages[i].getHeight(null)+countDimensions.height
+            );
         }
     }
     public void actionPerformed(ActionEvent ae) {
