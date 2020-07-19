@@ -141,14 +141,14 @@ public class Player {
         }
     }
 
-    public void updateAllMoves() {
+    protected void updateAllMoves() {
         allMoves = new ArrayList<>();
 
         for (Piece piece : pieces) {
             allMoves.addAll(piece.getMoveableSquares());
         }
     }
-    public void updatePieceCount() {
+    protected void updatePieceCount() {
         int pawnCount, knightCount, bishopCount, rookCount, queenCount;
         pawnCount = knightCount = bishopCount = rookCount = queenCount = 0;
 
@@ -228,7 +228,7 @@ public class Player {
         updatePieceCount();
     }
 
-    public boolean mayMove(Piece piece, Square toSquare) {
+    protected boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
 
         if (toSquare == piece.getSquare()) return false;
@@ -287,6 +287,7 @@ public class Player {
 
         return null;
     }
+    public Player getEnemyPlayer() { return enemyPlayer; }
     public boolean isInCheck() { return inCheck; }
     public boolean isInCheckmate() { return inCheckmate; }
     public boolean isInStalemate() { return inStalemate; }

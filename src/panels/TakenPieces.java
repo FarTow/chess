@@ -8,19 +8,19 @@ import java.awt.event.ActionEvent;
 
 public class TakenPieces extends JPanel {
     private final Image[] pieceImages;
-    private final int[] deadPieceCount;
+    private final Player player;
+
+    private int[] advantageCount;
     private final boolean isWhite;
 
-    private final Board board;
-    private boolean whiteTurn;
-
-    public TakenPieces(Player player, Board board) {
+    public TakenPieces(Player player) {
         setBackground(new Color(229, 228, 228));
+        this.player = player;
         this.isWhite = player.isWhite();
-        this.board = board;
-        whiteTurn = true;
         pieceImages = new Image[5];
-        deadPieceCount = new int[] {0, 0, 0, 0, 0};
+        advantageCount = new int[5];
+
+        updateAdvantageCount();
 
         pieceImages[0] = Main.greyPieceImages[Main.PAWN_IMAGE_INDEX];
         pieceImages[1] = Main.greyPieceImages[Main.KNIGHT_IMAGE_INDEX];
@@ -29,34 +29,15 @@ public class TakenPieces extends JPanel {
         pieceImages[4] = Main.greyPieceImages[Main.QUEEN_IMAGE_INDEX];
     }
 
-    protected void updateDeadCount() {
-        if (whiteTurn == board.getWhiteTurn()) return;
+    protected void updateAdvantageCount() {
+        if (player.getPieces().size() == player.getEnemyPlayer().getPieces().size()) return;
 
-        if (board.getLastPieceTaken() != null) {
-            boolean lostPiece = board.getLastPieceTaken().isWhite() == isWhite;
+        advantageCount[0] = player.getPieceCount()[0]-player.getEnemyPlayer().getPieceCount()[0];
+        advantageCount[1] = player.getPieceCount()[1]-player.getEnemyPlayer().getPieceCount()[1];
+        advantageCount[2] = player.getPieceCount()[2]-player.getEnemyPlayer().getPieceCount()[2];
+        advantageCount[3] = player.getPieceCount()[3]-player.getEnemyPlayer().getPieceCount()[3];
+        advantageCount[4] = player.getPieceCount()[4]-player.getEnemyPlayer().getPieceCount()[4];
 
-            if (board.getLastPieceTaken().isWhite() == isWhite) {
-                switch(board.getLastPieceTaken().getNotation()) {
-                    case (char) 0:
-                        deadPieceCount[0] += lostPiece ? 1 : -1;
-                        break;
-                    case 'N':
-                        deadPieceCount[1] += lostPiece ? 1 : -1;
-                        break;
-                    case 'B':
-                        deadPieceCount[2] += lostPiece ? 1 : -1;
-                        break;
-                    case 'R':
-                        deadPieceCount[3] += lostPiece ? 1 : -1;
-                        break;
-                    case 'Q':
-                        deadPieceCount[4] += lostPiece ? 1 : -1;
-                        break;
-                }
-            }
-        }
-
-        whiteTurn = board.getWhiteTurn();
     }
 
     protected void paintComponent(Graphics g) {
@@ -64,7 +45,8 @@ public class TakenPieces extends JPanel {
 
         int rowModifier = -2;
         for (int i=0; i<pieceImages.length; i++, rowModifier++) {
-            int pieceSpacingOffset = + rowModifier*pieceImages[i].getWidth(null);
+
+            int pieceSpacingOffset = rowModifier*pieceImages[i].getWidth(null);
 
             g.drawImage(
                     pieceImages[i],
@@ -79,7 +61,12 @@ public class TakenPieces extends JPanel {
             g2d.setColor(Color.black);
             g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/30, (float) getHeight()/20)));
 
-            String count = Integer.toString(deadPieceCount[i]);
+            String count;
+            if (advantageCount[i] == 0) {
+                count = "-";
+            } else {
+                count = Integer.toString(advantageCount[i]);
+            }
             Dimension countDimensions = new Dimension(
                     g2d.getFontMetrics(g.getFont()).stringWidth(count),
                     g2d.getFontMetrics(g.getFont()).getHeight()
@@ -92,8 +79,8 @@ public class TakenPieces extends JPanel {
             );
         }
     }
-    public void actionPerformed(ActionEvent ae) {
-        updateDeadCount();
+    public void actionPerformed(ActionEvent ae){
+        updateAdvantageCount();
         repaint();
     }
 }
