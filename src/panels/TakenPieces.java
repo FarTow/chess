@@ -34,7 +34,12 @@ public class TakenPieces extends JPanel {
         for (int i=0; i<pieceImages.length; i++, rowModifier++) {
             int pieceSpacingOffset = + rowModifier*pieceImages[i].getWidth(null);
 
-            g.drawImage(pieceImages[i], (getWidth()/2 - pieceImages[i].getWidth(null)/2) + pieceSpacingOffset, 0, null);
+            g.drawImage(
+                    pieceImages[i],
+                    (getWidth()/2 - pieceImages[i].getWidth(null)/2) + pieceSpacingOffset,
+                    0,
+                    null
+            );
 
             g.setColor(Color.black);
             g.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/30, (float) getHeight()/20)));
@@ -42,7 +47,8 @@ public class TakenPieces extends JPanel {
             String count = Integer.toString(deadPieceCount[i]);
             Dimension countDimensions = new Dimension(
                     g.getFontMetrics(g.getFont()).stringWidth(count),
-                    g.getFontMetrics(g.getFont()).getHeight());
+                    g.getFontMetrics(g.getFont()).getHeight()
+            );
 
             g.drawString(
                     count,
