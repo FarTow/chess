@@ -14,9 +14,9 @@ public class TakenPieces extends JPanel {
     private final Board board;
     private boolean whiteTurn;
 
-    public TakenPieces(boolean isWhite, Board board) {
+    public TakenPieces(Player player, Board board) {
         setBackground(new Color(229, 228, 228));
-        this.isWhite = isWhite;
+        this.isWhite = player.isWhite();
         this.board = board;
         whiteTurn = true;
         pieceImages = new Image[5];
@@ -35,22 +35,24 @@ public class TakenPieces extends JPanel {
         if (whiteTurn == board.getWhiteTurn()) return;
 
         if (board.getLastPieceTaken() != null) {
+            boolean lostPiece = board.getLastPieceTaken().isWhite() == isWhite;
+
             if (board.getLastPieceTaken().isWhite() == isWhite) {
                 switch(board.getLastPieceTaken().getNotation()) {
                     case (char) 0:
-                        deadPieceCount[0]++;
+                        deadPieceCount[0] += lostPiece ? 1 : -1;
                         break;
                     case 'N':
-                        deadPieceCount[1]++;
+                        deadPieceCount[1] += lostPiece ? 1 : -1;
                         break;
                     case 'B':
-                        deadPieceCount[2]++;
+                        deadPieceCount[2] += lostPiece ? 1 : -1;
                         break;
                     case 'R':
-                        deadPieceCount[3]++;
+                        deadPieceCount[3] += lostPiece ? 1 : -1;
                         break;
                     case 'Q':
-                        deadPieceCount[4]++;
+                        deadPieceCount[4] += lostPiece ? 1 : -1;
                         break;
                 }
             }

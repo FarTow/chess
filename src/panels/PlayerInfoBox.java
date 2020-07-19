@@ -18,7 +18,7 @@ public class PlayerInfoBox extends JPanel {
         this.player = player;
 
         timer = new TimeDisplay(player);
-        takenPieces = new TakenPieces(!player.isWhite(), board);
+        takenPieces = new TakenPieces(player, board);
 
         initUI();
     }
