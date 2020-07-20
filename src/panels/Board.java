@@ -363,6 +363,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         whitePlayer.formatTime(); // ugh
         blackPlayer.formatTime();
 
+        if (currentPlayer.isInTimeout()) System.out.println("player is in timeout");
+
         repaint();
     }
 

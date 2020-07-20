@@ -3,7 +3,6 @@ package entities;
 import panels.Board;
 
 import javax.swing.Timer;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -34,27 +33,31 @@ public class Player {
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
         timeOut = false;
-        minutesLeft = board.getStartMinutes();
-        secondsLeft = board.getStartSeconds();
 
-        ActionListener timerCountDown = ae -> {
-            if (!runTimer) return;
+        if (board.getStartMinutes() <= 0 && board.getStartSeconds() <= 0) {
+            minutesLeft = secondsLeft = -1;
+        } else {
+            minutesLeft = board.getStartMinutes();
+            secondsLeft = board.getStartSeconds();
 
-            if (minutesLeft == 0 && secondsLeft == 0) {
-                timeOut = true;
-                return;
-            }
+            ActionListener timerCountDown = ae -> {
+                if (!runTimer) return;
 
-            if (secondsLeft == 0) {
-                minutesLeft--;
-                secondsLeft = 59;
-            } else {
-                secondsLeft--;
-            }
-        };
+                if (minutesLeft == 0 && secondsLeft == 0) {
+                    timeOut = true;
+                    return;
+                }
+                if (secondsLeft == 0) {
+                    minutesLeft--;
+                    secondsLeft = 59;
+                } else {
+                    secondsLeft--;
+                }
+            };
 
-        Timer timer = new Timer(1000, timerCountDown);
-        timer.start();
+            Timer timer = new Timer(1000, timerCountDown);
+            timer.start();
+        }
 
         defaultResetPieces();
         updatePieceCount();

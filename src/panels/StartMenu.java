@@ -7,7 +7,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class StartMenu extends JPanel { // Weird lag?
+    private int startMinutes, startSeconds, timeIncrement;
+
     public StartMenu() {
+        startMinutes = startSeconds = timeIncrement = 0;
+
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
                 super.componentResized(e);
@@ -42,14 +46,20 @@ public class StartMenu extends JPanel { // Weird lag?
         JButton startButton = new JButton("Start");
         startButton.addActionListener(ae -> {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
-            main.getGame().start();
+            main.getGame().start(startMinutes, startSeconds, timeIncrement);
+        });
+
+        // Create time setting button
+        JButton timeSettings = new JButton("TimeSettings");
+        timeSettings.addActionListener( ae -> {
+
         });
 
         // Add buttons
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/3)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/20)));
-        add(new JButton("Set Time Mode"));
+        add(timeSettings);
 
         for (int i=0; i<getComponentCount(); i++) {
             if (!(getComponent(i) instanceof JButton)) continue;

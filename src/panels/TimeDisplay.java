@@ -19,6 +19,7 @@ public class TimeDisplay extends JPanel {
 
         // Initialize graphics
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.black);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // sharper text
         g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/2, (float) getHeight()/2))); // font
 
@@ -26,13 +27,20 @@ public class TimeDisplay extends JPanel {
         g2d.setColor(Color.gray);
         g2d.drawLine(getWidth()/25, getHeight()*9/10, getWidth()*24/25, getHeight()*9/10);
 
+        // Determine what to draw based on if time controls are being used or not
+        String timeLeftString;
+        if (player.getMinutesLeft() == -1 && player.getSecondsLeft() == -1) {
+            timeLeftString = "--:--";
+        } else {
+            timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
+        }
+
         // Draw time
-        String timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
         Dimension timeDimensions = new Dimension(
                 g2d.getFontMetrics(g2d.getFont()).stringWidth(timeLeftString),
                 g2d.getFontMetrics(g2d.getFont()).getHeight()
         );
-        g2d.setColor(Color.black);
+
         g2d.drawString(timeLeftString, getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
     }
     public void actionPerformed(ActionEvent ae) {

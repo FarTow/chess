@@ -39,11 +39,11 @@ public class Game extends JPanel implements ActionListener {
         blackInfoBox.actionPerformed(ae);
     }
 
-    public void start() {
+    public void start(int startMinutes, int startSeconds, int timeIncrement) {
         GridBagConstraints c = new GridBagConstraints();
 
         // Create all the components to be shown in Game
-        board = new Board(2, 0, 1);
+        board = new Board(startMinutes, startSeconds, timeIncrement);
         moveHistoryDisplay = new MoveHistoryDisplay(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer(), board);
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer(), board);
