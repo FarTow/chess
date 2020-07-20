@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private int minutesLeft, secondsLeft, timeIncrement;
+    private int startMinutes, startSeconds, timeIncrement;
 
     // Players
     private final Player whitePlayer;
@@ -37,17 +37,17 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         setOpaque(false);
 
         // Properties
+        this.startMinutes = startMinutes;
+        this.startSeconds = startSeconds;
+        this.timeIncrement = timeIncrement;
+
         grid = new Square[8][8];
         topLeft = new Point(0, 0);
-        bottomRight = new Point(0, 0);
+        bottomRight = new Point(squareLength*8, squareLength*8);
         squareLength = 60;
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
-        minutesLeft = startMinutes;
-        secondsLeft = startSeconds;
-        this.timeIncrement = timeIncrement;
-
         for (int row=0; row<grid.length; row++) { // initialize empty grid
             for (int column=0; column<grid[row].length; column++) {
                 Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
@@ -431,8 +431,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
-    public int getMinutesLeft() { return minutesLeft; } // Time Getters
-    public int getSecondsLeft() { return secondsLeft; }
+    public int getStartMinutes() { return startMinutes; } // Time Getters
+    public int getStartSeconds() { return startSeconds; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }
