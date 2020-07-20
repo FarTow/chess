@@ -33,7 +33,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int castlingStatus;
     private char pawnPromotionStatus;
 
-    public Board() {
+    public Board(int startMinutes, int startSeconds, int timeIncrement) {
         setOpaque(false);
 
         // Properties
@@ -44,9 +44,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
-        minutesLeft = 2;
-        secondsLeft = 0;
-        timeIncrement = 2;
+        minutesLeft = startMinutes;
+        secondsLeft = startSeconds;
+        this.timeIncrement = timeIncrement;
 
         for (int row=0; row<grid.length; row++) { // initialize empty grid
             for (int column=0; column<grid[row].length; column++) {

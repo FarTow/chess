@@ -43,7 +43,7 @@ public class Game extends JPanel implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
 
         // Create all the components to be shown in Game
-        board = new Board();
+        board = new Board(2, 0, 1);
         moveHistoryDisplay = new MoveHistoryDisplay(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer(), board);
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer(), board);
