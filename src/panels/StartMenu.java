@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -10,6 +11,7 @@ import java.awt.event.ItemListener;
 
 public class StartMenu extends JPanel { // Weird lag?
     private final int INITIAL_RESIZE_COUNT = 2;
+    private Dimension buttonSize;
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
@@ -36,8 +38,12 @@ public class StartMenu extends JPanel { // Weird lag?
     }
 
     protected void resize() {
-        Main.forceSize(new Dimension(getWidth() / 5, getHeight() / 20), startButton, timeSettingsButton);
-        if (initialResize >= INITIAL_RESIZE_COUNT) Main.forceSize(new Dimension(getWidth()/5, getHeight()/10), timeSettingsPanel);
+        buttonSize = new Dimension(getWidth()/5, getHeight()/20);
+
+        Main.forceSize(buttonSize, startButton, timeSettingsButton);
+        if (initialResize >= INITIAL_RESIZE_COUNT && timeSettingsButton.isSelected()) {
+            Main.forceSize(new Dimension(getWidth()/5, getHeight()/10), timeSettingsPanel);
+        }
         startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
         timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
     }
@@ -61,7 +67,7 @@ public class StartMenu extends JPanel { // Weird lag?
         timeSettingsPanel = new JPanel();
         Main.forceSize(new Dimension(getWidth()/5, 1), timeSettingsPanel);
         timeSettingsPanel.setFocusable(false);
-        timeSettingsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        timeSettingsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         timeSettingsPanel.updateUI();
 
         // Create time setting button
@@ -103,7 +109,7 @@ public class StartMenu extends JPanel { // Weird lag?
         timeSettingsButton.setFocusable(false);
         timeSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Main.forceSize(new Dimension(main.getWidth()/5, main.getHeight()/15), startButton, timeSettingsButton);
+        Main.forceSize(buttonSize, startButton, timeSettingsButton);
 
         // Add buttons
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/3)));
