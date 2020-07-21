@@ -65,7 +65,7 @@ public class StartMenu extends JPanel { // Weird lag?
 
         // Create time setting panel
         timeSettingsPanel = new JPanel();
-        Main.forceSize(new Dimension(getWidth()/5, 1), timeSettingsPanel);
+        Main.forceSize(new Dimension(getWidth()/5, 0), timeSettingsPanel);
         timeSettingsPanel.setFocusable(false);
         timeSettingsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         timeSettingsPanel.updateUI();
