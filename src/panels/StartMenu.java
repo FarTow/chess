@@ -10,8 +10,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class StartMenu extends JPanel { // Weird lag?
-    private final int INITIAL_RESIZE_COUNT = 2;
-    private Dimension buttonSize, timeSettingsPanelMaxSize;
+    private final Dimension buttonSize, timeSettingsPanelMaxSize;
+    private float buttonFontSize;
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
@@ -22,6 +22,9 @@ public class StartMenu extends JPanel { // Weird lag?
 
     public StartMenu() {
         startMinutes = startSeconds = timeIncrement = 0;
+
+        buttonSize = new Dimension(0, 0);
+        timeSettingsPanelMaxSize = new Dimension(0, 0);
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
@@ -37,16 +40,26 @@ public class StartMenu extends JPanel { // Weird lag?
         });
     }
 
+    protected void setSizes() {
+        buttonSize.width = getWidth()/5;
+        buttonSize.height = getHeight()/20;
+
+        timeSettingsPanelMaxSize.width = getWidth()/5;
+        timeSettingsPanelMaxSize.height = getHeight()/8;
+
+        buttonFontSize = Math.min((float) getHeight() / 30, (float) getWidth() / 55);
+    }
+
     protected void resize() {
-        buttonSize = new Dimension(getWidth()/5, getHeight()/20);
-        timeSettingsPanelMaxSize = new Dimension(getWidth()/5, getHeight()/8);
+        setSizes();
 
         Main.forceSize(buttonSize, startButton, timeSettingsButton);
-        if (resizeCount >= INITIAL_RESIZE_COUNT && timeSettingsButton.isSelected()) {
+        if (resizeCount >= 2 && timeSettingsButton.isSelected()) {
             Main.forceSize(timeSettingsPanelMaxSize, timeSettingsPanel);
         }
-        startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
-        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
+
+        startButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontSize));
+        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontSize));
     }
 
     protected void initUI(Main main) {
@@ -65,7 +78,7 @@ public class StartMenu extends JPanel { // Weird lag?
 
         // Create time setting panel
         timeSettingsPanel = new JPanel();
-        Main.forceSize(new Dimension(getWidth()/5, 0), timeSettingsPanel);
+        Main.forceSize(new Dimension(main.getWidth()/5, 0), timeSettingsPanel);
         timeSettingsPanel.setFocusable(false);
         timeSettingsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         timeSettingsPanel.updateUI();
@@ -113,7 +126,6 @@ public class StartMenu extends JPanel { // Weird lag?
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/20)));
         add(timeSettingsButton);
         add(timeSettingsPanel);
-
     }
 
 }
