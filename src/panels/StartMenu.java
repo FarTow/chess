@@ -60,7 +60,7 @@ public class StartMenu extends JPanel { // Weird lag?
 
         // Create time setting panel
         JPanel timeSettingsPanel = new JPanel();
-        Main.forceSize(new Dimension(getWidth()/6, 0), timeSettingsPanel);
+        Main.forceSize(new Dimension(getWidth()/6, 1), timeSettingsPanel);
         timeSettingsPanel.setFocusable(false);
         timeSettingsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         timeSettingsPanel.updateUI();
@@ -70,17 +70,16 @@ public class StartMenu extends JPanel { // Weird lag?
         timeSettingsButton.addItemListener(itemEvent -> { // HARD CARRIED BY TANVIR LIKE FOR REAL THIS TIME
             int timeSettingsPanelMaxHeight = main.getHeight()/10;
 
+            System.out.println(timeSettingsPanelMaxHeight);
+
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) { // increase size of panel
                 new Thread(() -> {
-                    updateUI();
-
                     while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxHeight) {
-                        if (timeSettingsPanel.getHeight() == 0) {
-                            Main.forceSize(new Dimension(main.getWidth() / 6, 1));
-                        } else {
-                            Main.forceSize(new Dimension(main.getWidth() / 6, timeSettingsPanel.getHeight() * 11 / 10));
-                        }
+                        System.out.println("Start " + timeSettingsPanel.getWidth() + ", " + timeSettingsPanel.getHeight());
+                        Main.forceSize(new Dimension(main.getWidth() / 6, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
+
+                        System.out.println("End " + timeSettingsPanel.getWidth() + ", " + timeSettingsPanel.getHeight());
                     }
 
                     try {
@@ -92,7 +91,7 @@ public class StartMenu extends JPanel { // Weird lag?
             } else if (itemEvent.getStateChange() == ItemEvent.DESELECTED) { // decrease size of panel
                 new Thread(() -> {
                     while (timeSettingsPanel.getHeight() > 0) {
-                        Main.forceSize(new Dimension(main.getWidth()/6, timeSettingsPanel.getHeight()*9/10));
+                        Main.forceSize(new Dimension(main.getWidth()/6, timeSettingsPanel.getHeight()*9/10), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
                     }
 
