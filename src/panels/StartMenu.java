@@ -60,7 +60,6 @@ public class StartMenu extends JPanel { // Weird lag?
             main.getGame().start(startMinutes, startSeconds, timeIncrement);
         });
 
-        startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
         startButton.setFocusable(false);
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -74,12 +73,10 @@ public class StartMenu extends JPanel { // Weird lag?
         // Create time setting button
         timeSettingsButton = new JToggleButton("Time Settings");
         timeSettingsButton.addItemListener(itemEvent -> { // HARD CARRIED BY TANVIR LIKE FOR REAL THIS TIME
-            int width = main.getWidth()/5;
-
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) { // increase size of panel
                 new Thread(() -> {
                     while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxSize.height) {
-                        Main.forceSize(new Dimension(width, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10 + 1), timeSettingsPanel);
+                        Main.forceSize(new Dimension(timeSettingsPanelMaxSize.width, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10 + 1), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
 
                         try {
@@ -92,7 +89,7 @@ public class StartMenu extends JPanel { // Weird lag?
             } else if (itemEvent.getStateChange() == ItemEvent.DESELECTED) { // decrease size of panel
                 new Thread(() -> {
                     while (timeSettingsPanel.getHeight() > 0) {
-                        Main.forceSize(new Dimension(width, timeSettingsPanel.getHeight()*9/10), timeSettingsPanel);
+                        Main.forceSize(new Dimension(timeSettingsPanelMaxSize.width, timeSettingsPanel.getHeight()*9/10), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
 
                         try {
@@ -105,7 +102,6 @@ public class StartMenu extends JPanel { // Weird lag?
             }
         });
 
-        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
         timeSettingsButton.setFocusable(false);
         timeSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
