@@ -435,6 +435,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     public int getStartMinutes() { return startMinutes; } // Time Getters
     public int getStartSeconds() { return startSeconds; }
+    public int getTimeIncrement() { return timeIncrement; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }

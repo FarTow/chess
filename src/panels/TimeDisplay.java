@@ -29,10 +29,14 @@ public class TimeDisplay extends JPanel {
 
         // Determine what to draw based on if time controls are being used or not
         String timeLeftString;
+        String incrementString;
+
         if (player.getMinutesLeft() == -1 && player.getSecondsLeft() == -1) {
             timeLeftString = "--:--";
+            incrementString = null;
         } else {
             timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
+            incrementString = "+" + player.getTimeIncrement();
         }
 
         // Draw time
@@ -41,7 +45,15 @@ public class TimeDisplay extends JPanel {
                 g2d.getFontMetrics(g2d.getFont()).getHeight()
         );
 
-        g2d.drawString(timeLeftString, getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
+        Point timeBottomRight = new Point(getWidth()/2 - timeDimensions.width/2, getHeight()/2 + timeDimensions.height/4);
+
+        g2d.drawString(timeLeftString, timeBottomRight.x, timeBottomRight.y);
+
+        if (incrementString != null) {
+            g2d.setFont(g2d.getFont().deriveFont((float) timeDimensions.height/4));
+            g2d.drawString(incrementString, timeBottomRight.x + timeDimensions.width, timeBottomRight.y - timeDimensions.height*3/5);
+        }
+
     }
     public void actionPerformed(ActionEvent ae) {
         repaint();
