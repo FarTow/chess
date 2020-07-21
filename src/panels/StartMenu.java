@@ -1,13 +1,9 @@
 package panels;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class StartMenu extends JPanel { // Weird lag?
     private final Dimension buttonSize, timeSettingsPanelMaxSize;
@@ -15,7 +11,7 @@ public class StartMenu extends JPanel { // Weird lag?
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
-    private JPanel timeSettingsPanel;
+    private TimeSettings timeSettings;
 
     private int startMinutes, startSeconds, timeIncrement;
     private int resizeCount; // absolutely hate this.
@@ -25,6 +21,8 @@ public class StartMenu extends JPanel { // Weird lag?
 
         buttonSize = new Dimension(0, 0);
         timeSettingsPanelMaxSize = new Dimension(0, 0);
+
+        timeSettings = new TimeSettings(this);
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
@@ -49,13 +47,12 @@ public class StartMenu extends JPanel { // Weird lag?
 
         buttonFontSize = Math.min((float) getHeight() / 30, (float) getWidth() / 55);
     }
-
     protected void resize() {
         setSizes();
 
         Main.forceSize(buttonSize, startButton, timeSettingsButton);
         if (resizeCount >= 2 && timeSettingsButton.isSelected()) {
-            Main.forceSize(timeSettingsPanelMaxSize, timeSettingsPanel);
+            Main.forceSize(timeSettingsPanelMaxSize, timeSettings);
         }
 
         startButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontSize));
@@ -76,21 +73,23 @@ public class StartMenu extends JPanel { // Weird lag?
         startButton.setFocusable(false);
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Create time setting panel
-        timeSettingsPanel = new JPanel();
-        Main.forceSize(new Dimension(main.getWidth()/5, 0), timeSettingsPanel);
-        timeSettingsPanel.setFocusable(false);
-        timeSettingsPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-        timeSettingsPanel.updateUI();
+        // Initialize time setting panel
+        Main.forceSize(new Dimension(main.getWidth()/5, 0), timeSettings);
+        timeSettings.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Create time setting button
         timeSettingsButton = new JToggleButton("Time Settings");
         timeSettingsButton.addItemListener(itemEvent -> { // HARD CARRIED BY TANVIR LIKE FOR REAL THIS TIME
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) { // increase size of panel
                 new Thread(() -> {
-                    while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxSize.height) {
-                        Main.forceSize(new Dimension(timeSettingsPanelMaxSize.width, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10 + 1), timeSettingsPanel);
-                        timeSettingsPanel.updateUI();
+                    while (timeSettings.getHeight() < timeSettingsPanelMaxSize.height) {
+                        Main.forceSize(
+                                new Dimension(
+                                        timeSettingsPanelMaxSize.width,
+                                        timeSettings.getHeight() + timeSettings.getHeight()/10 + 1),
+                                timeSettings
+                        );
+                        timeSettings.updateUI();
 
                         try {
                             Thread.sleep(5);
@@ -101,9 +100,9 @@ public class StartMenu extends JPanel { // Weird lag?
                 }).start();
             } else if (itemEvent.getStateChange() == ItemEvent.DESELECTED) { // decrease size of panel
                 new Thread(() -> {
-                    while (timeSettingsPanel.getHeight() > 0) {
-                        Main.forceSize(new Dimension(timeSettingsPanelMaxSize.width, timeSettingsPanel.getHeight()*9/10), timeSettingsPanel);
-                        timeSettingsPanel.updateUI();
+                    while (timeSettings.getHeight() > 0) {
+                        Main.forceSize(new Dimension(timeSettingsPanelMaxSize.width, timeSettings.getHeight()*9/10), timeSettings);
+                        timeSettings.updateUI();
 
                         try {
                             Thread.sleep(5);
@@ -114,18 +113,15 @@ public class StartMenu extends JPanel { // Weird lag?
                 }).start();
             }
         });
-
         timeSettingsButton.setFocusable(false);
         timeSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Main.forceSize(buttonSize, startButton, timeSettingsButton);
-
-        // Add buttons
+        // Add componenets
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/3)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/20)));
         add(timeSettingsButton);
-        add(timeSettingsPanel);
+        add(timeSettings);
     }
 
 }
