@@ -9,16 +9,17 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class StartMenu extends JPanel { // Weird lag?
+    private final int INITIAL_RESIZE_COUNT = 2;
+
     private JButton startButton;
     private JToggleButton timeSettingsButton;
     private JPanel timeSettingsPanel;
 
     private int startMinutes, startSeconds, timeIncrement;
-    private int oldHeight;
+    private int initialResize; // absolutely hate this.
 
     public StartMenu() {
         startMinutes = startSeconds = timeIncrement = 0;
-        oldHeight = 10000;
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) { // review time
@@ -27,26 +28,18 @@ public class StartMenu extends JPanel { // Weird lag?
                 if (getComponentCount() == 0) return;
 
                 resize();
-
                 updateUI();
+
+                initialResize++;
             }
         });
     }
 
     protected void resize() {
         Main.forceSize(new Dimension(getWidth() / 5, getHeight() / 20), startButton, timeSettingsButton);
+        if (initialResize >= INITIAL_RESIZE_COUNT) Main.forceSize(new Dimension(getWidth()/5, getHeight()/10), timeSettingsPanel);
         startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
         timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
-
-        if (oldHeight != getHeight()) {
-            boolean shrunk = getHeight() - oldHeight < 0;
-
-            Main.forceSize(new Dimension(getWidth() / 5, timeSettingsPanel.getHeight() + (shrunk ? -1 : 1)), timeSettingsPanel);
-        } else {
-            Main.forceSize(new Dimension(getWidth() / 5, timeSettingsPanel.getHeight()), timeSettingsPanel);
-        }
-
-        oldHeight = getHeight();
     }
 
     protected void initUI(Main main) {
