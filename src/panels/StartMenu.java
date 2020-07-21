@@ -28,7 +28,9 @@ public class StartMenu extends JPanel { // Weird lag?
                         case 2: // middle rigid body
                             Main.forceSize(new Dimension(getWidth(), getHeight()/20), getComponent(i));
                             break;
-
+                        case 4:
+                            Main.forceSize(new Dimension(getWidth()/6, getComponent(i).getHeight()*9/10));
+                            break;
                         default: // buttons
                             getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/55)));
                             Main.forceSize(new Dimension(getWidth()/6, getHeight()/15), getComponent(i));
