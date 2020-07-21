@@ -18,7 +18,7 @@ public class StartMenu extends JPanel { // Weird lag?
     private JPanel timeSettingsPanel;
 
     private int startMinutes, startSeconds, timeIncrement;
-    private int initialResize; // absolutely hate this.
+    private int resizeCount; // absolutely hate this.
 
     public StartMenu() {
         startMinutes = startSeconds = timeIncrement = 0;
@@ -32,7 +32,7 @@ public class StartMenu extends JPanel { // Weird lag?
                 resize();
                 updateUI();
 
-                initialResize++;
+                resizeCount++;
             }
         });
     }
@@ -41,7 +41,7 @@ public class StartMenu extends JPanel { // Weird lag?
         buttonSize = new Dimension(getWidth()/5, getHeight()/20);
 
         Main.forceSize(buttonSize, startButton, timeSettingsButton);
-        if (initialResize >= INITIAL_RESIZE_COUNT && timeSettingsButton.isSelected()) {
+        if (resizeCount >= INITIAL_RESIZE_COUNT && timeSettingsButton.isSelected()) {
             Main.forceSize(new Dimension(getWidth()/5, getHeight()/10), timeSettingsPanel);
         }
         startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
