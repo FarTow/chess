@@ -11,7 +11,7 @@ import java.awt.event.ItemListener;
 
 public class StartMenu extends JPanel { // Weird lag?
     private final int INITIAL_RESIZE_COUNT = 2;
-    private Dimension buttonSize;
+    private Dimension buttonSize, timeSettingsPanelMaxSize;
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
@@ -39,10 +39,11 @@ public class StartMenu extends JPanel { // Weird lag?
 
     protected void resize() {
         buttonSize = new Dimension(getWidth()/5, getHeight()/20);
+        timeSettingsPanelMaxSize = new Dimension(getWidth()/5, getHeight()/8);
 
         Main.forceSize(buttonSize, startButton, timeSettingsButton);
         if (resizeCount >= INITIAL_RESIZE_COUNT && timeSettingsButton.isSelected()) {
-            Main.forceSize(new Dimension(getWidth()/5, getHeight()/10), timeSettingsPanel);
+            Main.forceSize(timeSettingsPanelMaxSize, timeSettingsPanel);
         }
         startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
         timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight() / 30, (float) getWidth() / 55)));
@@ -73,12 +74,11 @@ public class StartMenu extends JPanel { // Weird lag?
         // Create time setting button
         timeSettingsButton = new JToggleButton("Time Settings");
         timeSettingsButton.addItemListener(itemEvent -> { // HARD CARRIED BY TANVIR LIKE FOR REAL THIS TIME
-            int timeSettingsPanelMaxHeight = main.getHeight()/10;
             int width = main.getWidth()/5;
 
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) { // increase size of panel
                 new Thread(() -> {
-                    while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxHeight) {
+                    while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxSize.height) {
                         Main.forceSize(new Dimension(width, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10 + 1), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
 
