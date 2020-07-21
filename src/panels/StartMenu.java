@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class StartMenu extends JPanel { // Weird lag?
     private int startMinutes, startSeconds, timeIncrement;
@@ -26,6 +28,7 @@ public class StartMenu extends JPanel { // Weird lag?
                         case 2: // middle rigid body
                             Main.forceSize(new Dimension(getWidth(), getHeight()/20), getComponent(i));
                             break;
+
                         default: // buttons
                             getComponent(i).setFont(getComponent(i).getFont().deriveFont((float) Math.min(getHeight()/30, getWidth()/55)));
                             Main.forceSize(new Dimension(getWidth()/6, getHeight()/15), getComponent(i));
@@ -49,27 +52,69 @@ public class StartMenu extends JPanel { // Weird lag?
             main.getGame().start(startMinutes, startSeconds, timeIncrement);
         });
 
-        // Create time setting button
-        JButton timeSettings = new JButton("TimeSettings");
-        timeSettings.addActionListener( ae -> {
+        startButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
+        startButton.setFocusable(false);
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Create time setting panel
+        JPanel timeSettingsPanel = new JPanel();
+        Main.forceSize(new Dimension(getWidth()/6, 0), timeSettingsPanel);
+        timeSettingsPanel.setFocusable(false);
+        timeSettingsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        timeSettingsPanel.updateUI();
+
+        // Create time setting button
+        JToggleButton timeSettingsButton = new JToggleButton("Time Settings");
+        timeSettingsButton.addItemListener(itemEvent -> { // HARD CARRIED BY TANVIR LIKE FOR REAL THIS TIME
+            int timeSettingsPanelMaxHeight = main.getHeight()/10;
+
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) { // increase size of panel
+                new Thread(() -> {
+                    updateUI();
+
+                    while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxHeight) {
+                        if (timeSettingsPanel.getHeight() == 0) {
+                            Main.forceSize(new Dimension(main.getWidth() / 6, 1));
+                        } else {
+                            Main.forceSize(new Dimension(main.getWidth() / 6, timeSettingsPanel.getHeight() * 11 / 10));
+                        }
+                        timeSettingsPanel.updateUI();
+                    }
+
+                    try {
+                        Thread.sleep(5);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            } else if (itemEvent.getStateChange() == ItemEvent.DESELECTED) { // decrease size of panel
+                new Thread(() -> {
+                    while (timeSettingsPanel.getHeight() > 0) {
+                        Main.forceSize(new Dimension(main.getWidth()/6, timeSettingsPanel.getHeight()*9/10));
+                        timeSettingsPanel.updateUI();
+                    }
+
+                    try {
+                        Thread.sleep(5);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
         });
+
+        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
+        timeSettingsButton.setFocusable(false);
+        timeSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/15), startButton, timeSettingsButton);
 
         // Add buttons
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/3)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/20)));
-        add(timeSettings);
-
-        for (int i=0; i<getComponentCount(); i++) {
-            if (!(getComponent(i) instanceof JButton)) continue;
-
-            Main.forceSize(new Dimension(main.getWidth()/6, main.getHeight()/15), getComponent(i));
-            getComponent(i).setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/30, (float) getWidth()/55)));
-
-            ((JButton) getComponent(i)).setAlignmentX(Component.CENTER_ALIGNMENT);
-            getComponent(i).setFocusable(false);
-        }
+        add(timeSettingsButton);
+        add(timeSettingsPanel);
 
     }
 
