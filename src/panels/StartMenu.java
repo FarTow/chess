@@ -76,14 +76,14 @@ public class StartMenu extends JPanel { // Weird lag?
                 new Thread(() -> {
                     while (timeSettingsPanel.getHeight() < timeSettingsPanelMaxHeight) {
                         System.out.println("Start " + timeSettingsPanel.getWidth() + ", " + timeSettingsPanel.getHeight());
-                        Main.forceSize(new Dimension(main.getWidth() / 6, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10), timeSettingsPanel);
+                        Main.forceSize(new Dimension(main.getWidth() / 6, timeSettingsPanel.getHeight() + timeSettingsPanel.getHeight()/10 + 1), timeSettingsPanel);
                         timeSettingsPanel.updateUI();
 
                         System.out.println("End " + timeSettingsPanel.getWidth() + ", " + timeSettingsPanel.getHeight());
                     }
 
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(50);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -96,7 +96,7 @@ public class StartMenu extends JPanel { // Weird lag?
                     }
 
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(50);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
