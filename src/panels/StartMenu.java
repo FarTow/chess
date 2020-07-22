@@ -123,5 +123,4 @@ public class StartMenu extends JPanel { // Weird lag?
         add(timeSettingsButton);
         add(timeSettings);
     }
-
 }
