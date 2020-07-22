@@ -17,7 +17,7 @@ public class Player {
 
     private boolean firstTurn; // Time
     private boolean runTimer;
-    private int minutesLeft, secondsLeft, timeIncrement;
+    private int minutesLeft, secondsLeft, increment;
 
     // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate, timeOut;
@@ -35,11 +35,11 @@ public class Player {
         timeOut = false;
 
         if (board.getStartMinutes() <= 0 && board.getStartSeconds() <= 0) {
-            minutesLeft = secondsLeft = timeIncrement = -1;
+            minutesLeft = secondsLeft = increment = -1;
         } else {
             minutesLeft = board.getStartMinutes();
             secondsLeft = board.getStartSeconds();
-            timeIncrement = board.getTimeIncrement();
+            increment = board.getIncrement();
 
             ActionListener timerCountDown = ae -> {
                 if (!runTimer) return;
@@ -328,7 +328,7 @@ public class Player {
     public int[] getPieceCount() { return pieceCount; }
     public int getMinutesLeft() { return minutesLeft; }
     public int getSecondsLeft() { return secondsLeft; }
-    public int getTimeIncrement() { return timeIncrement; }
+    public int getIncrement() { return increment; }
     public Player getEnemyPlayer() { return enemyPlayer; }
     public boolean isKingInCheck() {
         int checkCount = 0;

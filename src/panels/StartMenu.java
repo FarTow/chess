@@ -13,11 +13,11 @@ public class StartMenu extends JPanel { // Weird lag?
     private JToggleButton timeSettingsButton;
     private TimeSettings timeSettings;
 
-    private int startMinutes, startSeconds, timeIncrement;
+    private int startMinutes, startSeconds, increment;
     private int resizeCount; // absolutely hate this.
 
     public StartMenu() {
-        startMinutes = startSeconds = timeIncrement = 0;
+        startMinutes = startSeconds = increment = 0;
 
         buttonSize = new Dimension(0, 0);
         timeSettingsPanelMaxSize = new Dimension(0, 0);
@@ -67,7 +67,7 @@ public class StartMenu extends JPanel { // Weird lag?
         startButton = new JButton("Start");
         startButton.addActionListener(ae -> {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
-            main.getGame().start(startMinutes, startSeconds, timeIncrement);
+            main.getGame().start(startMinutes, startSeconds, increment);
         });
 
         startButton.setFocusable(false);
@@ -116,7 +116,7 @@ public class StartMenu extends JPanel { // Weird lag?
         timeSettingsButton.setFocusable(false);
         timeSettingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Add componenets
+        // Add components
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/3)));
         add(startButton);
         add(Box.createRigidArea(new Dimension(main.getWidth(), main.getHeight()/20)));

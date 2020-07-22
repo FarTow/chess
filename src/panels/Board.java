@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private int startMinutes, startSeconds, timeIncrement;
+    private int startMinutes, startSeconds, increment;
 
     // Players
     private final Player whitePlayer;
@@ -33,13 +33,13 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int castlingStatus;
     private char pawnPromotionStatus;
 
-    public Board(int startMinutes, int startSeconds, int timeIncrement) {
+    public Board(int startMinutes, int startSeconds, int increment) {
         setOpaque(false);
 
         // Properties
         this.startMinutes = startMinutes;
         this.startSeconds = startSeconds;
-        this.timeIncrement = timeIncrement;
+        this.increment = increment;
 
         grid = new Square[8][8];
         topLeft = new Point(0, 0);
@@ -319,7 +319,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             currentPlayer.setFirstTurn(false);
         } else {
             currentPlayer.shouldRunTimer(false);
-            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+timeIncrement);
+            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+increment);
         }
 
         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
@@ -436,7 +436,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     public int getStartMinutes() { return startMinutes; } // Time Getters
     public int getStartSeconds() { return startSeconds; }
-    public int getTimeIncrement() { return timeIncrement; }
+    public int getIncrement() { return increment; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }

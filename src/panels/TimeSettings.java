@@ -9,11 +9,16 @@ import java.awt.event.ActionListener;
 
 public class TimeSettings extends JPanel implements ActionListener {
     private StartMenu startMenu;
+    private JTextField minuteInput, secondInput, increment;
 
     public TimeSettings(StartMenu startMenu) {
         this.startMenu = startMenu;
 
         initUI();
+    }
+
+    public void resize() {
+        Main.forceSize(new Dimension());
     }
 
     protected void initUI() {
@@ -23,6 +28,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         JTextField timeSettingsOptions = new JTextField();
         timeSettingsOptions.addActionListener(this);
+        Main.forceSize(new Dimension());
 
         add(timeSettingsOptions);
     }

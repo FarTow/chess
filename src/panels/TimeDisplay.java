@@ -36,7 +36,7 @@ public class TimeDisplay extends JPanel {
             incrementString = null;
         } else {
             timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
-            incrementString = "+" + player.getTimeIncrement();
+            incrementString = "+" + player.getIncrement();
         }
 
         // Draw time
