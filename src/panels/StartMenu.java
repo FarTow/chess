@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class StartMenu extends JPanel { // Weird lag?
     private final Dimension buttonSize, timeSettingsPanelMaxSize;
-    private float buttonFontSize;
+    private float buttonFontHeight;
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
@@ -45,18 +45,18 @@ public class StartMenu extends JPanel { // Weird lag?
         timeSettingsPanelMaxSize.width = getWidth()/5;
         timeSettingsPanelMaxSize.height = getHeight()/8;
 
-        buttonFontSize = Math.min((float) getHeight() / 30, (float) getWidth() / 55);
+        buttonFontHeight = Math.min((float) getHeight() / 30, (float) getWidth() / 55);
     }
     protected void resize() {
         setSizes();
+
+        startButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontHeight));
+        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontHeight));
 
         Main.forceSize(buttonSize, startButton, timeSettingsButton);
         if (resizeCount >= 2 && timeSettingsButton.isSelected()) {
             Main.forceSize(timeSettingsPanelMaxSize, timeSettings);
         }
-
-        startButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontSize));
-        timeSettingsButton.setFont(Main.MULISH_LIGHT.deriveFont(buttonFontSize));
     }
 
     protected void initUI(Main main) {
@@ -123,4 +123,13 @@ public class StartMenu extends JPanel { // Weird lag?
         add(timeSettingsButton);
         add(timeSettings);
     }
+
+    public void setStartMinutes(int startMinutes) { this.startMinutes = startMinutes; }
+    public void setStartSeconds(int startSeconds) { this.startSeconds = startSeconds; }
+    public void setIncrement(int increment) { this.increment = increment; }
+
+    public int getStartMinutes() { return startMinutes; }
+    public int getStartSeconds() { return startSeconds; }
+    public int getIncrement() { return increment; }
+
 }

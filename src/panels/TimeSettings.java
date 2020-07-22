@@ -10,20 +10,41 @@ import java.awt.event.ActionListener;
 public class TimeSettings extends JPanel implements ActionListener {
     private StartMenu startMenu;
 
+    private JLabel minuteLabel, secondLabel, incrementLabel;
     private JTextField minuteInput, secondInput, incrementInput;
-    private final Dimension inputSize;
+
+    private final Dimension inputSize, labelSize;
 
     public TimeSettings(StartMenu startMenu) {
         this.startMenu = startMenu;
 
+        labelSize = new Dimension(0, 0);
         inputSize = new Dimension(0, 0);
 
         initUI();
     }
 
-    public void resize() {
+    protected void setSizes() {
+        labelSize.width = getWidth()*4/5;
+        labelSize.height = getHeight()/4;
+
         inputSize.width = getWidth()/5;
         inputSize.height = getHeight()/4;
+    }
+
+    protected void setFonts() { // can probably be replaced with for loop
+        float fontHeight = labelSize.height*2/3f;
+
+        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+    }
+
+    public void resize() {
+        setSizes();
+        setFonts();
+
+        Main.forceSize(labelSize, minuteLabel, secondLabel, incrementLabel);
         Main.forceSize(inputSize, minuteInput, secondInput, incrementInput);
 
         updateUI();
@@ -31,9 +52,20 @@ public class TimeSettings extends JPanel implements ActionListener {
 
     protected void initUI() {
         // Initial settings
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
         setFocusable(false);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+
+        // Create labels
+        minuteLabel = new JLabel("Starting Minutes: ");
+        secondLabel = new JLabel("Starting Seconds: ");
+        incrementLabel = new JLabel("Increment: ");
+
+        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
 
         // Create text fields
         minuteInput = new JTextField();
@@ -50,10 +82,42 @@ public class TimeSettings extends JPanel implements ActionListener {
         secondInput.addActionListener(this);
         incrementInput.addActionListener(this);
 
-        // Add text fields to panel
-        add(minuteInput);
-        add(secondInput);
-        add(incrementInput);
+        // Add all components to panel
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                0, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(minuteLabel);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                1, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(minuteInput, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                0, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(secondLabel, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                1, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(secondInput, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                0, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(incrementLabel, c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
+                1, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(incrementInput, c);
 
         // Start timer after initializing UI
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
@@ -65,7 +129,9 @@ public class TimeSettings extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        resize();
+        resize(); // make efficient
+        setFonts();
+
         repaint();
     }
 }
