@@ -6,6 +6,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TimeSettings extends JPanel implements ActionListener {
     private StartMenu startMenu;
@@ -58,15 +60,6 @@ public class TimeSettings extends JPanel implements ActionListener {
         setFocusable(false);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-        // Create labels
-        minuteLabel = new JLabel("Starting Minutes: ");
-        secondLabel = new JLabel("Starting Seconds: ");
-        incrementLabel = new JLabel("Increment: ");
-
-        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
-        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
-        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
-
         // Create text fields
         minuteInput = new JTextField();
         secondInput = new JTextField();
@@ -77,10 +70,45 @@ public class TimeSettings extends JPanel implements ActionListener {
         secondInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
         incrementInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
+        // Add keyListener to inputs to only accept integers
+
+        /*
+        minuteInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                super.keyPressed(ke);
+
+                minuteInput.setEditable(Character.isDigit(ke.getKeyChar()));
+            }
+        });
+        secondInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                super.keyPressed(ke);
+
+                secondInput.setEditable(Character.isDigit(ke.getKeyChar()));
+            }
+        });
+        incrementInput.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                super.keyPressed(ke);
+
+                incrementInput.setEditable(Character.isDigit(ke.getKeyChar()));
+            }
+        });
+         */
+
         // Add this as the actionListener
         minuteInput.addActionListener(this);
         secondInput.addActionListener(this);
         incrementInput.addActionListener(this);
+
+        // Create labels
+        minuteLabel = new JLabel("Starting Minutes: ");
+        secondLabel = new JLabel("Starting Seconds: ");
+        incrementLabel = new JLabel("Increment: ");
+
+        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
 
         // Add all components to panel
         Main.setGridBagLayoutConstraints(
@@ -132,6 +160,11 @@ public class TimeSettings extends JPanel implements ActionListener {
         resize(); // make efficient
         setFonts();
 
+        //startMenu.setStartMinutes(Integer.parseInt(minuteInput.getText()));
+        //startMenu.setStartSeconds(Integer.parseInt(secondInput.getText()));
+        //startMenu.setIncrement(Integer.parseInt(incrementInput.getText()));
+
         repaint();
     }
+
 }
