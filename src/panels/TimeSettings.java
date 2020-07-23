@@ -12,13 +12,15 @@ import java.awt.event.KeyEvent;
 public class TimeSettings extends JPanel implements ActionListener {
     private StartMenu startMenu;
 
-    private JLabel minuteLabel, secondLabel, incrementLabel; // convert to array possibly
-    private JTextField minuteInput, secondInput, incrementInput;
+    private final JLabel[] inputLabels;
+    private final JTextField[] inputFields;
 
     private final Dimension inputSize, labelSize;
 
     public TimeSettings(StartMenu startMenu) {
         this.startMenu = startMenu;
+        inputLabels = new JLabel[3];
+        inputFields = new JTextField[3];
 
         labelSize = new Dimension(0, 0);
         inputSize = new Dimension(0, 0);
@@ -36,27 +38,32 @@ public class TimeSettings extends JPanel implements ActionListener {
     protected void setFonts() { // can probably be replaced with for loop
         float fontHeight = labelSize.height*2/3f;
 
-        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
-        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
-        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        for (JLabel label : inputLabels) {
+            label.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        }
     }
 
     public void resize() {
         setSizes();
         setFonts();
 
-        Main.forceSize(labelSize, minuteLabel, secondLabel, incrementLabel);
-        Main.forceSize(inputSize, minuteInput, secondInput, incrementInput);
+        for (JLabel label : inputLabels) {
+            Main.forceSize(labelSize, label);
+        }
+
+        for (JTextField textField : inputFields) {
+            Main.forceSize(inputSize, textField);
+        }
 
         updateUI();
     }
 
-    protected void boundKeyInputs(JTextField field) {
-        field.addKeyListener(new KeyAdapter() {
+    protected void boundKeyInputs(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {
                 super.keyPressed(ke);
 
-                field.setEditable(Character.isDigit(ke.getKeyChar()) || ke.getKeyChar() == KeyEvent.VK_BACK_SPACE);
+                textField.setEditable(Character.isDigit(ke.getKeyChar()) || ke.getKeyChar() == KeyEvent.VK_BACK_SPACE);
             }
         });
     }
@@ -69,71 +76,67 @@ public class TimeSettings extends JPanel implements ActionListener {
         setFocusable(false);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
-        // Create text fields
-        minuteInput = new JTextField();
-        secondInput = new JTextField();
-        incrementInput = new JTextField();
+        // Create and initialize text fields
+        for (int i=0; i<inputFields.length; i++) {
+            inputFields[i] = new JTextField();
+            inputFields[i].setAlignmentX(Component.RIGHT_ALIGNMENT);
+            boundKeyInputs(inputFields[i]);
+            inputFields[i].addActionListener(this);
+        }
 
-        // Set alignment
-        minuteInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        secondInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        incrementInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        // Create and initialize labels
+        for (int i=0; i<inputLabels.length; i++) {
+            switch(i) {
+                case 0:
+                    inputLabels[i] = new JLabel("Starting Minutes: ");
+                    break;
+                case 1:
+                    inputLabels[i] = new JLabel("Starting Seconds: ");
+                    break;
+                case 2:
+                    inputLabels[i] = new JLabel("Increments: ");
+                    break;
+            }
 
-        // Add keyListener to inputs to only accept integers
-        boundKeyInputs(minuteInput);
-        boundKeyInputs(secondInput);
-        boundKeyInputs(incrementInput);
-
-        // Add this as the actionListener
-        minuteInput.addActionListener(this);
-        secondInput.addActionListener(this);
-        incrementInput.addActionListener(this);
-
-        // Create labels
-        minuteLabel = new JLabel("Starting Minutes: ");
-        secondLabel = new JLabel("Starting Seconds: ");
-        incrementLabel = new JLabel("Increment: ");
-
-        minuteLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
-        secondLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
-        incrementLabel.setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+            inputLabels[i].setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+        }
 
         // Add all components to panel
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 0, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(minuteLabel);
+        add(inputLabels[0], c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 1, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(minuteInput, c);
+        add(inputFields[0], c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 0, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(secondLabel, c);
+        add(inputLabels[1], c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 1, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(secondInput, c);
+        add(inputFields[1], c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 0, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(incrementLabel, c);
+        add(inputLabels[2], c);
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
                 1, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
-        add(incrementInput, c);
+        add(inputFields[2], c);
 
         // Start timer after initializing UI
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
@@ -148,14 +151,32 @@ public class TimeSettings extends JPanel implements ActionListener {
         resize(); // make efficient
         setFonts();
 
-        try {
-            startMenu.setStartMinutes(Integer.parseInt(minuteInput.getText()));
-            startMenu.setStartSeconds(Integer.parseInt(secondInput.getText()));
-            startMenu.setIncrement(Integer.parseInt(incrementInput.getText()));
-        } catch (NumberFormatException e) {
-            if(minuteInput.getText().equals("")) startMenu.setStartMinutes(0);
-            if(secondInput.getText().equals("")) startMenu.setStartSeconds(0);
-            if(incrementInput.getText().equals("")) startMenu.setIncrement(0);
+        for (int i=0; i<inputFields.length; i++) {
+            try {
+                switch (i) {
+                    case 0:
+                        startMenu.setStartMinutes(Integer.parseInt(inputFields[i].getText()));
+                        break;
+                    case 1:
+                        startMenu.setStartSeconds(Integer.parseInt(inputFields[i].getText()));
+                        break;
+                    case 2:
+                        startMenu.setIncrement(Integer.parseInt(inputFields[i].getText()));
+                        break;
+                }
+            } catch(NumberFormatException e) {
+                switch (i) {
+                    case 0:
+                        if (inputFields[i].getText().equals("")) startMenu.setStartMinutes(0);
+                        break;
+                    case 1:
+                        if (inputFields[i].getText().equals("")) startMenu.setStartSeconds(0);
+                        break;
+                    case 2:
+                        if (inputFields[i].getText().equals("")) startMenu.setIncrement(0);
+                        break;
+                }
+            }
         }
 
         repaint();
