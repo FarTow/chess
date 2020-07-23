@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 public class TimeSettings extends JPanel implements ActionListener {
     private StartMenu startMenu;
 
-    private JLabel minuteLabel, secondLabel, incrementLabel;
+    private JLabel minuteLabel, secondLabel, incrementLabel; // convert to array possibly
     private JTextField minuteInput, secondInput, incrementInput;
 
     private final Dimension inputSize, labelSize;
@@ -33,7 +33,6 @@ public class TimeSettings extends JPanel implements ActionListener {
         inputSize.width = getWidth()/5;
         inputSize.height = getHeight()/4;
     }
-
     protected void setFonts() { // can probably be replaced with for loop
         float fontHeight = labelSize.height*2/3f;
 
@@ -50,6 +49,16 @@ public class TimeSettings extends JPanel implements ActionListener {
         Main.forceSize(inputSize, minuteInput, secondInput, incrementInput);
 
         updateUI();
+    }
+
+    protected void boundKeyInputs(JTextField field) {
+        field.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                super.keyPressed(ke);
+
+                field.setEditable(Character.isDigit(ke.getKeyChar()) || ke.getKeyChar() == KeyEvent.VK_BACK_SPACE);
+            }
+        });
     }
 
     protected void initUI() {
@@ -71,30 +80,9 @@ public class TimeSettings extends JPanel implements ActionListener {
         incrementInput.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         // Add keyListener to inputs to only accept integers
-
-        /*
-        minuteInput.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                super.keyPressed(ke);
-
-                minuteInput.setEditable(Character.isDigit(ke.getKeyChar()));
-            }
-        });
-        secondInput.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                super.keyPressed(ke);
-
-                secondInput.setEditable(Character.isDigit(ke.getKeyChar()));
-            }
-        });
-        incrementInput.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                super.keyPressed(ke);
-
-                incrementInput.setEditable(Character.isDigit(ke.getKeyChar()));
-            }
-        });
-         */
+        boundKeyInputs(minuteInput);
+        boundKeyInputs(secondInput);
+        boundKeyInputs(incrementInput);
 
         // Add this as the actionListener
         minuteInput.addActionListener(this);
@@ -160,9 +148,15 @@ public class TimeSettings extends JPanel implements ActionListener {
         resize(); // make efficient
         setFonts();
 
-        //startMenu.setStartMinutes(Integer.parseInt(minuteInput.getText()));
-        //startMenu.setStartSeconds(Integer.parseInt(secondInput.getText()));
-        //startMenu.setIncrement(Integer.parseInt(incrementInput.getText()));
+        try {
+            startMenu.setStartMinutes(Integer.parseInt(minuteInput.getText()));
+            startMenu.setStartSeconds(Integer.parseInt(secondInput.getText()));
+            startMenu.setIncrement(Integer.parseInt(incrementInput.getText()));
+        } catch (NumberFormatException e) {
+            if(minuteInput.getText().equals("")) startMenu.setStartMinutes(0);
+            if(secondInput.getText().equals("")) startMenu.setStartSeconds(0);
+            if(incrementInput.getText().equals("")) startMenu.setIncrement(0);
+        }
 
         repaint();
     }
