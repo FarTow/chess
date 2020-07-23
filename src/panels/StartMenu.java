@@ -13,7 +13,7 @@ public class StartMenu extends JPanel { // Weird lag?
     private JToggleButton timeSettingsButton;
     private final TimeSettings timeSettings;
 
-    private int[] timeProperties;
+    private final int[] timeProperties;
     private int resizeCount; // absolutely hate this.
 
     public StartMenu() {

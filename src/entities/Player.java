@@ -22,7 +22,7 @@ public class Player {
 
     private boolean firstTurn; // Time
     private boolean runTimer;
-    private int[] timeProperties;
+    private final int[] timeProperties;
 
     // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate, timeOut;

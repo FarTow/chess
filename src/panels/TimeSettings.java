@@ -10,7 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class TimeSettings extends JPanel implements ActionListener {
-    private StartMenu startMenu;
+    private final StartMenu startMenu;
 
     private final JLabel[] inputLabels;
     private final JTextField[] inputFields;

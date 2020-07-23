@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private int[] timeProperties;
+    private final int[] timeProperties;
 
     // Players
     private final Player whitePlayer;
