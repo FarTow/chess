@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Player {
+    public static final int MINUTES_INDEX = 0;
+    public static final int SECONDS_INDEX = 1;
+    public static final int INCREMENT_INDEX = 2;
+
     private final Board board;
 
     // Personal Properties ("Human")
@@ -36,21 +40,21 @@ public class Player {
         allMoves = new ArrayList<>();
         timeOut = false;
 
-        if (timeProperties[0] <= 0 && timeProperties[1] <= 0) {
+        if (timeProperties[MINUTES_INDEX] <= 0 && timeProperties[SECONDS_INDEX] <= 0) {
             Arrays.fill(timeProperties, -1);
         } else {
             ActionListener timerCountDown = ae -> {
                 if (!runTimer) return;
 
-                if (timeProperties[0] == 0 && timeProperties[1] == 0) {
+                if (timeProperties[MINUTES_INDEX] == 0 && timeProperties[SECONDS_INDEX] == 0) {
                     timeOut = true;
                     return;
                 }
-                if (timeProperties[1] == 0) {
-                    timeProperties[0]--;
-                    timeProperties[1] = 59;
+                if (timeProperties[SECONDS_INDEX] == 0) {
+                    timeProperties[MINUTES_INDEX]--;
+                    timeProperties[SECONDS_INDEX] = 59;
                 } else {
-                    timeProperties[0]--;
+                    timeProperties[MINUTES_INDEX]--;
                 }
             };
 
@@ -298,9 +302,9 @@ public class Player {
 
     // Misc
     public void formatTime() {
-        if (timeProperties[1] >= 60) {
-            timeProperties[0]++;
-            timeProperties[1] -= 60;
+        if (timeProperties[SECONDS_INDEX] >= 60) {
+            timeProperties[MINUTES_INDEX]++;
+            timeProperties[SECONDS_INDEX] -= 60;
         }
     }
     public void scalePieceImages(int newSize) {

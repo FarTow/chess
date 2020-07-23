@@ -316,7 +316,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             currentPlayer.setFirstTurn(false);
         } else {
             currentPlayer.shouldRunTimer(false);
-            currentPlayer.setTimeProperty(1, currentPlayer.getTimeProperty(1)+timeProperties[2]);
+            currentPlayer.setTimeProperty(Player.SECONDS_INDEX, currentPlayer.getTimeProperty(Player.SECONDS_INDEX)+timeProperties[Player.INCREMENT_INDEX]);
         }
 
         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
