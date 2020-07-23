@@ -153,29 +153,9 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         for (int i=0; i<inputFields.length; i++) {
             try {
-                switch (i) {
-                    case 0:
-                        startMenu.setStartMinutes(Integer.parseInt(inputFields[i].getText()));
-                        break;
-                    case 1:
-                        startMenu.setStartSeconds(Integer.parseInt(inputFields[i].getText()));
-                        break;
-                    case 2:
-                        startMenu.setIncrement(Integer.parseInt(inputFields[i].getText()));
-                        break;
-                }
+                startMenu.setTimeProperty(i, Integer.parseInt(inputFields[i].getText()));
             } catch(NumberFormatException e) {
-                switch (i) {
-                    case 0:
-                        if (inputFields[i].getText().equals("")) startMenu.setStartMinutes(0);
-                        break;
-                    case 1:
-                        if (inputFields[i].getText().equals("")) startMenu.setStartSeconds(0);
-                        break;
-                    case 2:
-                        if (inputFields[i].getText().equals("")) startMenu.setIncrement(0);
-                        break;
-                }
+                if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, 0);
             }
         }
 

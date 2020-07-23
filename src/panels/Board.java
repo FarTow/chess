@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int squareLength;
     private boolean initialCenter;
 
-    private int startMinutes, startSeconds, increment;
+    private int[] timeProperties;
 
     // Players
     private final Player whitePlayer;
@@ -33,14 +33,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private int castlingStatus;
     private char pawnPromotionStatus;
 
-    public Board(int startMinutes, int startSeconds, int increment) {
+    public Board(int[] timeProperties) {
         setOpaque(false);
 
         // Properties
-        this.startMinutes = startMinutes;
-        this.startSeconds = startSeconds;
-        this.increment = increment;
-
+        this.timeProperties = timeProperties.clone();
         grid = new Square[8][8];
         topLeft = new Point(0, 0);
         bottomRight = new Point(squareLength*8, squareLength*8);
@@ -319,7 +316,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             currentPlayer.setFirstTurn(false);
         } else {
             currentPlayer.shouldRunTimer(false);
-            currentPlayer.setSecondsLeft(currentPlayer.getSecondsLeft()+increment);
+            currentPlayer.setTimeProperty(1, currentPlayer.getTimeProperty(1)+timeProperties[2]);
         }
 
         currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
@@ -434,9 +431,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
     public void mouseMoved(MouseEvent me) {}
 
-    public int getStartMinutes() { return startMinutes; } // Time Getters
-    public int getStartSeconds() { return startSeconds; }
-    public int getIncrement() { return increment; }
+    public int[] getTimeProperties() { return timeProperties; } // Time Getters
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }

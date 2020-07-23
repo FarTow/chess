@@ -11,13 +11,13 @@ public class StartMenu extends JPanel { // Weird lag?
 
     private JButton startButton;
     private JToggleButton timeSettingsButton;
-    private TimeSettings timeSettings;
+    private final TimeSettings timeSettings;
 
-    private int startMinutes, startSeconds, increment;
+    private int[] timeProperties;
     private int resizeCount; // absolutely hate this.
 
     public StartMenu() {
-        startMinutes = startSeconds = increment = 0;
+        timeProperties = new int[] {0, 0, 0};
 
         buttonSize = new Dimension(0, 0);
         timeSettingsPanelMaxSize = new Dimension(0, 0);
@@ -67,7 +67,7 @@ public class StartMenu extends JPanel { // Weird lag?
         startButton = new JButton("Start");
         startButton.addActionListener(ae -> {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
-            main.getGame().start(startMinutes, startSeconds, increment);
+            main.getGame().start(timeProperties);
         });
 
         startButton.setFocusable(false);
@@ -124,12 +124,7 @@ public class StartMenu extends JPanel { // Weird lag?
         add(timeSettings);
     }
 
-    public void setStartMinutes(int startMinutes) { this.startMinutes = startMinutes; }
-    public void setStartSeconds(int startSeconds) { this.startSeconds = startSeconds; }
-    public void setIncrement(int increment) { this.increment = increment; }
+    public void setTimeProperty(int index, int value) { timeProperties[index] = value; }
 
-    public int getStartMinutes() { return startMinutes; }
-    public int getStartSeconds() { return startSeconds; }
-    public int getIncrement() { return increment; }
-
+    public int getTimeProperty(int index) { return timeProperties[index]; }
 }

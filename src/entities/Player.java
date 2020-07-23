@@ -5,6 +5,7 @@ import panels.Board;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
     private final Board board;
@@ -17,7 +18,7 @@ public class Player {
 
     private boolean firstTurn; // Time
     private boolean runTimer;
-    private int minutesLeft, secondsLeft, increment;
+    private int[] timeProperties;
 
     // Interactive Properties (Win Conditions)
     private boolean inCheck, inCheckmate, inStalemate, timeOut;
@@ -29,30 +30,27 @@ public class Player {
         this.isWhite = isWhite;
         this.board = board;
 
+        timeProperties = board.getTimeProperties();
         firstTurn = true;
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
         timeOut = false;
 
-        if (board.getStartMinutes() <= 0 && board.getStartSeconds() <= 0) {
-            minutesLeft = secondsLeft = increment = -1;
+        if (timeProperties[0] <= 0 && timeProperties[1] <= 0) {
+            Arrays.fill(timeProperties, -1);
         } else {
-            minutesLeft = board.getStartMinutes();
-            secondsLeft = board.getStartSeconds();
-            increment = board.getIncrement();
-
             ActionListener timerCountDown = ae -> {
                 if (!runTimer) return;
 
-                if (minutesLeft == 0 && secondsLeft == 0) {
+                if (timeProperties[0] == 0 && timeProperties[1] == 0) {
                     timeOut = true;
                     return;
                 }
-                if (secondsLeft == 0) {
-                    minutesLeft--;
-                    secondsLeft = 59;
+                if (timeProperties[1] == 0) {
+                    timeProperties[0]--;
+                    timeProperties[1] = 59;
                 } else {
-                    secondsLeft--;
+                    timeProperties[0]--;
                 }
             };
 
@@ -300,9 +298,9 @@ public class Player {
 
     // Misc
     public void formatTime() {
-        if (secondsLeft >= 60) {
-            minutesLeft++;
-            secondsLeft -= 60;
+        if (timeProperties[1] >= 60) {
+            timeProperties[0]++;
+            timeProperties[1] -= 60;
         }
     }
     public void scalePieceImages(int newSize) {
@@ -311,11 +309,12 @@ public class Player {
         }
     }
 
+    public void setTimeProperty(int index, int value) { timeProperties[index] = value; }
     public void setFirstTurn(boolean firstTurn) { this.firstTurn = firstTurn; }
     public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
-    public void setSecondsLeft(int secondsLeft) { this.secondsLeft = secondsLeft; }
     public void shouldRunTimer(boolean runTimer) { this.runTimer = runTimer; }
 
+    public int getTimeProperty(int index) { return timeProperties[index]; }
     protected King getKing() {
         for (Piece piece : pieces) {
             if (piece instanceof King) return (King) piece;
@@ -326,9 +325,6 @@ public class Player {
     public boolean getFirstTurn() { return firstTurn; }
     public ArrayList<Piece> getPieces() { return pieces; }
     public int[] getPieceCount() { return pieceCount; }
-    public int getMinutesLeft() { return minutesLeft; }
-    public int getSecondsLeft() { return secondsLeft; }
-    public int getIncrement() { return increment; }
     public Player getEnemyPlayer() { return enemyPlayer; }
     public boolean isKingInCheck() {
         int checkCount = 0;

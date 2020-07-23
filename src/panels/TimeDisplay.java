@@ -31,12 +31,12 @@ public class TimeDisplay extends JPanel {
         String timeLeftString;
         String incrementString;
 
-        if (player.getMinutesLeft() == -1 && player.getSecondsLeft() == -1) {
+        if (player.getTimeProperty(0) == -1 && player.getTimeProperty(1) == -1) {
             timeLeftString = "--:--";
             incrementString = null;
         } else {
-            timeLeftString = player.getMinutesLeft() + ":" + (player.getSecondsLeft() < 10 ? "0" : "") + player.getSecondsLeft();
-            incrementString = "+" + player.getIncrement();
+            timeLeftString = player.getTimeProperty(0) + ":" + (player.getTimeProperty(1) < 10 ? "0" : "") + player.getTimeProperty(1);
+            incrementString = "+" + player.getTimeProperty(2);
         }
 
         // Draw time
