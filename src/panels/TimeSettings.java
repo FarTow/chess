@@ -94,7 +94,7 @@ public class TimeSettings extends JPanel implements ActionListener {
                     inputLabels[i] = new JLabel("Starting Seconds: ");
                     break;
                 case 2:
-                    inputLabels[i] = new JLabel("Increments: ");
+                    inputLabels[i] = new JLabel("Increment: ");
                     break;
             }
 
