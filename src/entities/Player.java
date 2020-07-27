@@ -54,7 +54,7 @@ public class Player {
                     timeProperties[MINUTES_INDEX]--;
                     timeProperties[SECONDS_INDEX] = 59;
                 } else {
-                    timeProperties[MINUTES_INDEX]--;
+                    timeProperties[SECONDS_INDEX]--;
                 }
             };
 
