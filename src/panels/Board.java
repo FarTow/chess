@@ -15,6 +15,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean initialCenter;
 
     private final int[] timeProperties;
+    private boolean timedGame;
 
     // Players
     private final Player whitePlayer;
@@ -45,6 +46,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         pawnPromotionStatus = ' ';
         turnCount = 0;
         whiteTurn = true;
+
+        timedGame = timeProperties[Player.MINUTES_INDEX] != -1 && timeProperties[Player.SECONDS_INDEX] != -1;
 
         for (int row=0; row<grid.length; row++) { // initialize empty grid
             for (int column=0; column<grid[row].length; column++) {
@@ -312,20 +315,25 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
     protected void swapPlayer() {
-        if (currentPlayer.getFirstTurn()) {
-            currentPlayer.setFirstTurn(false);
+        if (timedGame) {
+            if (currentPlayer.getFirstTurn()) {
+                currentPlayer.setFirstTurn(false);
+            } else {
+                currentPlayer.setTimeProperty(Player.SECONDS_INDEX, currentPlayer.getTimeProperty(Player.SECONDS_INDEX) + timeProperties[Player.INCREMENT_INDEX]); // update increment
+            }
+
+            currentPlayer.shouldRunTimer(false); // stop running the player
+            currentPlayer = whiteTurn ? whitePlayer : blackPlayer; // swap players
+            currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
+
+            if (!currentPlayer.getFirstTurn())
+                currentPlayer.shouldRunTimer(true); // start timer if it's the current player's turn
         } else {
-            currentPlayer.shouldRunTimer(false);
-            currentPlayer.setTimeProperty(Player.SECONDS_INDEX, currentPlayer.getTimeProperty(Player.SECONDS_INDEX)+timeProperties[Player.INCREMENT_INDEX]);
-        }
-
-        currentPlayer = whiteTurn ? whitePlayer : blackPlayer;
-        currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
-
-        if (!currentPlayer.getFirstTurn()) {
-            currentPlayer.shouldRunTimer(true);
+            currentPlayer = whiteTurn ? whitePlayer : blackPlayer; // swap players
+            currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
         }
     }
+
 
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.getRow();
@@ -432,6 +440,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public void mouseMoved(MouseEvent me) {}
 
     public int[] getTimeProperties() { return timeProperties; } // Time Getters
+    public boolean isTimedGame() { return timedGame; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public Point getOldSquareCords() { return oldSquareCords; }
     public Point getNewSquareCords() { return newSquareCords; }

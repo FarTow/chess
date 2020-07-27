@@ -34,27 +34,26 @@ public class Player {
         this.isWhite = isWhite;
         this.board = board;
 
-        timeProperties = board.getTimeProperties();
+        timeProperties = board.getTimeProperties().clone();
         firstTurn = true;
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
         timeOut = false;
+        runTimer = false;
 
-        if (timeProperties[MINUTES_INDEX] <= 0 && timeProperties[SECONDS_INDEX] <= 0) {
-            Arrays.fill(timeProperties, -1);
-        } else {
+        if (board.isTimedGame()) {
             ActionListener timerCountDown = ae -> {
-                if (!runTimer) return;
-
-                if (timeProperties[MINUTES_INDEX] == 0 && timeProperties[SECONDS_INDEX] == 0) {
-                    timeOut = true;
-                    return;
-                }
-                if (timeProperties[SECONDS_INDEX] == 0) {
-                    timeProperties[MINUTES_INDEX]--;
-                    timeProperties[SECONDS_INDEX] = 59;
-                } else {
-                    timeProperties[SECONDS_INDEX]--;
+                if (runTimer) {
+                    if (timeProperties[MINUTES_INDEX] == 0 && timeProperties[SECONDS_INDEX] == 0) {
+                        timeOut = true;
+                        return;
+                    }
+                    if (timeProperties[SECONDS_INDEX] == 0) {
+                        timeProperties[MINUTES_INDEX]--;
+                        timeProperties[SECONDS_INDEX] = 59;
+                    } else {
+                        timeProperties[SECONDS_INDEX]--;
+                    }
                 }
             };
 

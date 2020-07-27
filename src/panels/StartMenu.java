@@ -1,5 +1,7 @@
 package panels;
 
+import entities.Player;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -17,7 +19,7 @@ public class StartMenu extends JPanel { // Weird lag?
     private int resizeCount; // absolutely hate this.
 
     public StartMenu() {
-        timeProperties = new int[] {0, 0, 0};
+        timeProperties = new int[] {-1, -1, -1};
 
         buttonSize = new Dimension(0, 0);
         timeSettingsPanelMaxSize = new Dimension(0, 0);
@@ -59,6 +61,30 @@ public class StartMenu extends JPanel { // Weird lag?
         }
     }
 
+    protected void checkTimeProperties() {
+        boolean minutesNull = timeProperties[Player.MINUTES_INDEX] == -1;
+        boolean secondsNull = timeProperties[Player.SECONDS_INDEX] == -1;
+        boolean incrementNull = timeProperties[Player.INCREMENT_INDEX] == -1;
+
+        if (!minutesNull && !secondsNull && !incrementNull) return;
+        if (minutesNull && secondsNull && incrementNull) return;
+
+        if (incrementNull) { // increment is null and either minutes, seconds or both aren't null
+            timeProperties[Player.INCREMENT_INDEX] = 0;
+
+            if (minutesNull) timeProperties[Player.MINUTES_INDEX] = 0;
+            if (secondsNull) timeProperties[Player.SECONDS_INDEX] = 0;
+        } else { // increment isn't null and either minutes, seconds, or both are null
+            if (minutesNull && secondsNull) {
+                timeProperties[Player.INCREMENT_INDEX] = -1;
+            } else if (minutesNull) {
+                timeProperties[Player.MINUTES_INDEX] = 0;
+            } else {
+                timeProperties[Player.SECONDS_INDEX] = 0;
+            }
+        }
+    }
+
     protected void initUI(Main main) {
         setBackground(Main.BACKGROUND_COLOR);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -67,6 +93,7 @@ public class StartMenu extends JPanel { // Weird lag?
         startButton = new JButton("Start");
         startButton.addActionListener(ae -> {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
+            checkTimeProperties();
             main.getGame().start(timeProperties);
         });
 
@@ -125,6 +152,4 @@ public class StartMenu extends JPanel { // Weird lag?
     }
 
     public void setTimeProperty(int index, int value) { timeProperties[index] = value; }
-
-    public int getTimeProperty(int index) { return timeProperties[index]; }
 }

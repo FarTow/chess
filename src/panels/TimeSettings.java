@@ -146,7 +146,6 @@ public class TimeSettings extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
-
     public void actionPerformed(ActionEvent ae) {
         resize(); // make efficient
         setFonts();
@@ -155,7 +154,7 @@ public class TimeSettings extends JPanel implements ActionListener {
             try {
                 startMenu.setTimeProperty(i, Integer.parseInt(inputFields[i].getText()));
             } catch(NumberFormatException e) {
-                if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, 0);
+                if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
             }
         }
 
