@@ -16,6 +16,7 @@ public class TimeSettings extends JPanel implements ActionListener {
     private final JTextField[] inputFields;
 
     private final Dimension inputSize, labelSize;
+    private float fontHeight;
 
     public TimeSettings(StartMenu startMenu) {
         this.startMenu = startMenu;
@@ -36,10 +37,14 @@ public class TimeSettings extends JPanel implements ActionListener {
         inputSize.height = getHeight()/4;
     }
     protected void setFonts() { // can probably be replaced with for loop
-        float fontHeight = labelSize.height*2/3f;
+        fontHeight = Math.min(labelSize.height*2/3f, labelSize.width/12f);
 
         for (JLabel label : inputLabels) {
             label.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        }
+
+        for (JTextField textField : inputFields) {
+            textField.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
         }
     }
 
@@ -88,17 +93,17 @@ public class TimeSettings extends JPanel implements ActionListener {
         for (int i=0; i<inputLabels.length; i++) {
             switch(i) {
                 case 0:
-                    inputLabels[i] = new JLabel("Starting Minutes: ");
+                    inputLabels[i] = new JLabel("Starting Minutes:");
                     break;
                 case 1:
-                    inputLabels[i] = new JLabel("Starting Seconds: ");
+                    inputLabels[i] = new JLabel("Starting Seconds:");
                     break;
                 case 2:
-                    inputLabels[i] = new JLabel("Increment: ");
+                    inputLabels[i] = new JLabel("Increment:");
                     break;
             }
 
-            inputLabels[i].setFont(Main.MULISH_LIGHT.deriveFont((float) labelSize.height));
+            inputLabels[i].setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
         }
 
         // Add all components to panel
