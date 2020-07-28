@@ -16,8 +16,9 @@ public class TimeSettings extends JPanel implements ActionListener {
 
     private final JLabel[] inputLabels;
     private final JTextField[] inputFields;
+    private JButton submitInputButton;
 
-    private final Dimension inputSize, labelSize;
+    private final Dimension inputFieldSize, inputLabelSize, submitInputButtonSize;
     private float fontHeight;
 
     public TimeSettings(StartMenu startMenu) {
@@ -25,21 +26,25 @@ public class TimeSettings extends JPanel implements ActionListener {
         inputLabels = new JLabel[3];
         inputFields = new JTextField[3];
 
-        labelSize = new Dimension(0, 0);
-        inputSize = new Dimension(0, 0);
+        inputLabelSize = new Dimension(0, 0);
+        inputFieldSize = new Dimension(0, 0);
+        submitInputButtonSize = new Dimension(0, 0);
 
         initUI();
     }
 
     protected void setSizes() {
-        labelSize.width = getWidth()*4/5;
-        labelSize.height = getHeight()/4;
+        inputLabelSize.width = getWidth()*4/5;
+        inputLabelSize.height = getHeight()/4;
 
-        inputSize.width = getWidth()/5;
-        inputSize.height = getHeight()/4;
+        inputFieldSize.width = getWidth()/5;
+        inputFieldSize.height = getHeight()/4;
+
+        submitInputButtonSize.width = getWidth()/2;
+        submitInputButtonSize.height = getHeight()/4;
     }
     protected void setFonts() { // can probably be replaced with for loop
-        fontHeight = Math.min(labelSize.height*2/3f, labelSize.width/12f);
+        fontHeight = Math.min(inputLabelSize.height*2/3f, inputLabelSize.width/12f);
 
         for (JLabel label : inputLabels) {
             label.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
@@ -48,33 +53,9 @@ public class TimeSettings extends JPanel implements ActionListener {
         for (JTextField textField : inputFields) {
             textField.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
         }
+
+        submitInputButton.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
     }
-
-    public void resize() {
-        setSizes();
-        setFonts();
-
-        for (JLabel label : inputLabels) {
-            Main.forceSize(labelSize, label);
-        }
-
-        for (JTextField textField : inputFields) {
-            Main.forceSize(inputSize, textField);
-        }
-
-        updateUI();
-    }
-
-    protected void boundKeyInputs(JTextField textField) {
-        textField.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                super.keyPressed(ke);
-
-                textField.setEditable(Character.isDigit(ke.getKeyChar()) || ke.getKeyChar() == KeyEvent.VK_BACK_SPACE);
-            }
-        });
-    }
-
     protected void updateLabels() {
         for (int i=0; i<inputLabels.length; i++) {
             int currentTimeProperty = startMenu.getTimeProperty(i);
@@ -94,8 +75,32 @@ public class TimeSettings extends JPanel implements ActionListener {
             label.append(": ");
 
             inputLabels[i].setText(label.toString() + (currentTimeProperty != -1 ? currentTimeProperty : "-"));
-
         }
+    }
+
+    public void resize() {
+        setSizes();
+        setFonts();
+
+        for (JLabel inputLabel : inputLabels) {
+            Main.forceSize(inputLabelSize, inputLabel);
+        }
+        for (JTextField inputField : inputFields) {
+            Main.forceSize(inputFieldSize, inputField);
+        }
+        Main.forceSize(submitInputButtonSize, submitInputButton);
+
+        updateUI();
+    }
+
+    protected void boundKeyInputs(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                super.keyPressed(ke);
+
+                textField.setEditable(Character.isDigit(ke.getKeyChar()) || ke.getKeyChar() == KeyEvent.VK_BACK_SPACE);
+            }
+        });
     }
 
     protected void initUI() {
@@ -118,18 +123,31 @@ public class TimeSettings extends JPanel implements ActionListener {
         for (int i=0; i<inputLabels.length; i++) {
             switch(i) {
                 case 0:
-                    inputLabels[i] = new JLabel("Starting Minutes: ");
+                    inputLabels[i] = new JLabel("Starting Minutes:");
                     break;
                 case 1:
-                    inputLabels[i] = new JLabel("Starting Seconds: ");
+                    inputLabels[i] = new JLabel("Starting Seconds:");
                     break;
                 case 2:
-                    inputLabels[i] = new JLabel("Increment: ");
+                    inputLabels[i] = new JLabel("Increment:");
                     break;
             }
 
             inputLabels[i].setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
         }
+
+        // Create submit button
+        submitInputButton = new JButton("Set Time");
+        submitInputButton.addActionListener(ae -> {
+            for (int i=0; i<inputFields.length; i++) {
+                try {
+                    startMenu.setTimeProperty(i, Integer.parseInt(inputFields[i].getText()));
+                } catch(NumberFormatException e) {
+                    if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
+                }
+            }
+        });
+        submitInputButton.setFocusable(false);
 
         // Add all components to panel
         Main.setGridBagLayoutConstraints(
@@ -140,7 +158,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                2, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[0], c);
 
@@ -152,7 +170,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                2, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[1], c);
 
@@ -164,9 +182,15 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                2, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[2], c);
+
+        Main.setGridBagLayoutConstraints(
+                c, new Insets(5, 0, 1, 0), GridBagConstraints.BOTH,
+                0, 3, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+        );
+        add(submitInputButton, c);
 
         // Start timer after initializing UI
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
@@ -179,14 +203,6 @@ public class TimeSettings extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         resize(); // make efficient
         setFonts();
-
-        for (int i=0; i<inputFields.length; i++) {
-            try {
-                startMenu.setTimeProperty(i, Integer.parseInt(inputFields[i].getText()));
-            } catch(NumberFormatException e) {
-                if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
-            }
-        }
 
         updateLabels();
         repaint();
