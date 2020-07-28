@@ -137,7 +137,7 @@ public class TimeSettings extends JPanel implements ActionListener {
         }
 
         // Create submit button
-        submitInputButton = new JButton("Set Time");
+        submitInputButton = new JButton("Commit Time Settings");
         submitInputButton.addActionListener(ae -> {
             for (int i=0; i<inputFields.length; i++) {
                 try {
@@ -158,7 +158,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                2, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                1, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[0], c);
 
@@ -170,7 +170,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                2, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                1, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[1], c);
 
@@ -182,7 +182,7 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         Main.setGridBagLayoutConstraints(
                 c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                2, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                1, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
         );
         add(inputFields[2], c);
 
