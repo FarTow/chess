@@ -146,6 +146,8 @@ public class TimeSettings extends JPanel implements ActionListener {
                     if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
                 }
             }
+
+            startMenu.checkTimeProperties();
         });
         submitInputButton.setFocusable(false);
 

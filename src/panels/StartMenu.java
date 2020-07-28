@@ -61,7 +61,7 @@ public class StartMenu extends JPanel { // Weird lag?
         }
     }
 
-    protected void checkTimeProperties() {
+    public void checkTimeProperties() {
         boolean minutesNull = timeProperties[Player.MINUTES_INDEX] == -1;
         boolean secondsNull = timeProperties[Player.SECONDS_INDEX] == -1;
         boolean incrementNull = timeProperties[Player.INCREMENT_INDEX] == -1;
@@ -93,7 +93,6 @@ public class StartMenu extends JPanel { // Weird lag?
         startButton = new JButton("Start");
         startButton.addActionListener(ae -> {
             ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.GAME_LABEL);
-            checkTimeProperties();
             main.getGame().start(timeProperties);
         });
 
