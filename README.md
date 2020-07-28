@@ -18,12 +18,11 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Pawn promotion
 - [x] Start menu
 - [ ] Options
-  - [ ] Timer settings
   - [ ] Movement displays (i.e. show where pieces can and can't move)
 - [ ] General game display components
   - [x] Move history
   - [x] Taken pieces
-  - [x] Timer
+  - [x] Timer settings
 - [ ] Win conditions
   - [x] Checkmate
   - [x] Stalemate
