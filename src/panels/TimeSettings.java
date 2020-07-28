@@ -35,10 +35,10 @@ public class TimeSettings extends JPanel implements ActionListener {
 
     protected void setSizes() {
         inputLabelSize.width = getWidth()*4/5;
-        inputLabelSize.height = getHeight()/4;
+        inputLabelSize.height = getHeight()/6;
 
         inputFieldSize.width = getWidth()/5;
-        inputFieldSize.height = getHeight()/4;
+        inputFieldSize.height = getHeight()/6;
 
         submitInputButtonSize.width = getWidth()/2;
         submitInputButtonSize.height = getHeight()/4;
@@ -51,10 +51,10 @@ public class TimeSettings extends JPanel implements ActionListener {
         }
 
         for (JTextField textField : inputFields) {
-            textField.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+            textField.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight*4/5));
         }
 
-        submitInputButton.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
+        submitInputButton.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight*4/5));
     }
     protected void updateLabels() {
         for (int i=0; i<inputLabels.length; i++) {
@@ -151,44 +151,44 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         // Add all components to panel
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                0, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(0, 5, 0, 5), GridBagConstraints.HORIZONTAL,
+                0, 0, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_START
         );
         add(inputLabels[0], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 0, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(2, 2, 2, 2), GridBagConstraints.HORIZONTAL,
+                1, 0, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_END
         );
         add(inputFields[0], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                0, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(0, 5, 0, 5), GridBagConstraints.HORIZONTAL,
+                0, 1, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_START
         );
         add(inputLabels[1], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(2, 2, 2, 2), GridBagConstraints.HORIZONTAL,
+                1, 1, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_END
         );
         add(inputFields[1], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                0, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(0, 5, 0, 5), GridBagConstraints.HORIZONTAL,
+                0, 2, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_START
         );
         add(inputLabels[2], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(1, 1, 1, 1), GridBagConstraints.HORIZONTAL,
-                1, 2, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(2, 2, 2, 2), GridBagConstraints.HORIZONTAL,
+                1, 2, 1, 1, 0.5, 0.1, GridBagConstraints.LINE_END
         );
         add(inputFields[2], c);
 
         Main.setGridBagLayoutConstraints(
-                c, new Insets(5, 0, 1, 0), GridBagConstraints.BOTH,
-                0, 3, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER
+                c, new Insets(0, 0, 0, 0), GridBagConstraints.HORIZONTAL,
+                0, 3, 2, 1, 0.5, 0.1, GridBagConstraints.PAGE_END
         );
         add(submitInputButton, c);
 

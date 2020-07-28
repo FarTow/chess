@@ -45,7 +45,7 @@ public class StartMenu extends JPanel { // Weird lag?
         buttonSize.height = getHeight()/20;
 
         timeSettingsPanelMaxSize.width = getWidth()/5;
-        timeSettingsPanelMaxSize.height = getHeight()/8;
+        timeSettingsPanelMaxSize.height = getHeight()/6;
 
         buttonFontHeight = Math.min((float) getHeight() / 30, (float) getWidth() / 55);
     }
