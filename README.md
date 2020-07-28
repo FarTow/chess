@@ -11,19 +11,19 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 3. Enjoy!
 
 ### To-Do List
-- [ ] Piece movement functionality
+- [x] Piece movement functionality
   - [x] Check
   - [x] En Passant
   - [x] Castling
   - [x] Pawn promotion
-- [ ] Start menu
+- [x] Start menu
 - [ ] Options
   - [ ] Timer settings
   - [ ] Movement displays (i.e. show where pieces can and can't move)
-- [ ] General game display
+- [ ] General game display components
   - [x] Move history
   - [x] Taken pieces
-  - [ ] Timer
+  - [x] Timer
 - [ ] Win conditions
   - [x] Checkmate
   - [x] Stalemate
