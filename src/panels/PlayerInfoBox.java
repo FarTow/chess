@@ -14,7 +14,7 @@ public class PlayerInfoBox extends JPanel {
     private final TimeDisplay timer;
     private final PieceDiffDisplay pieceDiffDisplay;
 
-    public PlayerInfoBox(Player player, Board board) {
+    public PlayerInfoBox(Player player) {
         this.player = player;
 
         timer = new TimeDisplay(player);

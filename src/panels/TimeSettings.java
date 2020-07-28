@@ -1,5 +1,7 @@
 package panels;
 
+import entities.Player;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
@@ -73,6 +75,29 @@ public class TimeSettings extends JPanel implements ActionListener {
         });
     }
 
+    protected void updateLabels() {
+        for (int i=0; i<inputLabels.length; i++) {
+            int currentTimeProperty = startMenu.getTimeProperty(i);
+            StringBuilder label = new StringBuilder();
+
+            switch (i) {
+                case Player.MINUTES_INDEX:
+                    label.append("Starting Minutes");
+                    break;
+                case Player.SECONDS_INDEX:
+                    label.append("Starting Seconds");
+                    break;
+                case Player.INCREMENT_INDEX:
+                    label.append("Increment");
+                    break;
+            }
+            label.append(": ");
+
+            inputLabels[i].setText(label.toString() + (currentTimeProperty != -1 ? currentTimeProperty : "-"));
+
+        }
+    }
+
     protected void initUI() {
         // Initial settings
         setLayout(new GridBagLayout());
@@ -93,13 +118,13 @@ public class TimeSettings extends JPanel implements ActionListener {
         for (int i=0; i<inputLabels.length; i++) {
             switch(i) {
                 case 0:
-                    inputLabels[i] = new JLabel("Starting Minutes:");
+                    inputLabels[i] = new JLabel("Starting Minutes: ");
                     break;
                 case 1:
-                    inputLabels[i] = new JLabel("Starting Seconds:");
+                    inputLabels[i] = new JLabel("Starting Seconds: ");
                     break;
                 case 2:
-                    inputLabels[i] = new JLabel("Increment:");
+                    inputLabels[i] = new JLabel("Increment: ");
                     break;
             }
 
@@ -163,6 +188,7 @@ public class TimeSettings extends JPanel implements ActionListener {
             }
         }
 
+        updateLabels();
         repaint();
     }
 

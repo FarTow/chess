@@ -152,4 +152,6 @@ public class StartMenu extends JPanel { // Weird lag?
     }
 
     public void setTimeProperty(int index, int value) { timeProperties[index] = value; }
+
+    public int getTimeProperty(int index) { return timeProperties[index]; }
 }
