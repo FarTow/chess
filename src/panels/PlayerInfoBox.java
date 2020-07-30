@@ -37,7 +37,10 @@ public class PlayerInfoBox extends JPanel {
                 // Initialize g2d properties
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setColor(Color.black);
-                g2d.setFont(Main.MULISH_LIGHT.deriveFont((float) getHeight()/15));
+                g2d.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getHeight()/15, (float) getWidth()/2)));
+
+                System.out.println(getHeight()/15);
+                System.out.println(getWidth()/2);
 
                 // Create and draw text
                 String label = (player.isWhite() ? "White" : "Black") + " Stats";
