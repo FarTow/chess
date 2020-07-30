@@ -34,7 +34,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 
 <ins>Resizing Game Components</ins>
   - [x] Board
-  - [ ] Player Info Box Label
+  - [x] Player Info Box Label
   - [ ] Timer
   - [ ] Piece Advantage Comparison
   - [ ] Move History Table
