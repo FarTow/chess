@@ -11,28 +11,35 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 3. Enjoy!
 
 ### To-Do List
-- [x] Piece movement functionality
+- [x] Piece Movement Functionality
   - [x] Check
   - [x] En Passant
   - [x] Castling
-  - [x] Pawn promotion
-- [x] Start menu
-- [ ] Options
-  - [ ] Movement displays (i.e. show where pieces can and can't move)
-- [ ] General game display components
-  - [x] Move history
-  - [x] Taken pieces
-  - [x] Timer settings
-- [ ] Win conditions
+  - [x] Pawn Promotion
+- [x] Start Menu
+- [ ] General Game Components
+  - [x] Move History
+  - [x] Taken Pieces
+  - [x] Timer Settings
+- [ ] Resizing All Components (constantly in need of updates)
+  - [ ] Player Info Box Labels
+  - [ ] Player Info Box Captured Pieces
+  - [ ] Move History Table
+- [ ] Win Condition Logic
   - [x] Checkmate
   - [x] Stalemate
-  - [ ] 3-Fold repetition
+  - [ ] 3-Fold Repetition
   - [ ] 50 Move Draw
-- [ ] Make application executable
-- [ ] Network capabilities
-- [x] Custom made pieces
-- [x] Resizing
+- [ ] Game Over State
+  - [ ] Reset Board
+  - [ ] Back To Start Menu
+- [ ] Options
+  - [ ] Movement Displays (i.e. show where pieces can and can't move)
+- [x] Custom Made Pieces
+- [ ] Annotations (Optional?)
 - [ ] Chess AI
+- [ ] Network Capabilities
+- [ ] Make Application Executable
 
 ### Resources
 * Piece design by [Yi Jun Yang](https://www.instagram.com/y.yang.art/)
