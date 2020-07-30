@@ -52,7 +52,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         // Init MoveDisplay Cell Renderer
         moveHistoryCellRenderer = new DefaultTableCellRenderer();
-        moveHistoryCellRenderer.setHorizontalAlignment(SwingConstants.CENTER); // might be possible to conserve piece symbols...
+        moveHistoryCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Init MoveDisplay Table
         moveHistoryTable = new JTable(moveHistoryModel);
@@ -62,10 +62,9 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         // Initialize Table Header
         moveHistoryTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
         moveHistoryTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
-        moveHistoryTable.getTableHeader().setBackground(Color.black); // set header background
 
         // Initialize Misc. Properties of Table
-        //moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
+        moveHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // resize the table columns
         moveHistoryTable.setRowHeight(20); // set cell size
 
         centerTable();
@@ -150,7 +149,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         return readableMoveData;
     }
     protected void updateAllMoveData() {
-        if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move took place"
+        if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move didn't take place"
 
         int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
         boolean pieceTaken = pieceCount == newPieceCount+1;
