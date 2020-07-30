@@ -117,7 +117,7 @@ public class Main extends JFrame {
     private void initUI() {
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(800, 650));
+        setMinimumSize(new Dimension(800, 450));
         setLocationRelativeTo(null); // center
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -136,9 +136,7 @@ public class Main extends JFrame {
         setVisible(true);
     }
 
-    public Game getGame() {
-        return game;
-    }
+    public Game getGame() { return game; }
 
     public static void main(String[] args) {
         Main main = new Main();
