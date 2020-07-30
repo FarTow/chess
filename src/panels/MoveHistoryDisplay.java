@@ -63,6 +63,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         moveHistoryTable.getTableHeader().setReorderingAllowed(false); // table unable to be reordered
         moveHistoryTable.getTableHeader().setResizingAllowed(false); // table unable to resize columns
         moveHistoryTable.getTableHeader().setBackground(Color.black);
+        ((JLabel) moveHistoryTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         // Initialize Misc. Properties of Table
         moveHistoryTable.setRowHeight(20); // set cell size
@@ -72,7 +73,6 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
     // Visual Update
     public void centerTable() {
-        ((JLabel) moveHistoryTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
