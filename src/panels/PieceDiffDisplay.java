@@ -40,11 +40,13 @@ public class PieceDiffDisplay extends JPanel {
 
         int rowModifier = -2;
         for (int i=0; i<pieceImages.length; i++, rowModifier++) {
-            int pieceSpacingOffset = rowModifier*pieceImages[i].getWidth(null);
-            Point pieceImageTopLeft = new Point((getWidth()/2 - pieceImages[i].getWidth(null)/2) + pieceSpacingOffset, 0);
+            int pieceImageSize = Math.min((getWidth()/5 - 1), 60);
+            Image scaledImage = pieceImages[i].getScaledInstance(pieceImageSize, pieceImageSize, 0);
+            int pieceSpacingOffset = rowModifier*scaledImage.getWidth(null);
+            Point pieceImageTopLeft = new Point((getWidth()/2 - scaledImage.getWidth(null)/2) + pieceSpacingOffset, 0);
 
             // Draw image at specified location
-            g.drawImage(pieceImages[i], pieceImageTopLeft.x, pieceImageTopLeft.y, null);
+            g.drawImage(scaledImage, pieceImageTopLeft.x, pieceImageTopLeft.y, null);
 
             // Edit graphics as desired
             Graphics2D g2d = (Graphics2D) g;
@@ -70,8 +72,8 @@ public class PieceDiffDisplay extends JPanel {
 
             g2d.drawString(
                     count,
-                    pieceImageTopLeft.x + pieceImages[i].getWidth(null)/2 - countDimensions.width/2,
-                    pieceImageTopLeft.y + pieceImages[i].getHeight(null)*5/4
+                    pieceImageTopLeft.x + scaledImage.getWidth(null)/2 - countDimensions.width/2,
+                    pieceImageTopLeft.y + scaledImage.getHeight(null)*5/4
             );
         }
     }
