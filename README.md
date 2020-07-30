@@ -22,6 +22,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Timer Settings
 
 <ins>General Game Components</ins>
+  - [x] Board
   - [x] Timer
   - [x] Piece Advantage Comparison
   - [ ] Player Options (Draw, Resign, Takeback)
@@ -32,6 +33,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Timer Settings
 
 <ins>Resizing Game Components</ins>
+  - [x] Board
   - [ ] Player Info Box Label
   - [ ] Timer
   - [ ] Piece Advantage Comparison
