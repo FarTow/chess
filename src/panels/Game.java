@@ -25,7 +25,7 @@ public class Game extends JPanel implements ActionListener {
             Main.forceSize(new Dimension(getWidth()*9/20, getHeight()/2), board);
             Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistoryDisplay, whiteInfoBox, blackInfoBox);
             Main.forceSize(new Dimension(getWidth()/40, getHeight()), whiteInfoBox.getLabelPanel(), blackInfoBox.getLabelPanel());
-            board.resize(Math.min((getWidth()/24 - 1), 60));
+            board.resize(Math.min(Math.min(getWidth()/24 - 1, getHeight()/10 - 1), 60));
 
             updateUI();
             }
