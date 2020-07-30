@@ -21,7 +21,6 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     private DefaultTableModel moveHistoryModel;
     private DefaultTableCellRenderer moveHistoryCellRenderer;
     private final ArrayList<Object[]> allMoveData;
-    private int initialResize;
 
     private boolean whiteTurn;
     private int moveCount;
@@ -93,10 +92,10 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         // Initialize chessNotation string and other used variables
         StringBuilder chessNotation = new StringBuilder();
-        int oldRank = (4 + (4 - board.getOldSquareCords().x));
-        char oldFile = (char) ((char) 97 + board.getOldSquareCords().y);
-        int newRank = (4 + (4 - board.getNewSquareCords().x));
-        char newFile = (char) ((char) 97 + board.getNewSquareCords().y);
+        int oldRank = (4 + (4 - board.getOldRow()));
+        char oldFile = (char) ((char) 97 + board.getOldColumn());
+        int newRank = (4 + (4 - board.getNewRow()));
+        char newFile = (char) ((char) 97 + board.getNewColumn());
         chessNotation.append(board.getLastPieceMoved().getNotation()); // symbol of the piece that moved
 
         // Append "taken" notation if a piece was taken

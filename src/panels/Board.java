@@ -29,7 +29,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // External Trackers
     private Piece lastPieceMoved;
-    private Point oldSquareCords, newSquareCords;
+    private int oldRow, oldColumn;
+    private int newRow, newColumn;
     private boolean ambiguousMove, ambiguousColumn;
     private int castlingStatus;
     private char pawnPromotionStatus;
@@ -249,8 +250,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         ambiguousMove = ambiguousColumn = false;
         lastPieceMoved = selectedPiece;
-        oldSquareCords = new Point(selectedPiece.getRow(), selectedPiece.getColumn());
-        newSquareCords = new Point(toSquare.getRow(), toSquare.getColumn());
+        oldRow = selectedPiece.getRow();
+        oldColumn = selectedPiece.getColumn();
+        newRow = toSquare.getRow();
+        newColumn = toSquare.getColumn();
         updateAmbiguousMove(toSquare);
     }
 
@@ -300,16 +303,16 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece == null) return;
 
         if (selectedPiece instanceof King) { // if the piece was a king
-            int columnDiff = oldSquareCords.y - newSquareCords.y;
+            int columnDiff = oldColumn - newColumn;
 
             if (Math.abs(columnDiff) == 2) {
                 currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
                 castlingStatus = columnDiff < 0 ? 1 : 2; // needs work probably
             }
         } else if (selectedPiece instanceof Pawn) {
-            if (Math.abs(oldSquareCords.x - newSquareCords.x) == 2) { // set piece to be en-passant capturable
+            if (Math.abs(oldRow - newRow) == 2) { // set piece to be en-passant capturable
                 ((Pawn) selectedPiece).setEnPassantCapturable(true);
-            } else if (selectedPiece.isWhite() ? newSquareCords.x == 0 : newSquareCords.x == 7) { // if the pawn is on the opposite side
+            } else if (selectedPiece.isWhite() ? newRow == 0 : newRow == 7) { // if the pawn is on the opposite side
                 promotePawn(selectedPiece, selectedPiece.getSquare(), createPromotionPrompt(selectedPiece.isWhite()));
             }
         }
@@ -442,8 +445,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public int[] getTimeProperties() { return timeProperties; } // Time Getters
     public boolean isTimedGame() { return timedGame; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
-    public Point getOldSquareCords() { return oldSquareCords; }
-    public Point getNewSquareCords() { return newSquareCords; }
+    public int getOldRow() { return oldRow; }
+    public int getOldColumn() { return oldColumn; }
+    public int getNewRow() { return newRow; }
+    public int getNewColumn() { return newColumn; }
     public Player getWhitePlayer() { return whitePlayer; } // Player Getters
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }
