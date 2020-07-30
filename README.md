@@ -19,12 +19,14 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 - [x] Start Menu
   - [x] Timer Settings
 - [x] General Game Components
-  - [x] Move History
-  - [x] Taken Pieces
   - [x] Timer
-- [ ] Resizing All Components
-  - [ ] Player Info Box Labels
-  - [ ] Player Info Box Captured Pieces
+  - [x] Piece Advantage Comparison
+  - [ ] Player Options (Draw, Resign, Takeback)
+  - [x] Move History Table
+- [ ] Resizing Game Components
+  - [ ] Player Info Box Label
+  - [ ] Timer
+  - [ ] Piece Advantage Comparison
   - [ ] Move History Table
 - [ ] Win Condition Logic
   - [x] Checkmate
