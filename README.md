@@ -11,54 +11,16 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 3. Enjoy!
 
 ### To-Do List
-<ins>Piece Movement Functionality</ins>
-  - [x] Check
-  - [x] En Passant
-  - [x] Castling
-  - [x] Pawn Promotion
-  
-<ins>Start Menu</ins>
-  - [x] Start Button
-  - [x] Timer Settings
-
-<ins>General Game Components</ins>
-  - [x] Board
-  - [x] Timer
-  - [x] Piece Advantage Comparison
-  - [ ] Player Options (Draw, Resign, Takeback)
-  - [x] Move History Table
-
-<ins>Resizing Start Menu Components</ins>
-  - [x] Start Button
-  - [x] Timer Settings
-
-<ins>Resizing Game Components</ins>
-  - [x] Board
-  - [x] Player Info Box Label
-  - [x] Timer
-  - [x] Piece Advantage Comparison
-  - [x] Move History Table
-
-<ins>Win Condition Logic</ins>
-  - [x] Checkmate
-  - [x] Stalemate
-  - [ ] 3-Fold Repetition
-  - [ ] 50 Move Draw
-
-<ins>Game Over State</ins>
-  - [ ] Reset Board
-  - [ ] Back To Start Menu
-
-<ins>Options</ins>
-  - [ ] Movement Display Toggle (i.e. show where pieces can and can't move)
-  - [ ] Auto-Promote Pawn to Queen
-
-<ins>Miscellaneous</ins>
-- [x] Custom Made Pieces
-- [ ] Annotations (Optional?)
-- [ ] Chess AI
-- [ ] Network Capabilities
-- [ ] Make Application Executable
+| Category                     | Incomplete Items                                                                                                                        | Complete Items                                                                                                                                             | Notes                                                                                      |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Piece Movement Functionality |                                                                                                                                         | <p> - All General Piece Movement<br> - Check<br> - En Passant<br> - Castling<br> - Pawn Promotion </p>                                                     |                                                                                            |
+| Start Menu                   |                                                                                                                                         | <p> - Start Button<br> - Timer Settings </p>                                                                                                               |                                                                                            |
+| General Game Components      | <p> - Player Options<br> &nbsp;&nbsp;&nbsp;&nbsp;> Draw<br> &nbsp;&nbsp;&nbsp;&nbsp;> Resign<br> &nbsp;&nbsp;&nbsp;&nbsp;> Takeback</p> | <p> - Board<br> - Player Info Box<br> &nbsp;&nbsp;&nbsp;&nbsp;> Timer<br> &nbsp;&nbsp;&nbsp;&nbsp;> Piece Difference Display<br> - Move History Table </p> | <p> Player Options are currently planned <br> on being a part of the Player Info Box. </p> |
+| Resizing                     |                                                                                                                                         | <p> - Start Menu<br> - General Game Components </p>                                                                                                        |                                                                                            |
+| Game Over Condition Logic    | <p> - 3-Fold Repetition<br> - 50-Move Rule </p>                                                                                         | <p> - Checkmate<br> - Stalemate </p>                                                                                                                       |                                                                                            |
+| Game Over State              | <p> - Rematch<br> - Back to Start Menu </p>                                                                                             |                                                                                                                                                            | <p> Dialog hasn't been implemented yet, let alone functionality. </p>                      |
+| Options                      | <p> - Toggle Move Hints<br> - Auto-Promote Pawn to Queen </p>                                                                           |                                                                                                                                                            | <p> Dialog hasn't been implemented yet, let alone functionality. </p>                      |
+| Miscellaneous                | <p> - Use annotations<br> - Chess AI<br> - Network Capabilities<br> - Make Application Executable </p>                                  | <p> - Custom Made Pieces </p>                                                                                                                              |                                                                                            |
 
 ### Resources
 * Piece design by [Yi Jun Yang](https://www.instagram.com/y.yang.art/)
