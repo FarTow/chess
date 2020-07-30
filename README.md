@@ -11,47 +11,47 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 3. Enjoy!
 
 ### To-Do List
-Piece Movement Functionality
+<ins>Piece Movement Functionality</ins>
   - [x] Check
   - [x] En Passant
   - [x] Castling
   - [x] Pawn Promotion
   
-Start Menu
+<ins>Start Menu</ins>
   - [x] Start Button
   - [x] Timer Settings
 
-General Game Components
+<ins>General Game Components</ins>
   - [x] Timer
   - [x] Piece Advantage Comparison
   - [ ] Player Options (Draw, Resign, Takeback)
   - [x] Move History Table
 
-Resizing Start Menu Components
+<ins>Resizing Start Menu Components</ins>
   - [x] Start Button
   - [x] Timer Settings
 
-Resizing Game Components
+<ins>Resizing Game Components</ins>
   - [ ] Player Info Box Label
   - [ ] Timer
   - [ ] Piece Advantage Comparison
   - [ ] Move History Table
 
-Win Condition Logic
+<ins>Win Condition Logic</ins>
   - [x] Checkmate
   - [x] Stalemate
   - [ ] 3-Fold Repetition
   - [ ] 50 Move Draw
 
-Game Over State
+<ins>Game Over State</ins>
   - [ ] Reset Board
   - [ ] Back To Start Menu
 
-Options
+<ins>Options</ins>
   - [ ] Movement Display Toggle (i.e. show where pieces can and can't move)
   - [ ] Auto-Promote Pawn to Queen
 
-Miscellaneous 
+<ins>Miscellaneous</ins>
 - [x] Custom Made Pieces
 - [ ] Annotations (Optional?)
 - [ ] Chess AI
