@@ -1,7 +1,5 @@
 package panels;
 
-import entities.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
