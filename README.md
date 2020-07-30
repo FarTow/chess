@@ -10,7 +10,10 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 2. Run *panels.Main* in your IDE or some other method I'm not aware of.
 3. Enjoy!
 
-### To-Do List
+### Progress
+Below I have listed the various features/milestones/objectives/other synonym for goal that I have for this project. This includes both completed and future tasks.
+
+[comment]: <> (If the tables looks extra surprisingly ugly, view it with "no wrap" instead of "soft wrap")
 | Category                     | Incomplete Items                                                                                                                        | Complete Items                                                                                                                                             | Notes                                                                                      |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Piece Movement Functionality |                                                                                                                                         | <p> - All General Piece Movement<br> - Check<br> - En Passant<br> - Castling<br> - Pawn Promotion </p>                                                     |                                                                                            |
