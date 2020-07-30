@@ -17,12 +17,16 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Castling
   - [x] Pawn Promotion
 - [x] Start Menu
+  - [ ] Start Button
   - [x] Timer Settings
 - [ ] General Game Components
   - [x] Timer
   - [x] Piece Advantage Comparison
   - [ ] Player Options (Draw, Resign, Takeback)
   - [x] Move History Table
+- [x] Resizing Start Menu Components
+  - [x] Start Button
+  - [x] Timer Settings
 - [ ] Resizing Game Components
   - [ ] Player Info Box Label
   - [ ] Timer
