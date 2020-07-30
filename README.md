@@ -11,13 +11,13 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
 3. Enjoy!
 
 ### To-Do List
-- [x] Piece Movement Functionality
+- Piece Movement Functionality
   - [x] Check
   - [x] En Passant
   - [x] Castling
   - [x] Pawn Promotion
 - [x] Start Menu
-  - [ ] Start Button
+  - [x] Start Button
   - [x] Timer Settings
 - [ ] General Game Components
   - [x] Timer
