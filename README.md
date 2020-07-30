@@ -18,7 +18,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Pawn Promotion
 - [x] Start Menu
   - [x] Timer Settings
-- [x] General Game Components
+- [ ] General Game Components
   - [x] Timer
   - [x] Piece Advantage Comparison
   - [ ] Player Options (Draw, Resign, Takeback)
