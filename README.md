@@ -36,7 +36,7 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Board
   - [x] Player Info Box Label
   - [ ] Timer
-  - [ ] Piece Advantage Comparison
+  - [x] Piece Advantage Comparison
   - [ ] Move History Table
 
 <ins>Win Condition Logic</ins>
