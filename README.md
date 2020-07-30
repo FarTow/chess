@@ -16,33 +16,41 @@ Piece Movement Functionality
   - [x] En Passant
   - [x] Castling
   - [x] Pawn Promotion
+  
 Start Menu
   - [x] Start Button
   - [x] Timer Settings
+
 General Game Components
   - [x] Timer
   - [x] Piece Advantage Comparison
   - [ ] Player Options (Draw, Resign, Takeback)
   - [x] Move History Table
+
 Resizing Start Menu Components
   - [x] Start Button
   - [x] Timer Settings
+
 Resizing Game Components
   - [ ] Player Info Box Label
   - [ ] Timer
   - [ ] Piece Advantage Comparison
   - [ ] Move History Table
+
 Win Condition Logic
   - [x] Checkmate
   - [x] Stalemate
   - [ ] 3-Fold Repetition
   - [ ] 50 Move Draw
+
 Game Over State
   - [ ] Reset Board
   - [ ] Back To Start Menu
+
 Options
   - [ ] Movement Display Toggle (i.e. show where pieces can and can't move)
   - [ ] Auto-Promote Pawn to Queen
+
 Miscellaneous 
 - [x] Custom Made Pieces
 - [ ] Annotations (Optional?)
