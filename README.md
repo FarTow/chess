@@ -17,11 +17,12 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [x] Castling
   - [x] Pawn Promotion
 - [x] Start Menu
-- [ ] General Game Components
+  - [x] Timer Settings
+- [x] General Game Components
   - [x] Move History
   - [x] Taken Pieces
-  - [x] Timer Settings
-- [ ] Resizing All Components (constantly in need of updates)
+  - [x] Timer
+- [ ] Resizing All Components
   - [ ] Player Info Box Labels
   - [ ] Player Info Box Captured Pieces
   - [ ] Move History Table
@@ -34,7 +35,8 @@ This project is 50% fun, 25% trying to prove that I'm not awful at programming, 
   - [ ] Reset Board
   - [ ] Back To Start Menu
 - [ ] Options
-  - [ ] Movement Displays (i.e. show where pieces can and can't move)
+  - [ ] Movement Display Toggle (i.e. show where pieces can and can't move)
+  - [ ] Auto-Promote Pawn to Queen
 - [x] Custom Made Pieces
 - [ ] Annotations (Optional?)
 - [ ] Chess AI
