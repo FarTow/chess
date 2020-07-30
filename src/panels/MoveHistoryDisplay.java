@@ -80,7 +80,6 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/15, (float) getHeight()/20))); // set header font
         moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/25, (float) getHeight()/35)));
         moveHistoryTable.setRowHeight(Math.min(getWidth()/10, getHeight()/18)); // set cell size
-        System.out.println(moveHistoryTable.getRowHeight());
     }
 
     // Data Update
