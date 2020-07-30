@@ -5,9 +5,16 @@ import panels.Board;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player {
+    public enum PlayerState {
+        NORMAL,
+        CHECK,
+        CHECKMATE,
+        STALEMATE,
+        TIMEOUT
+    }
+
     public static final int MINUTES_INDEX = 0;
     public static final int SECONDS_INDEX = 1;
     public static final int INCREMENT_INDEX = 2;
@@ -17,7 +24,7 @@ public class Player {
     // Personal Properties ("Human")
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
-    private final int[] pieceCount; // 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
+    private final int[] pieceCount; // Indices: 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
     private ArrayList<Square> allMoves;
 
     private boolean firstTurn; // Time
@@ -25,7 +32,7 @@ public class Player {
     private final int[] timeProperties;
 
     // Interactive Properties (Win Conditions)
-    private boolean inCheck, inCheckmate, inStalemate, timeOut;
+    private PlayerState playerState;
 
     // Other
     private Player enemyPlayer;
@@ -38,14 +45,14 @@ public class Player {
         firstTurn = true;
         pieceCount = new int[5];
         allMoves = new ArrayList<>();
-        timeOut = false;
         runTimer = false;
+        playerState = PlayerState.NORMAL;
 
         if (board.isTimedGame()) {
             ActionListener timerCountDown = ae -> {
                 if (runTimer) {
                     if (timeProperties[MINUTES_INDEX] == 0 && timeProperties[SECONDS_INDEX] == 0) {
-                        timeOut = true;
+                        playerState = PlayerState.TIMEOUT;
                         return;
                     }
                     if (timeProperties[SECONDS_INDEX] == 0) {
@@ -61,12 +68,13 @@ public class Player {
             timer.start();
         }
 
-        defaultResetPieces();
+        defaultReset();
         updatePieceCount();
     }
 
     // Piece Arrangement
-    public void defaultResetPieces() {
+    public void defaultReset() {
+        playerState = PlayerState.NORMAL;
         pieces = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
@@ -233,7 +241,7 @@ public class Player {
         }
     }
     public void update() {
-        inCheck = false;
+        playerState = PlayerState.NORMAL;
 
         // Update pawns
         enPassantUpdate();
@@ -255,13 +263,13 @@ public class Player {
 
         if (isKingInCheck()) {
             if (allMoves.size() == 0) { // if it's checkmate
-                inCheckmate = true;
+                playerState = PlayerState.CHECKMATE;
             } else { // if the king is in check
-                inCheck = true;
+                playerState = PlayerState.CHECK;
             }
         } else {
             if (allMoves.size() == 0) { // if it's stalemate
-                inStalemate = true;
+                playerState = PlayerState.STALEMATE;
             }
         }
 
@@ -340,11 +348,8 @@ public class Player {
 
         return checkCount > 0;
     } // probably combine this method and the latter
-    public boolean isInCheck() { return inCheck; }
-    public boolean isInCheckmate() { return inCheckmate; }
-    public boolean isInStalemate() { return inStalemate; }
-    public boolean isInTimeout() { return timeOut; }
     public boolean isWhite() { return isWhite; }
+    public PlayerState getState() { return playerState; }
 
     public String toString() {
         StringBuilder returnString = new StringBuilder();

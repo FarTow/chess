@@ -124,12 +124,16 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         }
 
         // Check for win conditions
-        if (board.getCurrentPlayer().isInCheck()) {
-            chessNotation.append('+');
-        } else if (board.getCurrentPlayer().isInCheckmate()) {
-            chessNotation.append('#');
-        } else if (board.getCurrentPlayer().isInStalemate()) {
-            chessNotation.append('$');
+        switch (board.getCurrentPlayer().getState()) {
+            case CHECK:
+                chessNotation.append('+');
+                break;
+            case CHECKMATE:
+                chessNotation.append('#');
+                break;
+            case STALEMATE:
+                chessNotation.append('$');
+                break;
         }
 
         return chessNotation.toString();

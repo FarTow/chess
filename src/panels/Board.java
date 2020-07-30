@@ -76,8 +76,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     public void resetBoard() {
-        whitePlayer.defaultResetPieces();
-        blackPlayer.defaultResetPieces();
+        whitePlayer.defaultReset();
+        blackPlayer.defaultReset();
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -257,6 +257,27 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updateAmbiguousMove(toSquare);
     }
 
+    protected int createGameOverPrompt(Player.PlayerState playerState) {
+        Object[] options = new String[] {"Rematch", "Quit"};
+        StringBuilder message = new StringBuilder();
+
+        switch (playerState) {
+            case TIMEOUT:
+            case CHECKMATE:
+                message.append(currentPlayer.isWhite() ? "Black" : "White");
+                message.append(" Won!");
+                break;
+            case STALEMATE:
+                message.append("It's A Draw!");
+                break;
+            default:
+                break;
+        }
+
+        return JOptionPane.showOptionDialog(
+                this, message, "Game Over",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, JOptionPane.UNINITIALIZED_VALUE);
+    }
     protected int createPromotionPrompt(boolean isWhite) {
         Object[] promotionDialogImages = new Object[] {
                 new ImageIcon(isWhite ? Main.whitePieceImages[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceImages[Main.QUEEN_IMAGE_INDEX]),
@@ -269,6 +290,20 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 this, null, "Promote Piece",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null,
                 promotionDialogImages, JOptionPane.UNINITIALIZED_VALUE);
+    }
+
+    protected void endGame(Player.PlayerState playerState, int playerInput) {
+        switch (playerInput) {
+            case -1:
+                createGameOverPrompt(playerState);
+                break;
+            case 0:
+                resetBoard();
+                break;
+            case 1:
+                System.exit(1);
+                break;
+        }
     }
     protected void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
@@ -373,6 +408,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         blackPlayer.formatTime();
 
         repaint();
+
+        if(currentPlayer.getState() == Player.PlayerState.NORMAL || currentPlayer.getState() == Player.PlayerState.CHECK) return;
+
+        endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
+
     }
 
     // Mouse Interaction Methods
