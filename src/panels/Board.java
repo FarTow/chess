@@ -368,15 +368,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
 
             currentPlayer.shouldRunTimer(false); // stop running the player
-            currentPlayer = whiteTurn ? whitePlayer : blackPlayer; // swap players
-            currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
-
-            if (!currentPlayer.getFirstTurn())
-                currentPlayer.shouldRunTimer(true); // start timer if it's the current player's turn
-        } else {
-            currentPlayer = whiteTurn ? whitePlayer : blackPlayer; // swap players
-            currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
         }
+
+        currentPlayer = whiteTurn ? whitePlayer : blackPlayer; // swap players
+        currentPlayer.update(); // PIECES UPDATED AT THE START OF THEIR TURN
+
+        if (timedGame && !currentPlayer.getFirstTurn()) currentPlayer.shouldRunTimer(true); // start timer if it's the current player's turn
     }
 
 
