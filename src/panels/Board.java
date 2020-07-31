@@ -417,7 +417,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         repaint();
 
         if(currentPlayer.getState() != Player.PlayerState.NORMAL && currentPlayer.getState() != Player.PlayerState.CHECK) {
-            game.forceUpdate();
+            if (currentPlayer.getState() != Player.PlayerState.TIMEOUT) game.forceUpdate();
             endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
         }
     }
