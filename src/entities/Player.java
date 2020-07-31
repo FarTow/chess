@@ -260,6 +260,7 @@ public class Player {
 
         getKing().castleCheck(board);
         updateAllMoves();
+        updatePieceCount();
 
         if (isKingInCheck()) {
             if (allMoves.size() == 0) { // if it's checkmate
@@ -272,8 +273,6 @@ public class Player {
                 playerState = PlayerState.STALEMATE;
             }
         }
-
-        updatePieceCount();
     }
 
     // "Changers"

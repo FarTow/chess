@@ -32,6 +32,11 @@ public class Game extends JPanel implements ActionListener {
         });
     }
 
+    protected void reset() {
+        board.reset();
+        moveHistoryDisplay.reset();
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
@@ -46,7 +51,7 @@ public class Game extends JPanel implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
 
         // Create all the components to be shown in Game
-        board = new Board(timeProperties);
+        board = new Board(timeProperties, this);
         moveHistoryDisplay = new MoveHistoryDisplay(board);
         whiteInfoBox = new PlayerInfoBox(board.getWhitePlayer());
         blackInfoBox = new PlayerInfoBox(board.getBlackPlayer());

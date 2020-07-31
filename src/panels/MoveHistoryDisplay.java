@@ -2,6 +2,7 @@ package panels;
 
 import entities.King;
 import entities.Pawn;
+import entities.Player;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,7 +21,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     private JTable moveHistoryTable;
     private DefaultTableModel moveHistoryModel;
     private DefaultTableCellRenderer moveHistoryCellRenderer;
-    private final ArrayList<Object[]> allMoveData;
+    private ArrayList<Object[]> allMoveData;
 
     private boolean whiteTurn;
     private int moveCount;
@@ -40,7 +41,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         add(new JScrollPane(moveHistoryTable));
     }
 
-    public void initUI() {
+    protected void initUI() {
         // Init MoveDisplay Data
         allMoveData.add(new Object[] {moveCount, "", ""});
 
@@ -69,9 +70,17 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         centerTable();
     }
+    public void reset() {
+        moveCount = 1;
+        whiteTurn = true;
+        allMoveData = new ArrayList<Object[]>();
+        allMoveData.add(new Object[] {moveCount, "", ""});
+        moveHistoryModel.setDataVector(readableMoveData(), headers);
+        centerTable();
+    }
 
     // Visual Update
-    public void centerTable() {
+    protected void centerTable() {
         for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
@@ -184,8 +193,8 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent ae) {
         resize(); // very inefficient
-
         updateAllMoveData();
+
         repaint();
     }
 
