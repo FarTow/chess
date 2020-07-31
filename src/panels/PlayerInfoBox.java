@@ -64,6 +64,11 @@ public class PlayerInfoBox extends JPanel {
                 1, 1, 1, 1, 1.0, 0.8, GridBagConstraints.LINE_END);
         add(pieceDiffDisplay, c);
     }
+    public void reset() {
+        timer.reset();
+        pieceDiffDisplay.reset();
+        updateUI();
+    }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

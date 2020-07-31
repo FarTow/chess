@@ -14,6 +14,8 @@ public class TimeDisplay extends JPanel {
         this.player = player;
     }
 
+    public void reset() { }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 

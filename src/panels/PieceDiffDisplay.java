@@ -5,6 +5,7 @@ import entities.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 
 public class PieceDiffDisplay extends JPanel {
     private final Image[] pieceImages;
@@ -25,6 +26,11 @@ public class PieceDiffDisplay extends JPanel {
         pieceImages[2] = Main.greyPieceImages[Main.BISHOP_IMAGE_INDEX];
         pieceImages[3] = Main.greyPieceImages[Main.ROOK_IMAGE_INDEX];
         pieceImages[4] = Main.greyPieceImages[Main.QUEEN_IMAGE_INDEX];
+    }
+
+    public void reset() {
+        updateDiffCount();
+        updateUI();
     }
 
     protected void updateDiffCount() {

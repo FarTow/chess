@@ -109,6 +109,8 @@ public class Player {
             Square currentSquare = grid[startRow + (isWhite ? -1 : 1)][i];
             pieces.add(new Pawn(isWhite, currentSquare));
         }
+
+        updatePieceCount();
     }
     public void randomResetPieces() {
         pieces = new ArrayList<>();

@@ -35,6 +35,8 @@ public class Game extends JPanel implements ActionListener {
     protected void reset() {
         board.reset();
         moveHistoryDisplay.reset();
+        whiteInfoBox.reset();
+        blackInfoBox.reset();
     }
 
     protected void paintComponent(Graphics g) {
