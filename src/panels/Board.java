@@ -61,15 +61,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         whitePlayer = new Player(true, this);
         blackPlayer = new Player (false, this);
 
-        resetBoard();
-        updatePiecePositions();
-        updatePieceImages();
-
         whitePlayer.setEnemyPlayer(blackPlayer);
         blackPlayer.setEnemyPlayer(whitePlayer);
 
-        currentPlayer = whitePlayer;
-        currentPlayer.update();
+        resetBoard();
+        updatePiecePositions();
+        updatePieceImages();
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -81,6 +78,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
+                square.setPiece(null);
+
                 for (Piece piece : whitePlayer.getPieces()) {
                     if (piece.getRow() == square.getRow() && piece.getColumn() == square.getColumn()) square.setPiece(piece);
                 }
@@ -90,6 +89,10 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 }
             }
         }
+
+        whiteTurn = true;
+        currentPlayer = whitePlayer;
+        currentPlayer.update();
     }
     public void resize(int newSquareSize) {
         this.squareLength = newSquareSize;
@@ -412,7 +415,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if(currentPlayer.getState() == Player.PlayerState.NORMAL || currentPlayer.getState() == Player.PlayerState.CHECK) return;
 
         endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
-
     }
 
     // Mouse Interaction Methods
