@@ -8,12 +8,16 @@ import java.awt.event.*;
 public class Game extends JPanel implements ActionListener {
     public static final int FRAME_RATE = 60;
 
+    private final Main main;
+
     private Board board;
     private MoveHistoryDisplay moveHistoryDisplay;
     private PlayerInfoBox whiteInfoBox;
     private PlayerInfoBox blackInfoBox;
 
-    public Game() {
+    public Game(Main main) {
+        this.main = main;
+
         setBackground(Main.BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
 
@@ -32,6 +36,9 @@ public class Game extends JPanel implements ActionListener {
         });
     }
 
+    protected void backToStartMenu() {
+        ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.START_MENU_LABEL);
+    }
     protected void reset() {
         board.reset();
         moveHistoryDisplay.reset();

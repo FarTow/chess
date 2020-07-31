@@ -265,7 +265,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     }
 
     protected int createGameOverPrompt(Player.PlayerState playerState) {
-        Object[] options = new String[] {"Rematch", "Quit"};
+        Object[] options = new String[] {"Rematch", "Back to Start Menu", "Quit"};
         StringBuilder message = new StringBuilder();
 
         switch (playerState) {
@@ -301,14 +301,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     protected void endGame(Player.PlayerState playerState, int playerInput) {
         switch (playerInput) {
-            case -1:
+            case -1: // close prompt
                 createGameOverPrompt(playerState);
                 break;
-            case 0:
+            case 0: // rematch
                 game.reset();
                 break;
-            case 1:
-                System.exit(1);
+            case 1: // back to start menu
+                game.reset();
+                game.backToStartMenu();
+                break;
+            case 2: // quit
+                System.exit(0);
                 break;
         }
     }

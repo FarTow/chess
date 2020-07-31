@@ -59,7 +59,7 @@ public class Main extends JFrame {
 
         cards = new CardLayout();
         startMenu = new StartMenu();
-        game = new Game();
+        game = new Game(this);
 
         setLayout(cards);
         add(startMenu, START_MENU_LABEL);
