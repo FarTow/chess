@@ -29,7 +29,7 @@ public class Player {
 
     private boolean firstTurn; // Time
     private boolean runTimer;
-    private final int[] timeProperties;
+    private int[] timeProperties;
 
     // Interactive Properties (Win Conditions)
     private PlayerState playerState;
@@ -75,6 +75,10 @@ public class Player {
     // Piece Arrangement
     public void defaultReset() {
         playerState = PlayerState.NORMAL;
+        timeProperties = board.getTimeProperties().clone();
+        firstTurn = true;
+        runTimer = false;
+
         pieces = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
