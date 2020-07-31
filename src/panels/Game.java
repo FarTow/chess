@@ -38,6 +38,11 @@ public class Game extends JPanel implements ActionListener {
         whiteInfoBox.reset();
         blackInfoBox.reset();
     }
+    protected void forceUpdate() {
+        moveHistoryDisplay.updateAllMoveData();
+        whiteInfoBox.forceUpdate();
+        blackInfoBox.forceUpdate();
+    }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

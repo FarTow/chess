@@ -159,8 +159,6 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         return readableMoveData;
     }
     protected void updateAllMoveData() {
-        if (whiteTurn == board.getWhiteTurn()) return; // essentially "if a move didn't take place"
-
         int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
         boolean pieceTaken = pieceCount == newPieceCount+1;
 
@@ -193,7 +191,10 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     }
     public void actionPerformed(ActionEvent ae) {
         resize(); // very inefficient
-        updateAllMoveData();
+
+        if (whiteTurn != board.getWhiteTurn()) {
+            updateAllMoveData();
+        }
 
         repaint();
     }

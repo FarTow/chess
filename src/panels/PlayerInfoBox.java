@@ -69,6 +69,10 @@ public class PlayerInfoBox extends JPanel {
         pieceDiffDisplay.reset();
         updateUI();
     }
+    protected void forceUpdate() {
+        pieceDiffDisplay.updateDiffCount();
+        pieceDiffDisplay.updateUI();
+    }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

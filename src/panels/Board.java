@@ -415,6 +415,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         blackPlayer.formatTime();
 
         repaint();
+
+        if(currentPlayer.getState() != Player.PlayerState.NORMAL && currentPlayer.getState() != Player.PlayerState.CHECK) {
+            game.forceUpdate();
+            endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
+        }
     }
 
     // Mouse Interaction Methods
@@ -466,10 +471,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
                     }
                     selectedPiece = null; // no selected piece now
-
-                    if(currentPlayer.getState() != Player.PlayerState.NORMAL && currentPlayer.getState() != Player.PlayerState.CHECK) {
-                        endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
-                    }
 
                     return; // exit loop as the selected piece is now null
                 }
