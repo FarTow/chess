@@ -42,34 +42,48 @@ public abstract class Piece {
                 isJumpingDiagonally(newRow, newCol, grid));
     }
     protected boolean isJumpingVertically(int newRow, int newCol, Square[][] grid) {
-        if (square.getCol() != newCol) return false;
+        if (square.getCol() != newCol) {
+            return false;
+        }
 
-        for (int currRow = square.getRow() + (square.getRow()<newRow ? 1 : -1);
-             (square.getRow()<newRow ? currRow<newRow : currRow>newRow);
-             currRow += (square.getRow()<newRow ? 1 : -1)) {
-            if (grid[currRow][square.getCol()].getPiece() != null) return true;
+        boolean posRowDiff = square.getRow() < newRow;
+        int incRowBy = posRowDiff ? 1 : -1;
+
+        for (int currRow = square.getRow() + incRowBy;
+             (posRowDiff ? currRow<newRow : currRow>newRow);
+             currRow += incRowBy) {
+            if (grid[currRow][square.getCol()].getPiece() != null) {
+                return true;
+            }
         }
 
         return false;
     }
     protected boolean isJumpingHorizontally(int newRow, int newCol, Square[][] grid) {
-        if (square.getRow() != newRow) return false;
+        if (square.getRow() != newRow) {
+            return false;
+        }
 
-        for (int currCol = square.getCol() + (square.getCol()<newCol ? 1 : -1);
+        boolean posColDiff = square.getCol() < newCol;
+        int incColBy = posColDiff ? 1 : -1;
+
+        for (int currCol = square.getCol() + incColBy;
              (square.getCol()<newCol ? currCol<newCol : currCol>newCol);
-             currCol += (square.getCol()<newCol ? 1 : -1)) {
-            if (grid[square.getRow()][currCol].getPiece() != null) return true;
+             currCol += incColBy) {
+            if (grid[square.getRow()][currCol].getPiece() != null) {
+                return true;
+            }
         }
 
         return false;
     }
     protected boolean isJumpingDiagonally(int newRow, int newCol, Square[][] grid) {
-
-
         int rowDiff = square.getRow()-newRow; // positive result = moving "up"
         int colDiff = square.getCol()-newCol; // positive result = moving "left"
 
-        if(Math.abs(rowDiff) != Math.abs(colDiff)) return false;
+        if(Math.abs(rowDiff) != Math.abs(colDiff)) {
+            return false;
+        }
 
         boolean posRowDiff = rowDiff > 0;
         boolean posColDiff = colDiff > 0;
@@ -80,7 +94,6 @@ public abstract class Piece {
              (posRowDiff ? currRow > newRow : currRow < newRow) &&
                      (posColDiff ? currCol > newCol : currCol < newCol);
              currRow += incRowBy, currCol += incColBy) {
-
             if (grid[currRow][currCol].getPiece() != null) {
                 return true;
             }
@@ -89,40 +102,62 @@ public abstract class Piece {
         return false;
     }
 
-    public void scaleImage(int length) { image = defaultImage.getScaledInstance(length, length, 0); }
+    public void scaleImage(int length) {
+        image = defaultImage.getScaledInstance(length, length, 0);
+    }
 
-    public void setSquare(Square square) { this.square = square; }
+    public void setSquare(Square square) {
+        this.square = square;
+    }
     protected void setImage(String name) {
-        // getClass().getName().substring(getClass().getName().indexOf('.')+1)
         try {
-            image = defaultImage = ImageIO.read(new File("res/pieces/" + (isWhite ? "white" : "black") + "-" + name + ".png"));
+            image = defaultImage = ImageIO.read(new File("res/pieces/" +
+                    (isWhite ? "white" : "black") + "-" + name + ".png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void setTopLeft(Point topLeft) { this.topLeft = topLeft; }
+    public void setTopLeft(Point topLeft) {
+        this.topLeft = topLeft;
+    }
     public void setPos(Point pos) {
         this.topLeft = new Point(pos.x-image.getWidth(null)/2,
                 pos.y-image.getHeight(null)/2);
     }
-    public void setFirstMove(boolean firstMove) { this.firstMove = firstMove; }
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
     public void setMoveableSquares(ArrayList<Square> moveableSquares) {
         this.moveableSquares = moveableSquares;
     }
 
     public abstract char getNotation();
-    public Square getSquare() { return square; }
-    public Image getImage() { return image; }
-    public Point getTopLeft() { return topLeft; }
+    public Square getSquare() {
+        return square;
+    }
+    public Image getImage() {
+        return image;
+    }
+    public Point getTopLeft() {
+        return topLeft;
+    }
     public Point getPos() {
         return new Point(topLeft.x+image.getWidth(null)/2,
                 topLeft.y+image.getHeight(null)/2);
     }
-    public int getRow() { return square.getRow(); }
-    public int getCol() { return square.getCol(); }
-    public boolean isWhite() { return isWhite; }
-    public boolean isFirstMove() { return firstMove; }
-    public ArrayList<Square> getMoveableSquares() { return moveableSquares; }
-
-
+    public int getRow() {
+        return square.getRow();
+    }
+    public int getCol() {
+        return square.getCol();
+    }
+    public boolean isWhite() {
+        return isWhite;
+    }
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+    public ArrayList<Square> getMoveableSquares() {
+        return moveableSquares;
+    }
 }
