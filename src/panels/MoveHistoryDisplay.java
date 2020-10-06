@@ -2,7 +2,6 @@ package panels;
 
 import entities.King;
 import entities.Pawn;
-import entities.Player;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -73,7 +72,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     public void reset() {
         moveCount = 1;
         whiteTurn = true;
-        allMoveData = new ArrayList<Object[]>();
+        allMoveData = new ArrayList<>();
         allMoveData.add(new Object[] {moveCount, "", ""});
         moveHistoryModel.setDataVector(readableMoveData(), headers);
         centerTable();
@@ -81,7 +80,8 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
     // Visual Update
     protected void centerTable() {
-        for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
+        for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table
+            // values
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
     }
@@ -101,9 +101,9 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
         // Initialize chessNotation string and other used variables
         StringBuilder chessNotation = new StringBuilder();
         int oldRank = (4 + (4 - board.getOldRow()));
-        char oldFile = (char) ((char) 97 + board.getOldColumn());
+        char oldFile = (char) ((char) 97 + board.getOldCol());
         int newRank = (4 + (4 - board.getNewRow()));
-        char newFile = (char) ((char) 97 + board.getNewColumn());
+        char newFile = (char) ((char) 97 + board.getNewCol());
         chessNotation.append(board.getLastPieceMoved().getNotation()); // symbol of the piece that moved
 
         // Append "taken" notation if a piece was taken
@@ -114,7 +114,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         // Check for ambiguity and adjust string accordingly
         if (board.isMoveAmbiguous()) {
-            if (board.isColumnAmbiguous()) {
+            if (board.isColAmbiguous()) {
                 chessNotation.append(oldRank);
             } else {
                 chessNotation.append(oldFile);

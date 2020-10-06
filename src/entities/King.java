@@ -16,16 +16,16 @@ public class King extends Piece {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 int newRow = square.getRow();
-                int newColumn = square.getColumn();
+                int newCol = square.getCol();
                 int rowDiff = Math.abs(getRow() - newRow);
-                int columnDiff = Math.abs(getColumn() - newColumn);
+                int columnDiff = Math.abs(getCol() - newCol);
 
-                if (isJumping(newRow, newColumn, grid)) continue;
+                if (isJumping(newRow, newCol, grid)) continue;
                 if (rowDiff >= 2 || columnDiff >= 3) continue;
 
                 if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally
                     if (firstMove) { // if it's the king's first move
-                        boolean kingSideCastle = getColumn() - newColumn < 0;
+                        boolean kingSideCastle = getCol() - newCol < 0;
                         Piece rook = kingSideCastle ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece(); // rook on the side player moved
 
                         if (rook instanceof Rook) { // piece is a rook

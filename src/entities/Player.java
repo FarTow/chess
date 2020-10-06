@@ -159,7 +159,9 @@ public class Player {
 
                 if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) continue;
 
-                Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getColumn()]; // square behind pawn
+                Square possiblePawnSquare =
+                        board.getGrid()[piece.getRow() + behindRowDirection][piece.getCol()]; // square
+                // behind pawn
                 Piece possiblePawn = possiblePawnSquare.getPiece();
 
                 if (possiblePawn instanceof Pawn) {
@@ -295,11 +297,12 @@ public class Player {
 
         boolean mayMove;
         int oldRow = piece.getRow();
-        int oldColumn = piece.getColumn();
+        int oldCol = piece.getCol();
 
         board.movePiece(piece, toSquare, false); // move piece to desired square
         mayMove = !isKingInCheck();
-        board.movePiece(piece, board.getGrid()[oldRow][oldColumn], false); // move the piece back to original square
+        board.movePiece(piece, board.getGrid()[oldRow][oldCol], false); // move the piece back to original
+        // square
         toSquare.setPiece(takenPiece); // set the new square's piece back
         if (takenPiece != null) enemyPlayer.addPiece(takenPiece);
 

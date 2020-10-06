@@ -19,7 +19,7 @@ public class Square {
 
     public String toString() { return ("(" + row + ", " + column + ")"); }
     public int getRow() { return row; }
-    public int getColumn() { return column; }
+    public int getCol() { return column; }
     public Rectangle getRect() { return rect; }
     public Point getTopLeft() { return new Point(rect.x, rect.y); }
     public Point getBottomRight() { return new Point(rect.x+rect.width, rect.y+rect.height); }

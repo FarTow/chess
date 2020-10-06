@@ -31,9 +31,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // External Trackers
     private Piece lastPieceMoved;
-    private int oldRow, oldColumn;
-    private int newRow, newColumn;
-    private boolean ambiguousMove, ambiguousColumn;
+    private int oldRow, oldCol;
+    private int newRow, newCol;
+    private boolean ambiguousMove, ambiguousCol;
     private int castlingStatus;
     private char pawnPromotionStatus;
 
@@ -85,11 +85,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 square.setPiece(null);
 
                 for (Piece piece : whitePlayer.getPieces()) {
-                    if (piece.getRow() == square.getRow() && piece.getColumn() == square.getColumn()) square.setPiece(piece);
+                    if (piece.getRow() == square.getRow() && piece.getCol() == square.getCol()) square.setPiece(piece);
                 }
 
                 for (Piece piece : blackPlayer.getPieces()) {
-                    if (piece.getRow() == square.getRow() && piece.getColumn() == square.getColumn()) square.setPiece(piece);
+                    if (piece.getRow() == square.getRow() && piece.getCol() == square.getCol()) square.setPiece(piece);
                 }
             }
         }
@@ -139,7 +139,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     protected void drawBoard(Graphics g) {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                g.setColor(square.getRow()%2 == square.getColumn()%2 ?
+                g.setColor(square.getRow()%2 == square.getCol()%2 ?
                         new Color(240, 199, 134) : new Color(181, 136, 99));
                 g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
             }
@@ -174,7 +174,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) {
-                    if (square.getRow() == selectedPiece.getRow() && square.getColumn() == selectedPiece.getColumn()) {
+                    if (square.getRow() == selectedPiece.getRow() && square.getCol() == selectedPiece.getCol()) {
                         g.setColor(new Color(82, 157, 204));
                         g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
                         return;
@@ -246,7 +246,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                     if (piece.canMove(toSquare)) {
                         ambiguousMove = true;
 
-                        if (selectedPiece.getColumn() == piece.getColumn()) ambiguousColumn = true;
+                        if (selectedPiece.getCol() == piece.getCol()) ambiguousCol = true;
                     }
                 }
             }
@@ -255,12 +255,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     protected void updateMoveHistoryInteractors(Square toSquare) {
         if (selectedPiece == null) return;
 
-        ambiguousMove = ambiguousColumn = false;
+        ambiguousMove = ambiguousCol = false;
         lastPieceMoved = selectedPiece;
         oldRow = selectedPiece.getRow();
-        oldColumn = selectedPiece.getColumn();
+        oldCol = selectedPiece.getCol();
         newRow = toSquare.getRow();
-        newColumn = toSquare.getColumn();
+        newCol = toSquare.getCol();
         updateAmbiguousMove(toSquare);
     }
 
@@ -349,7 +349,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (selectedPiece == null) return;
 
         if (selectedPiece instanceof King) { // if the piece was a king
-            int columnDiff = oldColumn - newColumn;
+            int columnDiff = oldCol - newCol;
 
             if (Math.abs(columnDiff) == 2) {
                 currentPlayer.physicallyCastle(columnDiff < 0 ? 1 : 2); // if it castled, tell the player it castled
@@ -383,12 +383,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.getRow();
-        int oldColumn = piece.getColumn();
+        int oldCol = piece.getCol();
 
         if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
         piece.setSquare(toSquare);
         toSquare.setPiece(piece); // set the square's piece to the selected piece
-        grid[oldRow][oldColumn].setPiece(null); // set the old square's piece to null
+        grid[oldRow][oldCol].setPiece(null); // set the old square's piece to null
     }
 
     protected void paintComponent(Graphics g) {
@@ -469,7 +469,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         whiteTurn = turnCount%2==0;
                         swapPlayer();
                     } else {
-                        selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getColumn()].getTopLeft()); // move the selected piece back if it can't move there
+                        selectedPiece.setTopLeft(grid[selectedPiece.getRow()][selectedPiece.getCol()].getTopLeft()); // move the selected piece back if it can't move there
                     }
                     selectedPiece = null; // no selected piece now
 
@@ -493,9 +493,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean isTimedGame() { return timedGame; }
     public Square[][] getGrid() { return grid; } // "Grid" Getters
     public int getOldRow() { return oldRow; }
-    public int getOldColumn() { return oldColumn; }
+    public int getOldCol() { return oldCol; }
     public int getNewRow() { return newRow; }
-    public int getNewColumn() { return newColumn; }
+    public int getNewCol() { return newCol; }
     public Player getWhitePlayer() { return whitePlayer; } // Player Getters
     public Player getBlackPlayer() { return blackPlayer; }
     public Player getCurrentPlayer() { return currentPlayer; }
@@ -504,6 +504,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public char getPawnPromotionStatus() { return pawnPromotionStatus; }
     public Piece getLastPieceMoved() { return lastPieceMoved; }
     public boolean isMoveAmbiguous() { return ambiguousMove; }
-    public boolean isColumnAmbiguous() { return ambiguousColumn; }
+    public boolean isColAmbiguous() { return ambiguousCol; }
 
 }

@@ -23,9 +23,8 @@ public abstract class Piece {
         moveableSquares = new ArrayList<>();
     }
 
-
+    // pre-condition: toSquare != null
     public boolean canMove(Square toSquare) {
-        // pre:
         if (toSquare == null) {
             throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
         }
@@ -35,36 +34,40 @@ public abstract class Piece {
     public abstract void update(Board board);
 
     // Jumping Checkers (no pun intended)
-    protected boolean isJumping(int newRow, int newColumn, Square[][] grid) {
-        return (isJumpingVertically(newRow, newColumn, grid) ||
-                isJumpingHorizontally(newRow, newColumn, grid) ||
-                isJumpingDiagonally(newRow, newColumn, grid));
+
+    // pre-condition: newRow >= 0, new
+    protected boolean isJumping(int newRow, int newCol, Square[][] grid) {
+        return (isJumpingVertically(newRow, newCol, grid) ||
+                isJumpingHorizontally(newRow, newCol, grid) ||
+                isJumpingDiagonally(newRow, newCol, grid));
     }
-    protected boolean isJumpingVertically(int newRow, int newColumn, Square[][] grid) {
-        if (square.getColumn() != newColumn) return false;
+    protected boolean isJumpingVertically(int newRow, int newCol, Square[][] grid) {
+        if (square.getCol() != newCol) return false;
 
         for (int currRow = square.getRow() + (square.getRow()<newRow ? 1 : -1);
              (square.getRow()<newRow ? currRow<newRow : currRow>newRow);
              currRow += (square.getRow()<newRow ? 1 : -1)) {
-            if (grid[currRow][square.getColumn()].getPiece() != null) return true;
+            if (grid[currRow][square.getCol()].getPiece() != null) return true;
         }
 
         return false;
     }
-    protected boolean isJumpingHorizontally(int newRow, int newColumn, Square[][] grid) {
+    protected boolean isJumpingHorizontally(int newRow, int newCol, Square[][] grid) {
         if (square.getRow() != newRow) return false;
 
-        for (int currCol = square.getColumn() + (square.getColumn()<newColumn ? 1 : -1);
-             (square.getColumn()<newColumn ? currCol<newColumn : currCol>newColumn);
-             currCol += (square.getColumn()<newColumn ? 1 : -1)) {
+        for (int currCol = square.getCol() + (square.getCol()<newCol ? 1 : -1);
+             (square.getCol()<newCol ? currCol<newCol : currCol>newCol);
+             currCol += (square.getCol()<newCol ? 1 : -1)) {
             if (grid[square.getRow()][currCol].getPiece() != null) return true;
         }
 
         return false;
     }
-    protected boolean isJumpingDiagonally(int newRow, int newColumn, Square[][] grid) {
+    protected boolean isJumpingDiagonally(int newRow, int newCol, Square[][] grid) {
+
+
         int rowDiff = square.getRow()-newRow; // positive result = moving "up"
-        int colDiff = square.getColumn()-newColumn; // positive result = moving "left"
+        int colDiff = square.getCol()-newCol; // positive result = moving "left"
 
         if(Math.abs(rowDiff) != Math.abs(colDiff)) return false;
 
@@ -73,9 +76,9 @@ public abstract class Piece {
         int incRowBy = (posRowDiff ? -1 : 1);
         int incColBy = (posColDiff ? -1 : 1);
 
-        for (int currRow = square.getRow() + incRowBy, currCol = square.getColumn() + incColBy;
+        for (int currRow = square.getRow() + incRowBy, currCol = square.getCol() + incColBy;
              (posRowDiff ? currRow > newRow : currRow < newRow) &&
-                     (posColDiff ? currCol > newColumn : currCol < newColumn);
+                     (posColDiff ? currCol > newCol : currCol < newCol);
              currRow += incRowBy, currCol += incColBy) {
 
             if (grid[currRow][currCol].getPiece() != null) {
@@ -116,7 +119,7 @@ public abstract class Piece {
                 topLeft.y+image.getHeight(null)/2);
     }
     public int getRow() { return square.getRow(); }
-    public int getColumn() { return square.getColumn(); }
+    public int getCol() { return square.getCol(); }
     public boolean isWhite() { return isWhite; }
     public boolean isFirstMove() { return firstMove; }
     public ArrayList<Square> getMoveableSquares() { return moveableSquares; }

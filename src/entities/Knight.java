@@ -17,11 +17,11 @@ public class Knight extends Piece {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 int newRow = square.getRow();
-                int newColumn = square.getColumn();
+                int newCol = square.getCol();
 
-                if (getRow() == newRow || getColumn() == newColumn) continue;
+                if (getRow() == newRow || getCol() == newCol) continue;
 
-                if ((Math.abs(getRow() - newRow) + Math.abs(getColumn() - newColumn)) == 3) moveableSquares.add(square);
+                if ((Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol)) == 3) moveableSquares.add(square);
             }
         }
     }

@@ -18,12 +18,12 @@ public class Queen extends Piece {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 int newRow = square.getRow();
-                int newColumn = square.getColumn();
+                int newCol = square.getCol();
 
-                if (isJumping(newRow, newColumn, grid)) continue;
+                if (isJumping(newRow, newCol, grid)) continue;
 
-                if (getRow() == newRow || getColumn() == newColumn) moveableSquares.add(square);
-                if (Math.abs(getRow()-newRow) == Math.abs(getColumn()-newColumn)) moveableSquares.add(square);
+                if (getRow() == newRow || getCol() == newCol) moveableSquares.add(square);
+                if (Math.abs(getRow()-newRow) == Math.abs(getCol()-newCol)) moveableSquares.add(square);
             }
         }
     }

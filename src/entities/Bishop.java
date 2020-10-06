@@ -18,11 +18,11 @@ public class Bishop extends Piece {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 int newRow = square.getRow();
-                int newColumn = square.getColumn();
+                int newCol = square.getCol();
 
-                if (isJumping(newRow, newColumn, grid) || getRow() == newRow || getColumn() == newColumn) continue;
+                if (isJumping(newRow, newCol, grid) || getRow() == newRow || getCol() == newCol) continue;
 
-                if (Math.abs(getRow() - newRow) == Math.abs(getColumn() - newColumn)) moveableSquares.add(square);
+                if (Math.abs(getRow() - newRow) == Math.abs(getCol() - newCol)) moveableSquares.add(square);
             }
         }
     }
