@@ -17,7 +17,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     private boolean initialCenter;
 
     private final int[] timeProperties;
-    private boolean timedGame;
+    private final boolean timedGame;
 
     // Players
     private final Player whitePlayer;
@@ -31,9 +31,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // External Trackers
     private Piece lastPieceMoved;
-    private int oldRow, oldCol;
-    private int newRow, newCol;
-    private boolean ambiguousMove, ambiguousCol;
+    private int oldRow;
+    private int oldCol;
+    private int newRow;
+    private int newCol;
+    private boolean ambiguousMove;
+    private boolean ambiguousCol;
     private int castlingStatus;
     private char pawnPromotionStatus;
 

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class Knight extends Piece {
     public Knight(boolean isWhite, Square square) {
         super(isWhite, square);
-        setImage("knight");
+        imageName = "knight";
+        setImage();
     }
 
     public void update(Board board) {

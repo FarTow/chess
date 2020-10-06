@@ -5,6 +5,7 @@ import panels.Board;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player {
     public enum PlayerState {
@@ -19,15 +20,21 @@ public class Player {
     public static final int SECONDS_INDEX = 1;
     public static final int INCREMENT_INDEX = 2;
 
+    private final int PAWN_INDEX = 0;
+    private final int KNIGHT_INDEX = 1;
+    private final int BISHOP_INDEX = 2;
+    private final int ROOK_INDEX = 3;
+    private final int QUEEN_INDEX = 4;
+
     private final Board board;
 
     // Personal Properties ("Human")
     private final boolean isWhite;
     private ArrayList<Piece> pieces;
-    private final int[] pieceCount; // Indices: 0 = Pawn, 1 = Knight, 2 = Bishop, 3 = Rook, 4 = Queen
+    private final int[] pieceCount;
     private ArrayList<Square> allMoves;
 
-    private boolean firstTurn; // Time
+    private boolean firstTurn;
     private boolean runTimer;
     private int[] timeProperties;
 
@@ -116,39 +123,6 @@ public class Player {
 
         updatePieceCount();
     }
-    public void randomResetPieces() {
-        pieces = new ArrayList<>();
-        Square[][] grid = board.getGrid();
-
-        int startRow = isWhite ? 7 : 0;
-
-        for (int i=0; i<=7; i++) {
-            Square currentSquare = grid[startRow][i];
-
-            if (i == 4) {
-                pieces.add(new King(isWhite, currentSquare));
-            } else {
-                double randomNumber = Math.random();
-
-                if (randomNumber <= .2) {
-                    pieces.add(new Pawn(isWhite, currentSquare));
-                } else if (randomNumber <= .4) {
-                    pieces.add(new Rook(isWhite, currentSquare));
-                } else if (randomNumber <= .6) {
-                    pieces.add(new Knight(isWhite, currentSquare));
-                } else if (randomNumber <= .8) {
-                    pieces.add(new Bishop(isWhite, currentSquare));
-                } else {
-                    pieces.add(new Queen(isWhite, currentSquare));
-                }
-            }
-        }
-
-        for (int i=0; i<=7; i++) {
-            Square currentSquare = grid[startRow + (isWhite ? -1 : 1)][i];
-            pieces.add(new Pawn(isWhite, currentSquare));
-        }
-    }
 
     // Special Case Updates
     public void enPassantUpdate() { // credits to Tanvir for this logic
@@ -205,48 +179,28 @@ public class Player {
         }
     }
     public void updatePieceCount() {
-        int pawnCount, knightCount, bishopCount, rookCount, queenCount;
-        pawnCount = knightCount = bishopCount = rookCount = queenCount = 0;
+        Arrays.fill(pieceCount, 0);
 
         for (Piece piece : pieces) {
             switch(piece.getNotation()) {
                 case (char) 0:
-                    pawnCount += 1;
+                    pieceCount[PAWN_INDEX]++;
                     break;
                 case 'N':
-                    knightCount += 1;
+                    pieceCount[KNIGHT_INDEX]++;
                     break;
                 case 'B':
-                    bishopCount += 1;
+                    pieceCount[BISHOP_INDEX]++;
                     break;
                 case 'R':
-                    rookCount += 1;
+                    pieceCount[ROOK_INDEX]++;
                     break;
                 case 'Q':
-                    queenCount += 1;
+                    pieceCount[QUEEN_INDEX]++;
                     break;
             }
         }
 
-        for (int i=0; i<pieceCount.length; i++) {
-            switch(i) {
-                case 0:
-                    pieceCount[i] = pawnCount;
-                    break;
-                case 1:
-                    pieceCount[i] = knightCount;
-                    break;
-                case 2:
-                    pieceCount[i] = bishopCount;
-                    break;
-                case 3:
-                    pieceCount[i] = rookCount;
-                    break;
-                case 4:
-                    pieceCount[i] = queenCount;
-                    break;
-            }
-        }
     }
     public void update() {
         playerState = PlayerState.NORMAL;

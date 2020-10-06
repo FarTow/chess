@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Queen extends Piece {
     public Queen(boolean isWhite, Square square) {
         super(isWhite, square);
-        setImage("queen");
+        imageName = "queen";
+        setImage();
     }
 
     public void update(Board board) {

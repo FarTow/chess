@@ -6,7 +6,8 @@ import java.util.ArrayList;
 public class King extends Piece {
     public King(boolean isWhite, Square square) {
         super(isWhite, square);
-        setImage("king");
+        imageName = "king";
+        setImage();
     }
 
     public void update(Board board) {

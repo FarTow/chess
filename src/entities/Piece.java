@@ -9,13 +9,17 @@ import java.io.File;
 import java.util.ArrayList;
 
 public abstract class Piece {
+    protected String imageName;
     protected Square square;
     protected Point topLeft;
-    protected Image image, defaultImage;
     protected ArrayList<Square> moveableSquares;
-    protected boolean isWhite, firstMove;
+    protected Image image;
+    protected Image defaultImage;
+    protected boolean isWhite;
+    protected boolean firstMove;
 
     public Piece(boolean isWhite, Square square) {
+        imageName = "";
         this.isWhite = isWhite;
         this.square = square;
         topLeft = square.getTopLeft();
@@ -35,7 +39,7 @@ public abstract class Piece {
 
     // Jumping Checkers (no pun intended)
 
-    // pre-condition: newRow >= 0, new
+    // pre-condition: newRow >= 0 && newRow < 8, newCol >= 0 &&
     protected boolean isJumping(int newRow, int newCol, Square[][] grid) {
         return (isJumpingVertically(newRow, newCol, grid) ||
                 isJumpingHorizontally(newRow, newCol, grid) ||
@@ -109,10 +113,10 @@ public abstract class Piece {
     public void setSquare(Square square) {
         this.square = square;
     }
-    protected void setImage(String name) {
+    protected void setImage() {
         try {
             image = defaultImage = ImageIO.read(new File("res/pieces/" +
-                    (isWhite ? "white" : "black") + "-" + name + ".png"));
+                    (isWhite ? "white" : "black") + "-" + imageName + ".png"));
         } catch (Exception e) {
             e.printStackTrace();
         }

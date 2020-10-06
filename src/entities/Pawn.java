@@ -10,7 +10,8 @@ public class Pawn extends Piece {
 
     public Pawn(boolean isWhite, Square square) {
         super(isWhite, square);
-        setImage("pawn");
+        imageName = "pawn";
+        setImage();
     }
 
     public void update(Board board) {
