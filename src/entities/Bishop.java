@@ -1,10 +1,5 @@
 package entities;
 
-import panels.Board;
-
-import java.awt.Point;
-import java.util.ArrayList;
-
 public class Bishop extends Piece {
     public Bishop(boolean isWhite, Square square) {
         super(isWhite, square);
@@ -21,5 +16,6 @@ public class Bishop extends Piece {
         return Math.abs(getRow() - newRow) == Math.abs(getCol() - newCol);
     }
 
+    @Override
     public char getNotation() { return 'B'; }
 }

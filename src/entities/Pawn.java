@@ -1,10 +1,5 @@
 package entities;
 
-import panels.Board;
-
-import java.awt.Point;
-import java.util.ArrayList;
-
 public class Pawn extends Piece {
     private boolean enPassantCapturable;
 
@@ -48,5 +43,7 @@ public class Pawn extends Piece {
     public void setEnPassantCapturable(boolean enPassantCapturable) { this.enPassantCapturable = enPassantCapturable; }
 
     public boolean isEnPassantCapturable() { return enPassantCapturable; }
+
+    @Override
     public char getNotation() { return (char) 0; }
 }

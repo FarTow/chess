@@ -1,7 +1,6 @@
 package entities;
 
 import panels.Board;
-import java.util.ArrayList;
 
 public class King extends Piece {
     public King(boolean isWhite, Square square) {
@@ -49,5 +48,6 @@ public class King extends Piece {
         }
     }
 
+    @Override
     public char getNotation() { return 'K'; }
 }

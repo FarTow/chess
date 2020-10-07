@@ -1,9 +1,5 @@
 package entities;
 
-import panels.Board;
-
-import java.util.ArrayList;
-
 public class Knight extends Piece {
     public Knight(boolean isWhite, Square square) {
         super(isWhite, square);
@@ -20,5 +16,6 @@ public class Knight extends Piece {
         return Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol) == 3;
     }
 
+    @Override
     public char getNotation() { return 'N'; }
 }

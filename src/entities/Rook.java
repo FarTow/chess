@@ -1,10 +1,5 @@
 package entities;
 
-import panels.Board;
-
-import java.awt.Point;
-import java.util.ArrayList;
-
 public class Rook extends Piece {
     public Rook(boolean isWhite, Square square) {
         super(isWhite, square);
@@ -21,5 +16,6 @@ public class Rook extends Piece {
         return getRow() == newRow || getCol() == newCol;
     }
 
+    @Override
     public char getNotation() { return 'R'; }
 }

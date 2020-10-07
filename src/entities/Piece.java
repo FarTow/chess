@@ -27,7 +27,7 @@ public abstract class Piece {
         moveableSquares = new ArrayList<>();
     }
 
-    // pre-condition: toSquare != null
+    // pre: toSquare != null
     public boolean mayMove(Square toSquare) {
         if (toSquare == null) {
             throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
@@ -51,7 +51,8 @@ public abstract class Piece {
 
     // Jumping Checkers (no pun intended)
 
-    // pre-condition: newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null
+    // pre: newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null
+    // post:
     protected boolean jumping(int newRow, int newCol, Square[][] grid) {
         if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8 || grid == null) {
             throw new IllegalArgumentException("Violation of pre-condition: " +
@@ -125,6 +126,7 @@ public abstract class Piece {
         return false;
     }
 
+    // pre
     public void scaleImage(int length) {
         image = defaultImage.getScaledInstance(length, length, 0);
     }
