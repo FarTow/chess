@@ -20,9 +20,13 @@ public class Knight extends Piece {
                 int newRow = square.getRow();
                 int newCol = square.getCol();
 
-                if (getRow() == newRow || getCol() == newCol) continue;
+                if (getRow() == newRow || getCol() == newCol) {
+                    continue;
+                }
 
-                if ((Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol)) == 3) moveableSquares.add(square);
+                if ((Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol)) == 3){
+                    moveableSquares.add(square);
+                }
             }
         }
     }
