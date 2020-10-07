@@ -122,19 +122,6 @@ public abstract class Piece {
             currRow += incRowBy;
             currCol += incColBy;
         }
-
-        /*
-        for (int currRow = square.getRow() + incRowBy, currCol = square.getCol() + incColBy;
-             (posRowDiff ? currRow > newRow : currRow < newRow) &&
-                     (posColDiff ? currCol > newCol : currCol < newCol);
-             currRow += incRowBy, currCol += incColBy) {
-            if (grid[currRow][currCol].getPiece() != null) {
-                return true;
-            }
-        }
-
-         */
-
         return false;
     }
 
