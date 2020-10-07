@@ -10,43 +10,29 @@ public class King extends Piece {
         setImage();
     }
 
-    public void update(Board board) {
-        moveableSquares = new ArrayList<>();
-        Square[][] grid = board.getGrid();
+    @Override
+    public boolean canMove(int newRow, int newCol, Square[][] grid) {
+        int rowDiff = Math.abs(getRow() - newRow);
+        int columnDiff = Math.abs(getCol() - newCol);
 
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                int newRow = square.getRow();
-                int newCol = square.getCol();
-                int rowDiff = Math.abs(getRow() - newRow);
-                int columnDiff = Math.abs(getCol() - newCol);
-
-                if (jumping(newRow, newCol, grid)) {
-                    continue;
-                }
-                if (rowDiff >= 2 || columnDiff >= 3) {
-                    continue;
-                }
-
-                if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally
-                    if (firstMove) { // if it's the king's first move
-                        boolean kingSideCastle = getCol() - newCol < 0;
-                        Piece rook = kingSideCastle ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece();
-
-                        if (rook instanceof Rook) { // piece is a rook
-                            if (rook.isFirstMove() && rook.isWhite() == isWhite) { // rook's first move
-                                moveableSquares.add(square);
-                            }
-                        }
-                    }
-                } else {
-                    if (rowDiff + columnDiff <= 2 && columnDiff <= 1) {
-                        moveableSquares.add(square);
-                    }
-                }
-
-            }
+        if (jumping(newRow, newCol, grid) || rowDiff >= 2 || columnDiff >= 3) {
+            return false;
         }
+
+        if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally
+            if (firstMove) { // if it's the king's first move
+                boolean kingSideCastle = getCol() - newCol < 0;
+                Piece rook = kingSideCastle ? grid[getRow()][7].getPiece() : grid[getRow()][0].getPiece();
+
+                if (rook instanceof Rook) { // piece is a rook
+                    return rook.isFirstMove() && rook.isWhite() == isWhite; // rook's first move
+                }
+            }
+        } else {
+            return rowDiff + columnDiff <= 2 && columnDiff <= 1;
+        }
+
+        return false;
     }
 
     public void castleCheck(Board board) {

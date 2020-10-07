@@ -28,14 +28,26 @@ public abstract class Piece {
     }
 
     // pre-condition: toSquare != null
-    public boolean canMove(Square toSquare) {
+    public boolean mayMove(Square toSquare) {
         if (toSquare == null) {
             throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
         }
 
         return moveableSquares.contains(toSquare);
     }
-    public abstract void update(Board board);
+    public void update(Board board) {
+        moveableSquares = new ArrayList<>();
+        Square[][] grid = board.getGrid();
+
+        for (Square[] squareRow : grid) {
+            for (Square square : squareRow) {
+                if (canMove(square.getRow(), square.getCol(), grid)) {
+                    moveableSquares.add(square);
+                }
+            }
+        }
+    }
+    public abstract boolean canMove(int newRow, int newCol, Square[][] grid);
 
     // Jumping Checkers (no pun intended)
 

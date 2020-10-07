@@ -305,7 +305,7 @@ public class Player {
         for (Piece piece : enemyPlayer.getPieces() ) {
             piece.update(board);
 
-            if (piece.canMove(getKing().getSquare())) { checkCount++; }
+            if (piece.mayMove(getKing().getSquare())) { checkCount++; }
         }
 
         return checkCount > 0;

@@ -183,7 +183,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         return;
                     }
 
-                    g.setColor(((selectedPiece.canMove(square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
+                    g.setColor(((selectedPiece.mayMove(square)) ? new Color(130, 151, 105) : new Color(204, 88, 82)));
                     g.fillRect(square.getRect().x, square.getRect().y, square.getRect().width, square.getRect().height);
                     return;
                 }
@@ -203,7 +203,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
-                if (selectedPiece.canMove(square)) {
+                if (selectedPiece.mayMove(square)) {
                     g.setColor(new Color(130, 151, 105));
 
                     if (square.getPiece() != null) { // if there's a capturable piece, fill the four corners
@@ -246,7 +246,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (!(selectedPiece instanceof Pawn)) {
             for (Piece piece : currentPlayer.getPieces()) {
                 if (selectedPiece != piece && piece.getClass().equals(selectedPiece.getClass())) {
-                    if (piece.canMove(toSquare)) {
+                    if (piece.mayMove(toSquare)) {
                         ambiguousMove = true;
 
                         if (selectedPiece.getCol() == piece.getCol()) ambiguousCol = true;
@@ -457,7 +457,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
                 if (pointContained(selectedPiece.getPos(), square.getTopLeft(), square.getBottomRight())) { // if the selected piece's position is in the square when released
-                    if (selectedPiece.canMove(square)) { // if the piece can move to that location
+                    if (selectedPiece.mayMove(square)) { // if the piece can move to that location
                         updateMoveHistoryInteractors(square);
 
                         // Physical "Moving" of Pieces

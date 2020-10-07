@@ -12,24 +12,13 @@ public class Rook extends Piece {
         setImage();
     }
 
-    public void update(Board board) {
-        moveableSquares = new ArrayList<>();
-        Square[][] grid = board.getGrid();
-
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                int newRow = square.getRow();
-                int newCol = square.getCol();
-
-                if (jumping(newRow, newCol, grid)) {
-                    continue;
-                }
-
-                if (getRow() == newRow || getCol() == newCol) {
-                    moveableSquares.add(square);
-                }
-            }
+    @Override
+    public boolean canMove(int newRow, int newCol, Square[][] grid) {
+        if (jumping(newRow, newCol, grid)) {
+            return false;
         }
+
+        return getRow() == newRow || getCol() == newCol;
     }
 
     public char getNotation() { return 'R'; }

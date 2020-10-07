@@ -11,24 +11,13 @@ public class Knight extends Piece {
         setImage();
     }
 
-    public void update(Board board) {
-        moveableSquares = new ArrayList<>();
-        Square[][] grid = board.getGrid();
-
-        for (Square[] squareRow : grid) {
-            for (Square square : squareRow) {
-                int newRow = square.getRow();
-                int newCol = square.getCol();
-
-                if (getRow() == newRow || getCol() == newCol) {
-                    continue;
-                }
-
-                if ((Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol)) == 3){
-                    moveableSquares.add(square);
-                }
-            }
+    @Override
+    public boolean canMove(int newRow, int newCol, Square[][] grid) {
+        if (getRow() == newRow || getCol() == newCol) {
+            return false;
         }
+
+        return Math.abs(getRow() - newRow) + Math.abs(getCol() - newCol) == 3;
     }
 
     public char getNotation() { return 'N'; }
