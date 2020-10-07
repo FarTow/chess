@@ -21,7 +21,7 @@ public class Queen extends Piece {
                 int newRow = square.getRow();
                 int newCol = square.getCol();
 
-                if (isJumping(newRow, newCol, grid)) continue;
+                if (jumping(newRow, newCol, grid)) continue;
 
                 if (getRow() == newRow || getCol() == newCol) moveableSquares.add(square);
                 if (Math.abs(getRow()-newRow) == Math.abs(getCol()-newCol)) moveableSquares.add(square);

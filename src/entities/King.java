@@ -21,7 +21,7 @@ public class King extends Piece {
                 int rowDiff = Math.abs(getRow() - newRow);
                 int columnDiff = Math.abs(getCol() - newCol);
 
-                if (isJumping(newRow, newCol, grid)) continue;
+                if (jumping(newRow, newCol, grid)) continue;
                 if (rowDiff >= 2 || columnDiff >= 3) continue;
 
                 if (columnDiff == 2 && rowDiff == 0) { // if player moves king two spaces horizontally

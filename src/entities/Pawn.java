@@ -24,7 +24,7 @@ public class Pawn extends Piece {
                 int newCol = square.getCol();
                 int movementModifier = isWhite ? -1 : 1;
 
-                if (!isJumping(newRow, newCol, grid) && !(Math.abs(getCol()-newCol) > 1)) {
+                if (!jumping(newRow, newCol, grid) && !(Math.abs(getCol()-newCol) > 1)) {
                     if (square.getPiece() == null) { // moving to a spot with no piece
                         if (getCol() == newCol) { // moving to a spot in the same column
                             if (firstMove) { // move two on first turn

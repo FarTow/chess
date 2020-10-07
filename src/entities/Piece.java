@@ -39,13 +39,18 @@ public abstract class Piece {
 
     // Jumping Checkers (no pun intended)
 
-    // pre-condition: newRow >= 0 && newRow < 8, newCol >= 0 &&
-    protected boolean isJumping(int newRow, int newCol, Square[][] grid) {
-        return (isJumpingVertically(newRow, newCol, grid) ||
-                isJumpingHorizontally(newRow, newCol, grid) ||
-                isJumpingDiagonally(newRow, newCol, grid));
+    // pre-condition: newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null
+    protected boolean jumping(int newRow, int newCol, Square[][] grid) {
+        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8 || grid == null) {
+            throw new IllegalArgumentException("Violation of pre-condition: " +
+                    "newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null");
+        }
+
+        return (jumpingVert(newRow, newCol, grid) ||
+                jumpingHoriz(newRow, newCol, grid) ||
+                jumpingDiag(newRow, newCol, grid));
     }
-    protected boolean isJumpingVertically(int newRow, int newCol, Square[][] grid) {
+    protected boolean jumpingVert(int newRow, int newCol, Square[][] grid) {
         if (square.getCol() != newCol) {
             return false;
         }
@@ -63,7 +68,7 @@ public abstract class Piece {
 
         return false;
     }
-    protected boolean isJumpingHorizontally(int newRow, int newCol, Square[][] grid) {
+    protected boolean jumpingHoriz(int newRow, int newCol, Square[][] grid) {
         if (square.getRow() != newRow) {
             return false;
         }
@@ -81,7 +86,7 @@ public abstract class Piece {
 
         return false;
     }
-    protected boolean isJumpingDiagonally(int newRow, int newCol, Square[][] grid) {
+    protected boolean jumpingDiag(int newRow, int newCol, Square[][] grid) {
         int rowDiff = square.getRow()-newRow; // positive result = moving "up"
         int colDiff = square.getCol()-newCol; // positive result = moving "left"
 
@@ -93,7 +98,20 @@ public abstract class Piece {
         boolean posColDiff = colDiff > 0;
         int incRowBy = (posRowDiff ? -1 : 1);
         int incColBy = (posColDiff ? -1 : 1);
+        int currRow = square.getRow() + incRowBy;
+        int currCol = square.getCol() + incColBy;
 
+        while ((posRowDiff ? currRow > newRow : currRow < newRow) &&
+                (posColDiff ? currCol > newCol : currCol < newCol)) {
+            if (grid[currRow][currCol].getPiece() != null) {
+                return true;
+            }
+
+            currRow += incRowBy;
+            currCol += incColBy;
+        }
+
+        /*
         for (int currRow = square.getRow() + incRowBy, currCol = square.getCol() + incColBy;
              (posRowDiff ? currRow > newRow : currRow < newRow) &&
                      (posColDiff ? currCol > newCol : currCol < newCol);
@@ -102,6 +120,8 @@ public abstract class Piece {
                 return true;
             }
         }
+
+         */
 
         return false;
     }

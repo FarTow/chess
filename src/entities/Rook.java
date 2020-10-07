@@ -21,7 +21,7 @@ public class Rook extends Piece {
                 int newRow = square.getRow();
                 int newCol = square.getCol();
 
-                if (isJumping(newRow, newCol, grid)) continue;
+                if (jumping(newRow, newCol, grid)) continue;
 
                 if (getRow() == newRow || getCol() == newCol) moveableSquares.add(square);
             }
