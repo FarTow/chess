@@ -108,8 +108,11 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         // Append "taken" notation if a piece was taken
         if (pieceTaken) {
-            if (board.getLastPieceMoved() instanceof Pawn) chessNotation.append(oldFile); // include file name if the piece is a pawn
-            chessNotation.append('×'); // captured symbol
+            if (board.getLastPieceMoved() instanceof Pawn) {
+                // include file name if the piece is a pawn
+                chessNotation.append(oldFile);
+            }
+            chessNotation.append("×"); // captured symbol
         }
 
         // Check for ambiguity and adjust string accordingly
@@ -134,15 +137,9 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         // Check for win conditions
         switch (board.getCurrentPlayer().getState()) {
-            case CHECK:
-                chessNotation.append('+');
-                break;
-            case CHECKMATE:
-                chessNotation.append('#');
-                break;
-            case STALEMATE:
-                chessNotation.append('$');
-                break;
+            case CHECK -> chessNotation.append('+');
+            case CHECKMATE -> chessNotation.append('#');
+            case STALEMATE -> chessNotation.append('$');
         }
 
         return chessNotation.toString();

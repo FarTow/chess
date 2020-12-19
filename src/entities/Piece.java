@@ -8,6 +8,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Abstract class encompassing basic functionality of a chess piece
+ */
 public abstract class Piece {
     protected String imageName;
     protected Square square;
@@ -27,7 +30,12 @@ public abstract class Piece {
         moveableSquares = new ArrayList<>();
     }
 
-    // pre: toSquare != null
+    /**
+     * Check if this piece MAY move to a certain square
+     * (square is stored in moveableSquares
+     * pre: toSquare != null
+     * @param toSquare destination square to see if possible to move to
+     */
     public boolean mayMove(Square toSquare) {
         if (toSquare == null) {
             throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
@@ -35,7 +43,17 @@ public abstract class Piece {
 
         return moveableSquares.contains(toSquare);
     }
+
+    /**
+     * Update this piece's available squares to move to
+     * pre: board != null
+     * @param board board being played on
+     */
     public void update(Board board) {
+        if (board == null) {
+            throw new IllegalArgumentException("Violation of pre-condition: board != null");
+        }
+
         moveableSquares = new ArrayList<>();
         Square[][] grid = board.getGrid();
 
@@ -47,12 +65,18 @@ public abstract class Piece {
             }
         }
     }
+
+    /**
+     * Check if this piece CAN MOVE to a certain square
+     * (square is technically possible to move to)
+     * @param newRow row of the square wanted to move to
+     * @param newCol column of the square wanted to move to
+     * @param grid board in 2D array form
+     */
     public abstract boolean canMove(int newRow, int newCol, Square[][] grid);
 
-    // Jumping Checkers (no pun intended)
 
     // pre: newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null
-    // post:
     protected boolean jumping(int newRow, int newCol, Square[][] grid) {
         if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8 || grid == null) {
             throw new IllegalArgumentException("Violation of pre-condition: " +
@@ -63,7 +87,8 @@ public abstract class Piece {
                 jumpingHoriz(newRow, newCol, grid) ||
                 jumpingDiag(newRow, newCol, grid));
     }
-    protected boolean jumpingVert(int newRow, int newCol, Square[][] grid) {
+
+    private boolean jumpingVert(int newRow, int newCol, Square[][] grid) {
         if (square.getCol() != newCol) {
             return false;
         }
@@ -81,7 +106,8 @@ public abstract class Piece {
 
         return false;
     }
-    protected boolean jumpingHoriz(int newRow, int newCol, Square[][] grid) {
+
+    private boolean jumpingHoriz(int newRow, int newCol, Square[][] grid) {
         if (square.getRow() != newRow) {
             return false;
         }
@@ -99,7 +125,8 @@ public abstract class Piece {
 
         return false;
     }
-    protected boolean jumpingDiag(int newRow, int newCol, Square[][] grid) {
+
+    private boolean jumpingDiag(int newRow, int newCol, Square[][] grid) {
         int rowDiff = square.getRow()-newRow; // positive result = moving "up"
         int colDiff = square.getCol()-newCol; // positive result = moving "left"
 
@@ -126,62 +153,78 @@ public abstract class Piece {
         return false;
     }
 
-    // pre
+
     public void scaleImage(int length) {
         image = defaultImage.getScaledInstance(length, length, 0);
     }
 
+
     public void setSquare(Square square) {
         this.square = square;
     }
+
     protected void setImage() {
         try {
             image = defaultImage = ImageIO.read(new File("res/pieces/" +
                     (isWhite ? "white" : "black") + "-" + imageName + ".png"));
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unrecognized image");
         }
     }
+
     public void setTopLeft(Point topLeft) {
         this.topLeft = topLeft;
     }
+
     public void setPos(Point pos) {
         this.topLeft = new Point(pos.x-image.getWidth(null)/2,
                 pos.y-image.getHeight(null)/2);
     }
+
     public void setFirstMove(boolean firstMove) {
         this.firstMove = firstMove;
     }
+
     public void setMoveableSquares(ArrayList<Square> moveableSquares) {
         this.moveableSquares = moveableSquares;
     }
 
+
     public abstract char getNotation();
+
     public Square getSquare() {
         return square;
     }
+
     public Image getImage() {
         return image;
     }
+
     public Point getTopLeft() {
         return topLeft;
     }
+
     public Point getPos() {
         return new Point(topLeft.x+image.getWidth(null)/2,
                 topLeft.y+image.getHeight(null)/2);
     }
+
     public int getRow() {
         return square.getRow();
     }
+
     public int getCol() {
         return square.getCol();
     }
+
     public boolean isWhite() {
         return isWhite;
     }
+
     public boolean isFirstMove() {
         return firstMove;
     }
+
     public ArrayList<Square> getMoveableSquares() {
         return moveableSquares;
     }
