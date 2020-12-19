@@ -9,9 +9,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Abstract class encompassing basic functionality of a chess piece
+ * Abstract class containing all standard characteristics of a chess piece
  */
 public abstract class Piece {
+
     protected String imageName;
     protected Square square;
     protected Point topLeft;
@@ -33,7 +34,7 @@ public abstract class Piece {
     /**
      * Check if this piece MAY move to a certain square
      * (square is stored in moveableSquares
-     * pre: toSquare != null
+     * <br>pre: toSquare != null
      * @param toSquare destination square to see if possible to move to
      */
     public boolean mayMove(Square toSquare) {
@@ -46,7 +47,7 @@ public abstract class Piece {
 
     /**
      * Update this piece's available squares to move to
-     * pre: board != null
+     * <br>pre: board != null
      * @param board board being played on
      */
     public void update(Board board) {
@@ -76,11 +77,17 @@ public abstract class Piece {
     public abstract boolean canMove(int newRow, int newCol, Square[][] grid);
 
 
-    // pre: newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null
+    /**
+     * Check if a piece is "jumping" over another piece
+     * <br> pre: newRow and newCol are valid squares on the board, grid != null
+     * @param newRow row of the square to be checked
+     * @param newCol column of the square to be checked
+     * @param grid board in 2D array form
+     */
     protected boolean jumping(int newRow, int newCol, Square[][] grid) {
-        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8 || grid == null) {
+        if (!validSquareOnBoard(newRow, newCol) || grid == null) {
             throw new IllegalArgumentException("Violation of pre-condition: " +
-                    "newRow >= 0 && newRow < 8, newCol >= 0 && newCol < 8 && grid != null");
+                    "newRow and newCol are valid squares on the board, grid != null");
         }
 
         return (jumpingVert(newRow, newCol, grid) ||
@@ -153,12 +160,22 @@ public abstract class Piece {
         return false;
     }
 
+    private boolean validSquareOnBoard(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
 
+    /**
+     * Scale this piece's image to be a certain size based on an input length
+     * @param length dimensions to scale the piece image to
+     */
     public void scaleImage(int length) {
         image = defaultImage.getScaledInstance(length, length, 0);
     }
 
-
+    /**
+     * Assign this piece to a given square
+     * @param square location to set piece to
+     */
     public void setSquare(Square square) {
         this.square = square;
     }
