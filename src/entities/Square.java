@@ -14,14 +14,42 @@ public class Square {
         this.piece = piece;
     }
 
-    public void setPiece(Piece piece) { this.piece = piece; }
-    public void setRect(Rectangle rect) { this.rect = rect; }
+    public String toString() {
+        return "(" + row + ", " + column + ")";
+    }
 
-    public String toString() { return ("(" + row + ", " + column + ")"); }
-    public int getRow() { return row; }
-    public int getCol() { return column; }
-    public Rectangle getRect() { return rect; }
-    public Point getTopLeft() { return new Point(rect.x, rect.y); }
-    public Point getBottomRight() { return new Point(rect.x+rect.width, rect.y+rect.height); }
-    public Piece getPiece() { return piece; }
+    // Setters
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
+    public void setRect(Rectangle rect) {
+        this.rect = rect;
+    }
+
+    // Getters
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return column;
+    }
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public Point getTopLeft() {
+        return new Point(rect.x, rect.y);
+    }
+
+    public Point getBottomRight() {
+        return new Point(rect.x+rect.width, rect.y+rect.height);
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
 }
