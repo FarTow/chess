@@ -5,7 +5,6 @@ import entities.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 
 public class PieceDiffDisplay extends JPanel {
     private final Image[] pieceImages;
@@ -21,6 +20,7 @@ public class PieceDiffDisplay extends JPanel {
 
         updateDiffCount();
 
+        // ew
         pieceImages[0] = Main.greyPieceImages[Main.PAWN_IMAGE_INDEX];
         pieceImages[1] = Main.greyPieceImages[Main.KNIGHT_IMAGE_INDEX];
         pieceImages[2] = Main.greyPieceImages[Main.BISHOP_IMAGE_INDEX];
@@ -34,18 +34,16 @@ public class PieceDiffDisplay extends JPanel {
     }
 
     protected void updateDiffCount() {
-        diffCount[0] = player.getPieceCount()[0]-player.getEnemyPlayer().getPieceCount()[0];
-        diffCount[1] = player.getPieceCount()[1]-player.getEnemyPlayer().getPieceCount()[1];
-        diffCount[2] = player.getPieceCount()[2]-player.getEnemyPlayer().getPieceCount()[2];
-        diffCount[3] = player.getPieceCount()[3]-player.getEnemyPlayer().getPieceCount()[3];
-        diffCount[4] = player.getPieceCount()[4]-player.getEnemyPlayer().getPieceCount()[4];
+        for (int i = 0; i < diffCount.length; i++) {
+            diffCount[i] = player.getPieceCount()[i] - player.getEnemyPlayer().getPieceCount()[i];
+        }
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         int rowModifier = -2;
-        for (int i=0; i<pieceImages.length; i++, rowModifier++) {
+        for (int i = 0; i < pieceImages.length; i++, rowModifier++) {
             int pieceImageSize = Math.min((getWidth()/5 - 1), 60);
             Image scaledImage = pieceImages[i].getScaledInstance(pieceImageSize, pieceImageSize, 0);
             int pieceSpacingOffset = rowModifier*scaledImage.getWidth(null);
@@ -83,6 +81,7 @@ public class PieceDiffDisplay extends JPanel {
             );
         }
     }
+
     public void actionPerformed(ActionEvent ae){
         updateDiffCount();
         repaint();
