@@ -69,6 +69,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         centerTable();
     }
+
     public void reset() {
         moveCount = 1;
         whiteTurn = true;
@@ -80,11 +81,11 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
     // Visual Update
     protected void centerTable() {
-        for (int i=0; i<moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table
-            // values
+        for (int i = 0; i < moveHistoryTable.getColumnModel().getColumnCount(); i++) { // center rest of table values
             moveHistoryTable.getColumnModel().getColumn(i).setCellRenderer(moveHistoryCellRenderer);
         }
     }
+
     public void resize() {
         moveHistoryTable.getTableHeader().setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/15, (float) getHeight()/20))); // set header font
         moveHistoryTable.setFont(Main.MULISH_LIGHT.deriveFont(Math.min((float) getWidth()/25, (float) getHeight()/35)));
@@ -94,8 +95,14 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     // Data Update
     protected String createNotation(boolean pieceTaken) {
         if (board.getLastPieceMoved() instanceof King) { // castling
-            if (board.getCastlingStatus() == 1) return "O-O";
-            if (board.getCastlingStatus() == 2) return "O-O-O";
+
+            if (board.getCastlingStatus() == 1) {
+                return "O-O"; // magic
+            }
+
+            if (board.getCastlingStatus() == 2) {
+                return "O-O-O"; // magic
+            }
         }
 
         // Initialize chessNotation string and other used variables
@@ -144,6 +151,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         return chessNotation.toString();
     }
+
     protected Object[][] readableMoveData() {
         Object[][] readableMoveData = new Object[allMoveData.size()][allMoveData.get(0).length];
 
@@ -155,6 +163,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
 
         return readableMoveData;
     }
+
     protected void updateAllMoveData() {
         int newPieceCount = board.getWhitePlayer().getPieces().size() + board.getBlackPlayer().getPieces().size();
         boolean pieceTaken = pieceCount == newPieceCount+1;
@@ -186,6 +195,7 @@ public class MoveHistoryDisplay extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
     public void actionPerformed(ActionEvent ae) {
         resize(); // very inefficient
 
