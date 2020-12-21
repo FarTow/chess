@@ -57,6 +57,7 @@ public class TimeDisplay extends JPanel {
         }
 
     }
+
     public void actionPerformed(ActionEvent ae) {
         repaint();
     }
