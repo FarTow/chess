@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * Abstract class containing all standard characteristics of a chess piece
  */
 public abstract class Piece {
-
     protected String imageName;
     protected Square square;
     protected Point topLeft;
@@ -22,6 +21,11 @@ public abstract class Piece {
     protected boolean isWhite;
     protected boolean firstMove;
 
+    /**
+     * Default constructor for a chess piece
+     * @param isWhite color of the piece
+     * @param square initial square to be placed on
+     */
     public Piece(boolean isWhite, Square square) {
         imageName = "";
         this.isWhite = isWhite;
@@ -29,20 +33,6 @@ public abstract class Piece {
         topLeft = square.getTopLeft();
         firstMove = true;
         moveableSquares = new ArrayList<>();
-    }
-
-    /**
-     * Check if this piece MAY move to a certain square
-     * (square is stored in moveableSquares
-     * <br>pre: toSquare != null
-     * @param toSquare destination square to see if possible to move to
-     */
-    public boolean mayMove(Square toSquare) {
-        if (toSquare == null) {
-            throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
-        }
-
-        return moveableSquares.contains(toSquare);
     }
 
     /**
@@ -68,11 +58,27 @@ public abstract class Piece {
     }
 
     /**
-     * Check if this piece CAN MOVE to a certain square
+     * Check if this piece MAY move to a certain square
+     * (square is stored in moveableSquares)
+     * <br>pre: toSquare != null
+     * @param toSquare destination square to see if possible to move to
+     * @return boolean of if piece MAY move to given square
+     */
+    public boolean mayMove(Square toSquare) {
+        if (toSquare == null) {
+            throw new IllegalArgumentException("Violation of pre-condition: toSquare != null");
+        }
+
+        return moveableSquares.contains(toSquare);
+    }
+
+    /**
+     * Check if this piece CAN move to a certain square
      * (square is technically possible to move to)
      * @param newRow row of the square wanted to move to
      * @param newCol column of the square wanted to move to
      * @param grid board in 2D array form
+     * @return boolean of if piece CAN move to given square
      */
     public abstract boolean canMove(int newRow, int newCol, Square[][] grid);
 
@@ -82,7 +88,8 @@ public abstract class Piece {
      * <br> pre: newRow and newCol are valid squares on the board, grid != null
      * @param newRow row of the square to be checked
      * @param newCol column of the square to be checked
-     * @param grid board in 2D array form
+     * @param grid board in 2D array
+     * @return boolean of if given square is being jumped over
      */
     protected boolean jumping(int newRow, int newCol, Square[][] grid) {
         if (!validSquareOnBoard(newRow, newCol) || grid == null) {
@@ -95,6 +102,10 @@ public abstract class Piece {
                 jumpingDiag(newRow, newCol, grid));
     }
 
+    // Determine if the input square is being "jumped" over vertically
+    // newRow: row of square to be checked
+    // newCol: column of the square to be checked
+    // returns boolean of if given square is being jumped over vertically
     private boolean jumpingVert(int newRow, int newCol, Square[][] grid) {
         if (square.getCol() != newCol) {
             return false;
@@ -114,6 +125,10 @@ public abstract class Piece {
         return false;
     }
 
+    // Determine if the input square is being "jumped" over horizontally
+    // newRow: row of square to be checked
+    // newCol: column of the square to be checked
+    // returns boolean of if given square is being jumped over horizontally
     private boolean jumpingHoriz(int newRow, int newCol, Square[][] grid) {
         if (square.getRow() != newRow) {
             return false;
@@ -133,6 +148,10 @@ public abstract class Piece {
         return false;
     }
 
+    // Determine if the input square is being "jumped" over diagonally
+    // newRow: row of square to be checked
+    // newCol: column of the square to be checked
+    // returns boolean of if given square is being jumped over diagonally
     private boolean jumpingDiag(int newRow, int newCol, Square[][] grid) {
         int rowDiff = square.getRow()-newRow; // positive result = moving "up"
         int colDiff = square.getCol()-newCol; // positive result = moving "left"
@@ -160,27 +179,17 @@ public abstract class Piece {
         return false;
     }
 
+
+    // Helper method to determine if a given piece is a valid square on a standard chess board
+    // row: row of square to be checked
+    // col: column of square to be checked
+    // returns boolean of if given square is on a standard chess board
     private boolean validSquareOnBoard(int row, int col) {
-        return row >= 0 && row < 8 && col >= 0 && col < 8;
+        return row >= 0 && row < 8 && col >= 0 && col < 8; // magic numbers
     }
 
-    /**
-     * Scale this piece's image to be a certain size based on an input length
-     * @param length dimensions to scale the piece image to
-     */
-    public void scaleImage(int length) {
-        image = defaultImage.getScaledInstance(length, length, 0);
-    }
-
-    /**
-     * Assign this piece to a given square
-     * @param square location to set piece to
-     */
-    public void setSquare(Square square) {
-        this.square = square;
-    }
-
-    protected void setImage() {
+    // Setters
+    protected void initImage() {
         try {
             image = defaultImage = ImageIO.read(new File("res/pieces/" +
                     (isWhite ? "white" : "black") + "-" + imageName + ".png"));
@@ -191,6 +200,14 @@ public abstract class Piece {
 
     public void setTopLeft(Point topLeft) {
         this.topLeft = topLeft;
+    }
+
+    public void scaleImage(int length) {
+        image = defaultImage.getScaledInstance(length, length, 0);
+    }
+
+    public void setSquare(Square square) {
+        this.square = square;
     }
 
     public void setPos(Point pos) {
@@ -206,7 +223,7 @@ public abstract class Piece {
         this.moveableSquares = moveableSquares;
     }
 
-
+    // Getters
     public abstract char getNotation();
 
     public Square getSquare() {
@@ -234,15 +251,15 @@ public abstract class Piece {
         return square.getCol();
     }
 
+    public ArrayList<Square> getMoveableSquares() {
+        return moveableSquares;
+    }
+
     public boolean isWhite() {
         return isWhite;
     }
 
     public boolean isFirstMove() {
         return firstMove;
-    }
-
-    public ArrayList<Square> getMoveableSquares() {
-        return moveableSquares;
     }
 }
