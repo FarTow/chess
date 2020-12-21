@@ -43,6 +43,7 @@ public class TimeSettings extends JPanel implements ActionListener {
         submitInputButtonSize.width = getWidth()/2;
         submitInputButtonSize.height = getHeight()/4;
     }
+
     protected void setFonts() { // can probably be replaced with for loop
         fontHeight = Math.min(inputLabelSize.height*2/3f, inputLabelSize.width/12f);
 
@@ -56,21 +57,16 @@ public class TimeSettings extends JPanel implements ActionListener {
 
         submitInputButton.setFont(Main.MULISH_LIGHT.deriveFont(fontHeight*4/5));
     }
+
     protected void updateLabels() {
-        for (int i=0; i<inputLabels.length; i++) {
+        for (int i = 0; i < inputLabels.length; i++) {
             int currentTimeProperty = startMenu.getTimeProperty(i);
             StringBuilder label = new StringBuilder();
 
             switch (i) {
-                case Player.MINUTES_INDEX:
-                    label.append("Starting Minutes");
-                    break;
-                case Player.SECONDS_INDEX:
-                    label.append("Starting Seconds");
-                    break;
-                case Player.INCREMENT_INDEX:
-                    label.append("Increment");
-                    break;
+                case Player.MINUTES_INDEX -> label.append("Starting Minutes");
+                case Player.SECONDS_INDEX -> label.append("Starting Seconds");
+                case Player.INCREMENT_INDEX -> label.append("Increment");
             }
             label.append(": ");
 
@@ -112,7 +108,7 @@ public class TimeSettings extends JPanel implements ActionListener {
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
         // Create and initialize text fields
-        for (int i=0; i<inputFields.length; i++) {
+        for (int i = 0; i<inputFields.length; i++) {
             inputFields[i] = new JTextField();
             inputFields[i].setAlignmentX(Component.RIGHT_ALIGNMENT);
             boundKeyInputs(inputFields[i]);
@@ -120,17 +116,11 @@ public class TimeSettings extends JPanel implements ActionListener {
         }
 
         // Create and initialize labels
-        for (int i=0; i<inputLabels.length; i++) {
-            switch(i) {
-                case 0:
-                    inputLabels[i] = new JLabel("Starting Minutes:");
-                    break;
-                case 1:
-                    inputLabels[i] = new JLabel("Starting Seconds:");
-                    break;
-                case 2:
-                    inputLabels[i] = new JLabel("Increment:");
-                    break;
+        for (int i = 0; i < inputLabels.length; i++) {
+            switch (i) {
+                case 0 -> inputLabels[i] = new JLabel("Starting Minutes:");
+                case 1 -> inputLabels[i] = new JLabel("Starting Seconds:");
+                case 2 -> inputLabels[i] = new JLabel("Increment:");
             }
 
             inputLabels[i].setFont(Main.MULISH_LIGHT.deriveFont(fontHeight));
@@ -143,7 +133,9 @@ public class TimeSettings extends JPanel implements ActionListener {
                 try {
                     startMenu.setTimeProperty(i, Integer.parseInt(inputFields[i].getText()));
                 } catch(NumberFormatException e) {
-                    if (inputFields[i].getText().equals("")) startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
+                    if (inputFields[i].getText().equals("")) {
+                        startMenu.setTimeProperty(i, -1); // force empty fields to be a sort of temporary "null"
+                    }
                 }
             }
 
@@ -202,6 +194,7 @@ public class TimeSettings extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
     public void actionPerformed(ActionEvent ae) {
         resize(); // make efficient
         setFonts();
