@@ -94,29 +94,16 @@ public class Player {
         for (int i=0; i<=7; i++) {
             Square currentSquare = grid[startRow][i];
 
-            switch(i) {
-                case 0:
-                case 7:
-                    pieces.add(new Rook(isWhite, currentSquare));
-                    break;
-                case 1:
-                case 6:
-                    pieces.add(new Knight(isWhite, currentSquare));
-                    break;
-                case 2:
-                case 5:
-                    pieces.add(new Bishop(isWhite, currentSquare));
-                    break;
-                case 3:
-                    pieces.add(new Queen(isWhite, currentSquare));
-                    break;
-                case 4:
-                    pieces.add(new King(isWhite, currentSquare));
-                    break;
+            switch (i) {
+                case 0, 7 -> pieces.add(new Rook(isWhite, currentSquare));
+                case 1, 6 -> pieces.add(new Knight(isWhite, currentSquare));
+                case 2, 5 -> pieces.add(new Bishop(isWhite, currentSquare));
+                case 3 -> pieces.add(new Queen(isWhite, currentSquare));
+                case 4 -> pieces.add(new King(isWhite, currentSquare));
             }
         }
 
-        for (int i=0; i<=7; i++) {
+        for (int i = 0; i <= 7; i++) {
             Square currentSquare = grid[startRow + (isWhite ? -1 : 1)][i];
             pieces.add(new Pawn(isWhite, currentSquare));
         }
@@ -128,13 +115,16 @@ public class Player {
     public void enPassantUpdate() { // credits to Tanvir for this logic
         for (Piece piece : pieces) { // player checks if OWN PAWN was captured through en passant
             if (piece instanceof Pawn) {
-                if (piece.getRow() != (isWhite ? 4 : 3)) continue;
+                if (piece.getRow() != (isWhite ? 4 : 3)) {
+                    continue;
+                }
                 int behindRowDirection = isWhite ? 1 : -1;
 
-                if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) continue;
+                if (piece.getRow() + behindRowDirection < 0 || piece.getRow() + behindRowDirection > 7) {
+                    continue;
+                }
 
-                Square possiblePawnSquare =
-                        board.getGrid()[piece.getRow() + behindRowDirection][piece.getCol()]; // square
+                Square possiblePawnSquare = board.getGrid()[piece.getRow() + behindRowDirection][piece.getCol()]; // square
                 // behind pawn
                 Piece possiblePawn = possiblePawnSquare.getPiece();
 
@@ -152,11 +142,14 @@ public class Player {
         if (isWhite == board.getWhiteTurn()) {
             for (Piece piece : pieces) {
                 if (piece instanceof Pawn) {
-                    if (((Pawn) piece).isEnPassantCapturable()) ((Pawn) piece).setEnPassantCapturable(false);
+                    if (((Pawn) piece).isEnPassantCapturable()) {
+                        ((Pawn) piece).setEnPassantCapturable(false);
+                    }
                 }
             }
         }
     }
+
     public void physicallyCastle(int castleSide) {
         switch(castleSide) { // 0 -> not castled, 1 -> castled king's side, 2 -> castled queen's side
             case 1:
@@ -178,30 +171,22 @@ public class Player {
             allMoves.addAll(piece.getMoveableSquares());
         }
     }
+
     public void updatePieceCount() {
         Arrays.fill(pieceCount, 0);
 
         for (Piece piece : pieces) {
-            switch(piece.getNotation()) {
-                case (char) 0:
-                    pieceCount[PAWN_INDEX]++;
-                    break;
-                case 'N':
-                    pieceCount[KNIGHT_INDEX]++;
-                    break;
-                case 'B':
-                    pieceCount[BISHOP_INDEX]++;
-                    break;
-                case 'R':
-                    pieceCount[ROOK_INDEX]++;
-                    break;
-                case 'Q':
-                    pieceCount[QUEEN_INDEX]++;
-                    break;
+            switch (piece.getNotation()) {
+                case (char) 0 -> pieceCount[PAWN_INDEX]++;
+                case 'N' -> pieceCount[KNIGHT_INDEX]++;
+                case 'B' -> pieceCount[BISHOP_INDEX]++;
+                case 'R' -> pieceCount[ROOK_INDEX]++;
+                case 'Q' -> pieceCount[QUEEN_INDEX]++;
             }
         }
 
     }
+
     public void update() {
         playerState = PlayerState.NORMAL;
 
@@ -241,10 +226,14 @@ public class Player {
     protected boolean mayMove(Piece piece, Square toSquare) {
         Piece takenPiece = toSquare.getPiece();
 
-        if (toSquare == piece.getSquare()) return false;
+        if (toSquare == piece.getSquare()) {
+            return false;
+        }
 
         if (takenPiece != null) { // check if they're the same color
-            if (piece.isWhite() == toSquare.getPiece().isWhite()) return false;
+            if (piece.isWhite() == toSquare.getPiece().isWhite()) { // combine
+                return false;
+            }
 
             enemyPlayer.removePiece(takenPiece);
         }
@@ -258,13 +247,21 @@ public class Player {
         board.movePiece(piece, board.getGrid()[oldRow][oldCol], false); // move the piece back to original
         // square
         toSquare.setPiece(takenPiece); // set the new square's piece back
-        if (takenPiece != null) enemyPlayer.addPiece(takenPiece);
+        if (takenPiece != null) {
+            enemyPlayer.addPiece(takenPiece);
+        }
 
         return mayMove;
     }
-    public void addPiece(Piece piece) { pieces.add(piece); }
+
+    public void addPiece(Piece piece) {
+        pieces.add(piece);
+    }
+
     public void removePiece(Piece piece) {
-        if (piece == null) return;
+        if (piece == null) {
+            return;
+        }
 
         pieces.remove(piece);
     }
@@ -282,36 +279,73 @@ public class Player {
         }
     }
 
-    public void setTimeProperty(int index, int value) { timeProperties[index] = value; }
-    public void setFirstTurn(boolean firstTurn) { this.firstTurn = firstTurn; }
-    public void setEnemyPlayer(Player enemyPlayer) { this.enemyPlayer = enemyPlayer; }
-    public void shouldRunTimer(boolean runTimer) { this.runTimer = runTimer; }
+    public void setTimeProperty(int index, int value) {
+        timeProperties[index] = value;
+    }
 
-    public int getTimeProperty(int index) { return timeProperties[index]; }
+    public void setFirstTurn(boolean firstTurn) {
+        this.firstTurn = firstTurn;
+    }
+
+    public void setEnemyPlayer(Player enemyPlayer) {
+        this.enemyPlayer = enemyPlayer;
+    }
+
+    public void shouldRunTimer(boolean runTimer) {
+        this.runTimer = runTimer;
+    }
+
+    public int getTimeProperty(int index) {
+        return timeProperties[index];
+    }
+
     protected King getKing() {
         for (Piece piece : pieces) {
-            if (piece instanceof King) return (King) piece;
+            if (piece instanceof King) {
+                return (King) piece;
+            }
         }
 
         return null;
     }
-    public boolean getFirstTurn() { return firstTurn; }
-    public ArrayList<Piece> getPieces() { return pieces; }
-    public int[] getPieceCount() { return pieceCount; }
-    public Player getEnemyPlayer() { return enemyPlayer; }
+
+    public boolean getFirstTurn() {
+        return firstTurn;
+    }
+
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
+
+    public int[] getPieceCount() {
+        return pieceCount;
+    }
+
+    public Player getEnemyPlayer() {
+        return enemyPlayer;
+    }
+
     public boolean isKingInCheck() {
         int checkCount = 0;
 
         for (Piece piece : enemyPlayer.getPieces() ) {
             piece.update(board);
 
-            if (piece.mayMove(getKing().getSquare())) { checkCount++; }
+            if (piece.mayMove(getKing().getSquare())) {
+                checkCount++;
+            }
         }
 
         return checkCount > 0;
     } // probably combine this method and the latter
-    public boolean isWhite() { return isWhite; }
-    public PlayerState getState() { return playerState; }
+
+    public boolean isWhite() {
+        return isWhite;
+    }
+
+    public PlayerState getState() {
+        return playerState;
+    }
 
     public String toString() {
         StringBuilder returnString = new StringBuilder();
@@ -324,4 +358,5 @@ public class Player {
 
         return returnString.toString();
     }
+
 }
