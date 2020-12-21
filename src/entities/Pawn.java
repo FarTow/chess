@@ -6,7 +6,7 @@ public class Pawn extends Piece {
     public Pawn(boolean isWhite, Square square) {
         super(isWhite, square);
         imageName = "pawn";
-        setImage();
+        initImage();
     }
 
     @Override

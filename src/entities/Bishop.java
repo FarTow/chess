@@ -4,7 +4,7 @@ public class Bishop extends Piece {
     public Bishop(boolean isWhite, Square square) {
         super(isWhite, square);
         imageName = "bishop";
-        setImage();
+        initImage();
     }
 
     @Override

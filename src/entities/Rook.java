@@ -4,7 +4,7 @@ public class Rook extends Piece {
     public Rook(boolean isWhite, Square square) {
         super(isWhite, square);
         imageName = "rook";
-        setImage();
+        initImage();
     }
 
     @Override

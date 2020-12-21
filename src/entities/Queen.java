@@ -4,7 +4,7 @@ public class Queen extends Piece {
     public Queen(boolean isWhite, Square square) {
         super(isWhite, square);
         imageName = "queen";
-        setImage();
+        initImage();
     }
 
     @Override

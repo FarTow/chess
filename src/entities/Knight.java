@@ -4,7 +4,7 @@ public class Knight extends Piece {
     public Knight(boolean isWhite, Square square) {
         super(isWhite, square);
         imageName = "knight";
-        setImage();
+        initImage();
     }
 
     @Override
