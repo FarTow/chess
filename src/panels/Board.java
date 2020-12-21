@@ -43,7 +43,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public Board(int[] timeProperties, Game game) {
         setOpaque(false);
 
-        // Properties
         this.game = game;
         this.timeProperties = timeProperties.clone();
         grid = new Square[8][8];
@@ -56,8 +55,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         timedGame = timeProperties[Player.MINUTES_INDEX] != -1 && timeProperties[Player.SECONDS_INDEX] != -1;
 
-        for (int row=0; row<grid.length; row++) { // initialize empty grid
-            for (int column=0; column<grid[row].length; column++) {
+        for (int row = 0; row < grid.length; row++) { // initialize empty grid
+            for (int column = 0; column < grid[row].length; column++) {
                 Point pos = new Point(topLeft.x + column * squareLength, topLeft.y + row * squareLength);
 
                 grid[row][column] = new Square(row, column, pos, squareLength, null);
@@ -101,6 +100,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         currentPlayer = whitePlayer;
         currentPlayer.update();
     }
+
     public void resize(int newSquareSize) {
         this.squareLength = newSquareSize;
 
@@ -110,12 +110,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updatePiecePositions();
     }
 
+    // Update methods
     protected void updatePositions() {
         topLeft.x = getWidth() / 2 - squareLength * 4;
         topLeft.y = getHeight() / 2 - squareLength * 4;
         bottomRight.x = topLeft.x + squareLength * 8;
         bottomRight.y = topLeft.y + squareLength * 8;
     }
+
     protected void updateSquarePositions() {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[row].length; column++) {
@@ -126,6 +128,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void updatePiecePositions() {
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -133,6 +136,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void updatePieceImages() {
         whitePlayer.scalePieceImages(squareLength);
         blackPlayer.scalePieceImages(squareLength);
@@ -148,6 +152,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void drawIndicators(Graphics g) {
         Font indicatorsFont = Main.MULISH_LIGHT.deriveFont((float) getWidth()/60);
         g.setFont(indicatorsFont);
@@ -171,8 +176,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             g.drawString(file, topLeft.x+(squareLength/2-stringSize.width/4)+(squareLength * column), bottomRight.y+stringSize.height/2+offset);
         }
     }
+
     protected void drawSelectedSquare(Graphics g) {
-        if (selectedPiece == null) return;
+        if (selectedPiece == null) {
+            return;
+        }
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -190,6 +198,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void drawPieces(Graphics g) {
         for (Piece piece : whitePlayer.getPieces()) {
             g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
@@ -198,8 +207,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             g.drawImage(piece.getImage(), piece.getTopLeft().x, piece.getTopLeft().y, null);
         }
     }
+
+    // yuck yuck yuck
     protected void drawAvailableSquares(Graphics g) {
-        if (selectedPiece == null) return;
+        if (selectedPiece == null) {
+            return;
+        }
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -241,7 +254,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     // Logic Methods
     protected void updateAmbiguousMove(Square toSquare) {
-        if (selectedPiece == null) return;
+        if (selectedPiece == null) {
+            return;
+        }
 
         if (!(selectedPiece instanceof Pawn)) {
             for (Piece piece : currentPlayer.getPieces()) {
@@ -255,8 +270,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void updateMoveHistoryInteractors(Square toSquare) {
-        if (selectedPiece == null) return;
+        if (selectedPiece == null) {
+            return;
+        }
 
         ambiguousMove = ambiguousCol = false;
         lastPieceMoved = selectedPiece;
@@ -267,6 +285,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         updateAmbiguousMove(toSquare);
     }
 
+    // Prompts
     protected int createGameOverPrompt(Player.PlayerState playerState) {
         Object[] options = new String[] {"Rematch", "Back to Start Menu", "Quit"};
         StringBuilder message = new StringBuilder();
@@ -288,6 +307,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 this, message, "Game Over",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, JOptionPane.UNINITIALIZED_VALUE);
     }
+
     protected int createPromotionPrompt(boolean isWhite) {
         Object[] promotionDialogImages = new Object[] {
                 new ImageIcon(isWhite ? Main.whitePieceImages[Main.QUEEN_IMAGE_INDEX] : Main.blackPieceImages[Main.QUEEN_IMAGE_INDEX]),
@@ -304,40 +324,25 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
     protected void endGame(Player.PlayerState playerState, int playerInput) {
         switch (playerInput) {
-            case -1: // close prompt
-                createGameOverPrompt(playerState);
-                break;
-            case 0: // rematch
-                game.reset();
-                break;
-            case 1: // back to start menu
+            case -1 -> createGameOverPrompt(playerState);
+            case 0 -> game.reset();
+            case 1 -> {
                 game.reset();
                 game.backToStartMenu();
-                break;
-            case 2: // quit
-                System.exit(0);
-                break;
+            }
+            case 2 -> System.exit(0);
         }
     }
+
     protected void promotePawn(Piece promotedPawn, Square newSquare, int newPiece) {
         int replacedPieceIndex = currentPlayer.getPieces().indexOf(promotedPawn);
 
-        switch(newPiece) {
-            case -1:
-                promotePawn(promotedPawn, newSquare, createPromotionPrompt(promotedPawn.isWhite()));
-                break;
-            case 0:
-                currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
-                break;
-            case 1:
-                currentPlayer.getPieces().set(replacedPieceIndex, new Rook(currentPlayer.isWhite(), newSquare));
-                break;
-            case 2:
-                currentPlayer.getPieces().set(replacedPieceIndex, new Bishop(currentPlayer.isWhite(), newSquare));
-                break;
-            case 3:
-                currentPlayer.getPieces().set(replacedPieceIndex, new Knight(currentPlayer.isWhite(), newSquare));
-                break;
+        switch (newPiece) {
+            case -1 -> promotePawn(promotedPawn, newSquare, createPromotionPrompt(promotedPawn.isWhite()));
+            case 0 -> currentPlayer.getPieces().set(replacedPieceIndex, new Queen(currentPlayer.isWhite(), newSquare));
+            case 1 -> currentPlayer.getPieces().set(replacedPieceIndex, new Rook(currentPlayer.isWhite(), newSquare));
+            case 2 -> currentPlayer.getPieces().set(replacedPieceIndex, new Bishop(currentPlayer.isWhite(), newSquare));
+            case 3 -> currentPlayer.getPieces().set(replacedPieceIndex, new Knight(currentPlayer.isWhite(), newSquare));
         }
 
         currentPlayer.getPieces().get(replacedPieceIndex).scaleImage(squareLength);
@@ -348,8 +353,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         currentPlayer.updatePieceCount();
         currentPlayer.getEnemyPlayer().updatePieceCount();
     }
+
     protected void checkSpecialPieceMoved() {
-        if (selectedPiece == null) return;
+        if (selectedPiece == null) {
+            return;
+        }
 
         if (selectedPiece instanceof King) { // if the piece was a king
             int columnDiff = oldCol - newCol;
@@ -366,6 +374,7 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     protected void swapPlayer() {
         if (timedGame) {
             if (currentPlayer.getFirstTurn()) {
@@ -383,12 +392,14 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         if (timedGame && !currentPlayer.getFirstTurn()) currentPlayer.shouldRunTimer(true); // start timer if it's the current player's turn
     }
 
-
     public void movePiece(Piece piece, Square toSquare, boolean permanent) {
         int oldRow = piece.getRow();
         int oldCol = piece.getCol();
 
-        if (permanent) piece.setTopLeft(toSquare.getTopLeft()); // move the selected piece to the square
+        if (permanent) { // move the selected piece to the square
+            piece.setTopLeft(toSquare.getTopLeft());
+        }
+
         piece.setSquare(toSquare);
         toSquare.setPiece(piece); // set the square's piece to the selected piece
         grid[oldRow][oldCol].setPiece(null); // set the old square's piece to null
@@ -407,8 +418,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         drawPieces(g);
         drawAvailableSquares(g);
 
-        if (selectedPiece != null) g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+        if (selectedPiece != null) {
+            g.drawImage(selectedPiece.getImage(), selectedPiece.getTopLeft().x, selectedPiece.getTopLeft().y, null);
+        }
     }
+
     public void actionPerformed(ActionEvent ae) {
         if (!initialCenter) { // please god tell me there's a way
             resize(squareLength);
@@ -420,8 +434,11 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
 
         repaint();
 
-        if(currentPlayer.getState() != Player.PlayerState.NORMAL && currentPlayer.getState() != Player.PlayerState.CHECK) {
-            if (currentPlayer.getState() != Player.PlayerState.TIMEOUT) game.forceUpdate();
+        if (currentPlayer.getState() != Player.PlayerState.NORMAL && currentPlayer.getState() != Player.PlayerState.CHECK) { // flourless chocolate cake
+            if (currentPlayer.getState() != Player.PlayerState.TIMEOUT) {
+                game.forceUpdate();
+            }
+
             endGame(currentPlayer.getState(), createGameOverPrompt(currentPlayer.getState()));
         }
     }
@@ -430,14 +447,18 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
     public boolean pointContained(Point point, Point topLeft, Point bottomRight) {
         return point.x >= topLeft.x && point.x <= bottomRight.x && point.y >= topLeft.y && point.y <= bottomRight.y;
     }
+
     public boolean mouseContained(MouseEvent me, Point topLeft, Point bottomRight) {
         return me.getX() >= topLeft.x && me.getX() <= bottomRight.x && me.getY() >= topLeft.y && me.getY() <= bottomRight.y;
     }
 
     // MouseListener Methods
     public void mouseClicked(MouseEvent me) {}
+
     public void mousePressed(MouseEvent me) {
-        if (selectedPiece != null) return; // if a piece isn't selected already
+        if (selectedPiece != null) {
+            return; // if a piece isn't selected already
+        }
 
         for (Piece piece : currentPlayer.getPieces()) {
             if (piece.getSquare() != null) {
@@ -446,13 +467,20 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 }
             }
         }
-
     }
-    public void mouseReleased(MouseEvent me) {
-        if (selectedPiece == null) return; // if a piece isn't selected, return
 
-        if (castlingStatus != 0) castlingStatus = 0; // not a fan of having to check this every time the mouse is released
-        if (pawnPromotionStatus != ' ') pawnPromotionStatus = ' '; // yuck
+    public void mouseReleased(MouseEvent me) {
+        if (selectedPiece == null) { // if a piece isn't selected, return
+            return;
+        }
+
+        if (castlingStatus != 0) { // not a fan of having to check this every time the mouse is released
+            castlingStatus = 0;
+        }
+
+        if (pawnPromotionStatus != ' ') { // yuck
+            pawnPromotionStatus = ' ';
+        }
 
         for (Square[] squareRow : grid) {
             for (Square square : squareRow) {
@@ -463,7 +491,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                         // Physical "Moving" of Pieces
                         (selectedPiece.isWhite() ? blackPlayer : whitePlayer).removePiece(square.getPiece());
                         movePiece(selectedPiece, square, true);
-                        if (selectedPiece.isFirstMove()) selectedPiece.setFirstMove(false);
+                        if (selectedPiece.isFirstMove()) {
+                            selectedPiece.setFirstMove(false);
+                        }
 
                         checkSpecialPieceMoved();
 
@@ -481,32 +511,84 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
             }
         }
     }
+
     public void mouseEntered(MouseEvent me) {}
+
     public void mouseExited(MouseEvent me) {}
 
     // MouseMotionListener Methods
     public void mouseDragged(MouseEvent me) {
-        if (selectedPiece == null) return; // if a piece isn't selected return
+        if (selectedPiece == null) { // if a piece isn't selected return
+            return;
+        }
 
-        if (mouseContained(me, topLeft, bottomRight)) selectedPiece.setPos(new Point(me.getX(), me.getY())); // move the selected piece to the mouse's location
+        if (mouseContained(me, topLeft, bottomRight)) { // move the selected piece to the mouse's location
+            selectedPiece.setPos(new Point(me.getX(), me.getY()));
+        }
     }
+
     public void mouseMoved(MouseEvent me) {}
 
-    public int[] getTimeProperties() { return timeProperties; } // Time Getters
-    public boolean isTimedGame() { return timedGame; }
-    public Square[][] getGrid() { return grid; } // "Grid" Getters
-    public int getOldRow() { return oldRow; }
-    public int getOldCol() { return oldCol; }
-    public int getNewRow() { return newRow; }
-    public int getNewCol() { return newCol; }
-    public Player getWhitePlayer() { return whitePlayer; } // Player Getters
-    public Player getBlackPlayer() { return blackPlayer; }
-    public Player getCurrentPlayer() { return currentPlayer; }
-    public boolean getWhiteTurn() { return whiteTurn; } // Miscellaneous Getters
-    public int getCastlingStatus() { return castlingStatus; }
-    public char getPawnPromotionStatus() { return pawnPromotionStatus; }
-    public Piece getLastPieceMoved() { return lastPieceMoved; }
-    public boolean isMoveAmbiguous() { return ambiguousMove; }
-    public boolean isColAmbiguous() { return ambiguousCol; }
+    // Getters
+    public int[] getTimeProperties() {
+        return timeProperties;
+    }
 
+    public boolean isTimedGame() {
+        return timedGame;
+    }
+
+    public Square[][] getGrid() {
+        return grid;
+    }
+
+    public int getOldRow() {
+        return oldRow;
+    }
+
+    public int getOldCol() {
+        return oldCol;
+    }
+    public int getNewRow() {
+        return newRow;
+    }
+    public int getNewCol() {
+        return newCol;
+    }
+
+    public Player getWhitePlayer() {
+        return whitePlayer;
+    }
+
+    public Player getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public boolean getWhiteTurn() {
+        return whiteTurn;
+    }
+
+    public int getCastlingStatus() {
+        return castlingStatus;
+    }
+
+    public char getPawnPromotionStatus() {
+        return pawnPromotionStatus;
+    }
+
+    public Piece getLastPieceMoved() {
+        return lastPieceMoved;
+    }
+
+    public boolean isMoveAmbiguous() {
+        return ambiguousMove;
+    }
+
+    public boolean isColAmbiguous() {
+        return ambiguousCol;
+    }
 }
