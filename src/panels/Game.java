@@ -22,9 +22,11 @@ public class Game extends JPanel implements ActionListener {
         setLayout(new GridBagLayout());
 
         addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) { // review time
+            public void componentResized(ComponentEvent e) {
             super.componentResized(e);
-            if (getComponentCount() == 0) return;
+            if (getComponentCount() == 0) {
+                return;
+            }
 
             Main.forceSize(new Dimension(getWidth()*9/20, getHeight()/2), board);
             Main.forceSize(new Dimension(getWidth()/4, getHeight()/2), moveHistoryDisplay, whiteInfoBox, blackInfoBox);
@@ -39,12 +41,14 @@ public class Game extends JPanel implements ActionListener {
     protected void backToStartMenu() {
         ((CardLayout) main.getContentPane().getLayout()).show(main.getContentPane(), Main.START_MENU_LABEL);
     }
+
     protected void reset() {
         board.reset();
         moveHistoryDisplay.reset();
         whiteInfoBox.reset();
         blackInfoBox.reset();
     }
+
     protected void forceUpdate() {
         moveHistoryDisplay.updateAllMoveData();
         whiteInfoBox.forceUpdate();
@@ -54,6 +58,7 @@ public class Game extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
     public void actionPerformed(ActionEvent ae) {
         board.actionPerformed(ae);
         moveHistoryDisplay.actionPerformed(ae);
@@ -108,4 +113,5 @@ public class Game extends JPanel implements ActionListener {
         Timer timer = new Timer(1000/Game.FRAME_RATE, this);
         timer.start();
     }
+
 }
