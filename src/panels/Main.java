@@ -35,7 +35,9 @@ public class Main extends JFrame {
             component.setMaximumSize(dim);
         }
     }
-    public static void setGridBagLayoutConstraints(GridBagConstraints c, Insets insets, int fill, int gridx, int gridy, int gridwidth, int gridheight, double weightx, double weighty, int anchor) {
+    public static void setGridBagLayoutConstraints(GridBagConstraints c, Insets insets, int fill,
+                                                   int gridx, int gridy, int gridwidth, int gridheight,
+                                                   double weightx, double weighty, int anchor) {
         c.insets = insets;
         c.fill = fill;
         c.gridx = gridx;
@@ -72,44 +74,29 @@ public class Main extends JFrame {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(MULISH_LIGHT);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalStateException("Unable to find desired font");
         }
     }
+
     private void initPieceImages(Image[] pieceImages, String color) {
         String piecePathStart = "res/pieces/";
         String piecePathEnd = ".png";
 
         for (int i=0; i<pieceImages.length; i++) {
-            String pieceName;
-
-            switch (i) {
-                case 0:
-                    pieceName = "bishop";
-                    break;
-                case 1:
-                    pieceName = "king";
-                    break;
-                case 2:
-                    pieceName = "knight";
-                    break;
-                case 3:
-                    pieceName = "queen";
-                    break;
-                case 4:
-                    pieceName = "pawn";
-                    break;
-                case 5:
-                    pieceName = "rook";
-                    break;
-                default:
-                    pieceName = "";
-                    break;
-            }
+            String pieceName = switch (i) {
+                case 0 -> "bishop";
+                case 1 -> "king";
+                case 2 -> "knight";
+                case 3 -> "queen";
+                case 4 -> "pawn";
+                case 5 -> "rook";
+                default -> "";
+            };
 
             try {
                 pieceImages[i] = ImageIO.read(new File(piecePathStart+color+"-"+pieceName+piecePathEnd));
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Unable to find piece image");
             }
         }
     }
@@ -131,6 +118,7 @@ public class Main extends JFrame {
 
         cards.show(getContentPane(), START_MENU_LABEL);
     }
+
     void createAndShowGUI() {
         initUI();
         setVisible(true);
